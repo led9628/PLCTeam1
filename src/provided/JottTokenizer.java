@@ -1,16 +1,17 @@
 package provided;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+
 /**
  * This class is responsible for tokenizing Jott code.
  * 
  * @author 
  **/
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Scanner;
-
 public class JottTokenizer {
 	/**
      * Takes in a filename and tokenizes that file into Tokens
@@ -23,12 +24,22 @@ public class JottTokenizer {
 	    ArrayList<Token> tokens = new ArrayList<>();
 
         // Attempt to open the file.
-        try (Scanner scanner = new Scanner(new File(filename))) {
-            
-            
+        try (BufferedReader input = new BufferedReader(
+                new InputStreamReader( new FileInputStream(filename) )
+            )
+        ) {
+            // Read the file character by character.
+            int i;
+            while ((i = input.read()) == -1) {
+                char c = (char)i;
+
+            }
 
         } catch (FileNotFoundException e) {
             // TODO Handle failing to open the file.
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Handle an IO error.
             e.printStackTrace();
         }
         // Return the list of tokens.
