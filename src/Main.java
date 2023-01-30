@@ -4,6 +4,8 @@ class Main {
     }
 
     public static ArrayList<Token> tokenize(String filename) {
+        ArrayList<Token> tokens = new ArrayList<>();
 
+        return tokens;
     }
 }
