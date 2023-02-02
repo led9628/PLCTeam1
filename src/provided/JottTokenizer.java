@@ -40,6 +40,7 @@ public class JottTokenizer {
                     while (i != '\n') {
                         i = input.read();
                     }
+                    line += 1;
                 } else if (i == ',') {
                     tokens.add(new Token(",", filename, line, TokenType.COMMA));
                 } else if (i == ']') {
@@ -67,6 +68,10 @@ public class JottTokenizer {
                         tokens.add(new Token(j+"", filename, line, TokenType.REL_OP));
                     }
                     continue;
+                } else if (i == '+' || i == '-' || i == '*' || i == '/') {
+                    tokens.add(new Token(i+"", filename, line, TokenType.MATH_OP));
+                } else if (i == ';') {
+                    tokens.add(new Token(";", filename, line, TokenType.SEMICOLON));
                 }
                 
                 // Get the next character.
