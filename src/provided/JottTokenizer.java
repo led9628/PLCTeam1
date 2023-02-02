@@ -72,7 +72,26 @@ public class JottTokenizer {
                     tokens.add(new Token(i+"", filename, line, TokenType.MATH_OP));
                 } else if (i == ';') {
                     tokens.add(new Token(";", filename, line, TokenType.SEMICOLON));
+                } else if (i == ':') {
+                    tokens.add(new Token(":", filename, line, TokenType.COLON));
+                } else if (i == '"') {
+                    StringBuilder s = new StringBuilder("\"");
+                    while (true) {
+                        i = input.read();
+                        if (i == '"') { break; }
+                        if (Character.isWhitespace(i) || Character.isDigit(i) || Character.isAlphabetic(i)) {
+                            s.append(i);
+                        } else {
+                            // TODO: Throw because the user just put something invalid in their string.
+                        }
+                    }
+                    s.append("\"");
+                    tokens.add(new Token(s.toString(), filename, line, TokenType.STRING));
                 }
+
+                // TODO: Add digit.
+                // TODO: Add letter.
+                // TODO: Add ! etc.
                 
                 // Get the next character.
                 i = input.read();
