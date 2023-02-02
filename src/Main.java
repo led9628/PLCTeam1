@@ -5,6 +5,12 @@ import provided.JottTokenizer;
 
 class Main {
     public static void main(String[] args) {
-        ArrayList<Token> tokenList = JottTokenizer.tokenize(args[0]);
+        if (args.length != 3) {
+            // TODO: Yell at the user for not having the right command line arguments.
+        } else {
+            ArrayList<Token> tokenList = JottTokenizer.tokenize(args[0]);
+        }
+        
+        
     }
 }
