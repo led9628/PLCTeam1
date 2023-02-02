@@ -69,7 +69,7 @@ public class JottTokenizer {
                     }
                     continue;
                 } else if (i == '+' || i == '-' || i == '*' || i == '/') {
-                    tokens.add(new Token(i+"", filename, line, TokenType.MATH_OP));
+                    tokens.add(new Token(((char)i)+"", filename, line, TokenType.MATH_OP));
                 } else if (i == ';') {
                     tokens.add(new Token(";", filename, line, TokenType.SEMICOLON));
                 } else if (i == ':') {
