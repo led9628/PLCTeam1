@@ -29,33 +29,48 @@ public class JottTokenizer {
             )
         ) {
             // Read the file character by character.
-            int i;
+            int i = input.read();
             int line = 0;
-            while ((i = input.read()) == -1) {
-                if (Character.isWhitespace(i)) {
-                    continue;
+            while (i != -1) {
+                if (i == '\n') {
+                    line += 1;
+                } else if (Character.isWhitespace(i)) {
+                    // pass
                 } else if (i == '#') {
                     while (i != '\n') {
-                        input.read();
+                        i = input.read();
                     }
-                    continue;
                 } else if (i == ',') {
                     tokens.add(new Token(",", filename, line, TokenType.COMMA));
-                    continue;
                 } else if (i == ']') {
                     tokens.add(new Token("]", filename, line, TokenType.R_BRACKET));
-                    continue;
                 } else if (i == '[') {
                     tokens.add(new Token("[", filename, line, TokenType.L_BRACKET));
-                    continue;
                 } else if (i == '}') {
                     tokens.add(new Token("}", filename, line, TokenType.R_BRACKET));
-                    continue;
                 } else if (i == '{') {
                     tokens.add(new Token("{", filename, line, TokenType.L_BRACKET));
+                } else if (i == '=') {
+                    i = input.read();
+                    if (i == '=') {
+                        tokens.add(new Token("==", filename, line, TokenType.REL_OP));
+                    } else {
+                        tokens.add(new Token("=", filename, line, TokenType.ASSIGN));
+                    }
                     continue;
-                }  
+                } else if (i == '>' || i == '<') {
+                    int j = i;
+                    i = input.read();
+                    if (i == '=') {
+                        tokens.add(new Token(j+"=", filename, line, TokenType.REL_OP));
+                    } else {
+                        tokens.add(new Token(j+"", filename, line, TokenType.REL_OP));
+                    }
+                    continue;
+                }
                 
+                // Get the next character.
+                i = input.read();
             }
 
         } catch (FileNotFoundException e) {
