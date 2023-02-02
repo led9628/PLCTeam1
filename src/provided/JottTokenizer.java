@@ -30,48 +30,31 @@ public class JottTokenizer {
         ) {
             // Read the file character by character.
             int i;
-            char c;
             int line = 0;
             while ((i = input.read()) == -1) {
-                c = (char)i;
-                
-                switch (c) {
-                    case ' ' -> {
-                        continue;
+                if (Character.isWhitespace(i)) {
+                    continue;
+                } else if (i == '#') {
+                    while (i != '\n') {
+                        input.read();
                     }
-                    case '\t' -> {
-                        continue;
-                    }
-
-                    case '#' -> {
-                        while (c != '\n') {
-                            input.read();
-                        }
-                        continue;
-                    }
-
-                    case ',' -> {
-                        tokens.add(new Token(",", filename, line, TokenType.COMMA));
-                        continue;
-                    }
-                    case ']' -> {
-                        tokens.add(new Token("]", filename, line, TokenType.R_BRACKET));
-                        continue;
-                    }
-                    case '[' -> {
-                        tokens.add(new Token("[", filename, line, TokenType.L_BRACKET));
-                        continue;
-                    }
-                    case '{' -> {
-                        tokens.add(new Token("{", filename, line, TokenType.L_BRACKET));
-                        continue;
-                    }
-                    case '}' -> {
-                        tokens.add(new Token("}", filename, line, TokenType.R_BRACKET));
-                        continue;
-                    }
-                    
-                }
+                    continue;
+                } else if (i == ',') {
+                    tokens.add(new Token(",", filename, line, TokenType.COMMA));
+                    continue;
+                } else if (i == ']') {
+                    tokens.add(new Token("]", filename, line, TokenType.R_BRACKET));
+                    continue;
+                } else if (i == '[') {
+                    tokens.add(new Token("[", filename, line, TokenType.L_BRACKET));
+                    continue;
+                } else if (i == '}') {
+                    tokens.add(new Token("}", filename, line, TokenType.R_BRACKET));
+                    continue;
+                } else if (i == '{') {
+                    tokens.add(new Token("{", filename, line, TokenType.L_BRACKET));
+                    continue;
+                }  
                 
             }
 
