@@ -76,6 +76,7 @@ public class JottTokenizer {
                     tokens.add(new Token(":", filename, line, TokenType.COLON));
                 } else if (i == '"') {
                     StringBuilder s = new StringBuilder("\"");
+                    s.append(i);
                     while (true) {
                         i = input.read();
                         if (i == '"') { break; }
@@ -88,10 +89,50 @@ public class JottTokenizer {
                     s.append("\"");
                     tokens.add(new Token(s.toString(), filename, line, TokenType.STRING));
                 }
-
-                // TODO: Add digit.
+                // TODO: Add check for only a .
+                else if (Character.isDigit(i) || i== '.') {
+                    StringBuilder s = new StringBuilder("\"");
+                    s.append(i);
+                    while (true) {
+                        i = input.read();
+                        if (Character.isDigit(i) || (i == '.' && (s.indexOf(".") == -1))) {
+                            s.append(i);
+                        }
+                        else if (i == '.' && (s.indexOf(".") != -1))
+                        {
+                            //TODO: Throw because the user just put something invalid in their string.
+                        }
+                        else {
+                            break;
+                        }
+                    }
+                    s.append("\"");
+                    tokens.add(new Token(s.toString(), filename, line, TokenType.NUMBER));
+                }
                 // TODO: Add letter.
+                else if (Character.isAlphabetic(i)) {
+                    StringBuilder s = new StringBuilder("\"");
+                    while (true) {
+                        i = input.read();
+                        if (Character.isAlphabetic(i) || Character.isDigit(i) || Character.isWhitespace(i)) {
+                            s.append(i);
+                        } else {
+                            break;
+                        }
+                    }
+                    s.append("\"");
+                    tokens.add(new Token(s.toString(), filename, line, TokenType.ID_KEYWORD));
+                }
                 // TODO: Add ! etc.
+                else if (i == '!')  {
+                    i = input.read();
+                    if (i == '='){
+                        tokens.add(new Token("!=", filename, line, TokenType.REL_OP));
+                    }
+                    else {
+                        //TODO: Throw because the user just put something invalid in their string.
+                    }
+                }
                 
                 // Get the next character.
                 i = input.read();
