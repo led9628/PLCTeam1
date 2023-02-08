@@ -48,9 +48,9 @@ public class JottTokenizer {
                 } else if (i == '[') {
                     tokens.add(new Token("[", filename, line, TokenType.L_BRACKET));
                 } else if (i == '}') {
-                    tokens.add(new Token("}", filename, line, TokenType.R_BRACKET));
+                    tokens.add(new Token("}", filename, line, TokenType.R_BRACE));
                 } else if (i == '{') {
-                    tokens.add(new Token("{", filename, line, TokenType.L_BRACKET));
+                    tokens.add(new Token("{", filename, line, TokenType.L_BRACE));
                 } else if (i == '=') {
                     i = input.read();
                     if (i == '=') {
@@ -75,7 +75,7 @@ public class JottTokenizer {
                 } else if (i == ':') {
                     tokens.add(new Token(":", filename, line, TokenType.COLON));
                 } else if (i == '"') {
-                    StringBuilder s = new StringBuilder("\"");
+                    StringBuilder s = new StringBuilder();
                     s.append((char)i);
                     while (true) {
                         i = input.read();
