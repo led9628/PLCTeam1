@@ -110,10 +110,10 @@ public class JottTokenizer {
                 }
                 // TODO: Add letter.
                 else if (Character.isAlphabetic(i)) {
-                    StringBuilder s = new StringBuilder();
+                    StringBuilder s = new StringBuilder((char)i+"");
                     while (true) {
                         i = input.read();
-                        if (Character.isAlphabetic(i) || Character.isDigit(i) || Character.isWhitespace(i)) {
+                        if (Character.isAlphabetic(i) || Character.isDigit(i)) {
                             s.append((char)i);
                         } else {
                             break;
