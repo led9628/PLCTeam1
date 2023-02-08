@@ -13,6 +13,11 @@ import java.util.ArrayList;
  * @author 
  **/
 public class JottTokenizer {
+    /**
+     * TODO: Documentation
+     */
+    private static class TokenizationException extends Exception {};
+
 	/**
      * Takes in a filename and tokenizes that file into Tokens
      * based on the rules of the Jott Language
@@ -90,7 +95,7 @@ public class JottTokenizer {
                     tokens.add(new Token(s.toString(), filename, line, TokenType.STRING));
                 }
                 // TODO: Add check for only a .
-                else if (Character.isDigit(i) || i== '.') {
+                else if (Character.isDigit(i) || i == '.') {
                     StringBuilder s = new StringBuilder();
                     s.append((char)i);
                     while (true) {
@@ -107,9 +112,7 @@ public class JottTokenizer {
                         }
                     }
                     tokens.add(new Token(s.toString(), filename, line, TokenType.NUMBER));
-                }
-                // TODO: Add letter.
-                else if (Character.isAlphabetic(i)) {
+                } else if (Character.isAlphabetic(i)) {
                     StringBuilder s = new StringBuilder((char)i+"");
                     while (true) {
                         i = input.read();
@@ -120,15 +123,13 @@ public class JottTokenizer {
                         }
                     }
                     tokens.add(new Token(s.toString(), filename, line, TokenType.ID_KEYWORD));
-                }
-                // TODO: Add ! etc.
-                else if (i == '!')  {
+                } else if (i == '!')  {
                     i = input.read();
                     if (i == '='){
                         tokens.add(new Token("!=", filename, line, TokenType.REL_OP));
                     }
                     else {
-                        //TODO: Throw because the user just put something invalid in their string.
+                        throw new TokenizationException();
                     }
                 }
                 
@@ -142,6 +143,9 @@ public class JottTokenizer {
         } catch (IOException e) {
             // TODO Handle an IO error.
             e.printStackTrace();
+        } catch (TokenizationException e) {
+            // Return null because there was an error.
+            return null;
         }
         // Return the list of tokens.
         return tokens;
