@@ -58,16 +58,16 @@ public class JottTokenizer {
                     } else {
                         tokens.add(new Token("=", filename, line, TokenType.ASSIGN));
                     }
-                    continue;
+                    //continue;
                 } else if (i == '>' || i == '<') {
                     int j = i;
                     i = input.read();
                     if (i == '=') {
-                        tokens.add(new Token(j+"=", filename, line, TokenType.REL_OP));
+                        tokens.add(new Token((char)j+"=", filename, line, TokenType.REL_OP));
                     } else {
-                        tokens.add(new Token(j+"", filename, line, TokenType.REL_OP));
+                        tokens.add(new Token((char)j+"", filename, line, TokenType.REL_OP));
                     }
-                    continue;
+                    //continue;
                 } else if (i == '+' || i == '-' || i == '*' || i == '/') {
                     tokens.add(new Token(((char)i)+"", filename, line, TokenType.MATH_OP));
                 } else if (i == ';') {
