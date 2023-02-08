@@ -85,10 +85,11 @@ public class JottTokenizer {
                     while (true) {
                         i = input.read();
                         if (i == '"') { break; }
+                        if (i == '\n') { throw new TokenizationException(); }
                         if (Character.isWhitespace(i) || Character.isDigit(i) || Character.isAlphabetic(i)) {
                             s.append((char)i);
                         } else {
-                            // TODO: Throw because the user just put something invalid in their string.
+                            throw new TokenizationException();
                         }
                     }
                     s.append("\"");
