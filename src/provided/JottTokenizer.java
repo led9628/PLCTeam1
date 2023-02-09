@@ -14,7 +14,17 @@ public class JottTokenizer {
     /**
      * To be thrown when an error occurs during Tokenization.
      */
-    private static class TokenizationException extends Exception {};
+    private static class TokenizationException extends Exception {
+        public TokenizationException(int line, int token) {
+            super();
+            this.line = line;
+            this.token = (char)token;
+            if (token == -1) { this.end = true; }
+        }
+        public int line; /** The line that the token in question is on. */
+        public char token; /** The token causing the problem. */
+        public boolean end = false; /** Determines if we're at the EOF. */
+    };
 
 	/**
      * Takes in a filename and tokenizes that file into Tokens
@@ -81,11 +91,11 @@ public class JottTokenizer {
                     while (true) {
                         i = input.read();
                         if (i == '"') { break; }
-                        if (i == '\n') { throw new TokenizationException(); }
+                        if (i == '\n') { throw new TokenizationException(line, i); }
                         if (Character.isWhitespace(i) || Character.isDigit(i) || Character.isAlphabetic(i)) {
                             s.append((char)i);
                         } else {
-                            throw new TokenizationException();
+                            throw new TokenizationException(line, i);
                         }
                     }
                     s.append("\"");
@@ -97,8 +107,7 @@ public class JottTokenizer {
                     if(s.indexOf(".") == 0) {
                        i = input.read();
                        if(!Character.isDigit(i)){
-                        System.out.println("Unexpected symbol at line "+line);
-                        throw new TokenizationException();
+                        throw new TokenizationException(line, i);
                        }
                     } else {
                         i = input.read();
@@ -110,9 +119,7 @@ public class JottTokenizer {
                         }
                         else if (i == '.' && (s.indexOf(".") != -1))
                         {
-                            // TODO: {updated todo}, this is how we wanna handle the error yes?
-                            System.out.println("Error at line "+line+". Invalid symbol in string");
-                            throw new TokenizationException();
+                            throw new TokenizationException(line, i);
                         }
                         else {
                             break;
@@ -139,7 +146,7 @@ public class JottTokenizer {
                         tokens.add(new Token("!=", filename, line, TokenType.REL_OP));
                     }
                     else {
-                        throw new TokenizationException();
+                        throw new TokenizationException(line, i);
                     }
                 }
                 
@@ -156,6 +163,15 @@ public class JottTokenizer {
             System.err.println("ERROR: IO exception");
             e.printStackTrace();
         } catch (TokenizationException e) {
+            System.err.println("Syntax Error");
+            if (e.end) {
+                System.err.println("Invalid Token EOF");
+            } else if (e.token == '\n') {
+                System.err.println("Invalid Token NEWLINE");
+            } else {
+                System.err.println("Invalid Token \"" + e.token + "\"");
+            }
+            System.err.println(filename + ":" + e.line);
             // Return null because there was an error.
             return null;
         }
