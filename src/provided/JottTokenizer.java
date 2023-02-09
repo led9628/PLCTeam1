@@ -9,12 +9,10 @@ import java.util.ArrayList;
 
 /**
  * This class is responsible for tokenizing Jott code.
- * 
- * @author 
  **/
 public class JottTokenizer {
     /**
-     * TODO: Documentation
+     * To be thrown when an error occurs during Tokenization.
      */
     private static class TokenizationException extends Exception {};
 
@@ -63,7 +61,6 @@ public class JottTokenizer {
                     } else {
                         tokens.add(new Token("=", filename, line, TokenType.ASSIGN));
                     }
-                    //continue;
                 } else if (i == '>' || i == '<') {
                     int j = i;
                     i = input.read();
@@ -72,7 +69,6 @@ public class JottTokenizer {
                     } else {
                         tokens.add(new Token((char)j+"", filename, line, TokenType.REL_OP));
                     }
-                    //continue;
                 } else if (i == '+' || i == '-' || i == '*' || i == '/') {
                     tokens.add(new Token(((char)i)+"", filename, line, TokenType.MATH_OP));
                 } else if (i == ';') {
@@ -94,9 +90,7 @@ public class JottTokenizer {
                     }
                     s.append("\"");
                     tokens.add(new Token(s.toString(), filename, line, TokenType.STRING));
-                }
-                // TODO: Add check for only a .
-                else if (Character.isDigit(i) || i == '.') {
+                } else if (Character.isDigit(i) || i == '.') {
                     StringBuilder s = new StringBuilder();
                     s.append((char)i);
                     // Check if there's only one . 
@@ -116,8 +110,6 @@ public class JottTokenizer {
                         }
                         else if (i == '.' && (s.indexOf(".") != -1))
                         {
-                            //TODO: Throw because the user just put something invalid in their string.
-
                             // TODO: {updated todo}, this is how we wanna handle the error yes?
                             System.out.println("Error at line "+line+". Invalid symbol in string");
                             throw new TokenizationException();
