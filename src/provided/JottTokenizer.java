@@ -100,15 +100,17 @@ public class JottTokenizer {
                     StringBuilder s = new StringBuilder();
                     s.append((char)i);
                     // Check if there's only one . 
-                    if(s.length()==1 && s.indexOf(".") == 0) {
+                    if(s.indexOf(".") == 0) {
                        i = input.read();
                        if(!Character.isDigit(i)){
                         System.out.println("Unexpected symbol at line "+line);
                         throw new TokenizationException();
                        }
+                    } else {
+                        i = input.read();
                     }
                     while (true) {
-                        i = input.read();
+                        
                         if (Character.isDigit(i) || (i == '.' && (s.indexOf(".") == -1))) {
                             s.append((char)i);
                         }
@@ -123,8 +125,10 @@ public class JottTokenizer {
                         else {
                             break;
                         }
+                        i = input.read();
                     }
                     tokens.add(new Token(s.toString(), filename, line, TokenType.NUMBER));
+                    continue;
                 } else if (Character.isAlphabetic(i)) {
                     StringBuilder s = new StringBuilder((char)i+"");
                     while (true) {
@@ -136,6 +140,7 @@ public class JottTokenizer {
                         }
                     }
                     tokens.add(new Token(s.toString(), filename, line, TokenType.ID_KEYWORD));
+                    continue;
                 } else if (i == '!')  {
                     i = input.read();
                     if (i == '='){
