@@ -128,6 +128,7 @@ public class JottTokenizer {
                         i = input.read();
                     }
                     tokens.add(new Token(s.toString(), filename, line, TokenType.NUMBER));
+                    continue;
                 } else if (Character.isAlphabetic(i)) {
                     StringBuilder s = new StringBuilder((char)i+"");
                     while (true) {
@@ -139,6 +140,7 @@ public class JottTokenizer {
                         }
                     }
                     tokens.add(new Token(s.toString(), filename, line, TokenType.ID_KEYWORD));
+                    continue;
                 } else if (i == '!')  {
                     i = input.read();
                     if (i == '='){
