@@ -99,6 +99,14 @@ public class JottTokenizer {
                 else if (Character.isDigit(i) || i == '.') {
                     StringBuilder s = new StringBuilder();
                     s.append((char)i);
+                    // Check if there's only one . 
+                    if(s.length()==1 && s.indexOf(".") == 0) {
+                       i = input.read();
+                       if(!Character.isDigit(i)){
+                        System.out.println("Unexpected symbol at line "+line);
+                        break;
+                       }
+                    }
                     while (true) {
                         i = input.read();
                         if (Character.isDigit(i) || (i == '.' && (s.indexOf(".") == -1))) {
@@ -107,6 +115,10 @@ public class JottTokenizer {
                         else if (i == '.' && (s.indexOf(".") != -1))
                         {
                             //TODO: Throw because the user just put something invalid in their string.
+
+                            // TODO: {updated todo}, this is how we wanna handle the error yes?
+                            System.out.println("Error at line "+line+". Invalid symbol in string");
+                            break;
                         }
                         else {
                             break;
@@ -139,10 +151,12 @@ public class JottTokenizer {
             }
 
         } catch (FileNotFoundException e) {
-            // TODO Handle failing to open the file.
+            // user was in a silly goofy mood and input a file that can't be found
+            System.err.println("ERROR: file "+filename+" not found");
             e.printStackTrace();
         } catch (IOException e) {
-            // TODO Handle an IO error.
+            // Handle an IO error.
+            System.err.println("ERROR: IO exception");
             e.printStackTrace();
         } catch (TokenizationException e) {
             // Return null because there was an error.
