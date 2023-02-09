@@ -104,7 +104,7 @@ public class JottTokenizer {
                        i = input.read();
                        if(!Character.isDigit(i)){
                         System.out.println("Unexpected symbol at line "+line);
-                        break;
+                        throw new TokenizationException();
                        }
                     }
                     while (true) {
@@ -118,7 +118,7 @@ public class JottTokenizer {
 
                             // TODO: {updated todo}, this is how we wanna handle the error yes?
                             System.out.println("Error at line "+line+". Invalid symbol in string");
-                            break;
+                            throw new TokenizationException();
                         }
                         else {
                             break;
