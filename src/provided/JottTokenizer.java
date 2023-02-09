@@ -91,10 +91,14 @@ public class JottTokenizer {
                     while (true) {
                         i = input.read();
                         if (i == '"') { break; }
-                        if (i == '\n') { throw new TokenizationException(line, i); }
+                        if (i == '\n') {
+                            System.err.println("Syntax Error: invalid character in string");
+                            throw new TokenizationException(line, i);
+                        }
                         if (Character.isWhitespace(i) || Character.isDigit(i) || Character.isAlphabetic(i)) {
                             s.append((char)i);
                         } else {
+                            System.err.println("Syntax Error: invalid character in string");
                             throw new TokenizationException(line, i);
                         }
                     }
@@ -107,6 +111,7 @@ public class JottTokenizer {
                     if(s.indexOf(".") == 0) {
                        i = input.read();
                        if(!Character.isDigit(i)){
+                        System.err.println("Syntax Error: expected number after .");
                         throw new TokenizationException(line, i);
                        }
                     } else {
@@ -119,6 +124,7 @@ public class JottTokenizer {
                         }
                         else if (i == '.' && (s.indexOf(".") != -1))
                         {
+                            System.err.println("Syntax Error: expected number after .");
                             throw new TokenizationException(line, i);
                         }
                         else {
@@ -146,6 +152,7 @@ public class JottTokenizer {
                         tokens.add(new Token("!=", filename, line, TokenType.REL_OP));
                     }
                     else {
+                        System.err.println("Syntax Error: expected = after !");
                         throw new TokenizationException(line, i);
                     }
                 }
@@ -163,7 +170,6 @@ public class JottTokenizer {
             System.err.println("ERROR: IO exception");
             e.printStackTrace();
         } catch (TokenizationException e) {
-            System.err.println("Syntax Error");
             if (e.end) {
                 System.err.println("Invalid Token EOF");
             } else if (e.token == '\n') {
