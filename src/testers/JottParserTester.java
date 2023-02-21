@@ -14,6 +14,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import provided.*;
+import provided.parser.JottParser;
 
 public class JottParserTester {
     ArrayList<TestCase> testCases;
