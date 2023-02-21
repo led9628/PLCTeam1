@@ -19,7 +19,7 @@ public class FunctionDef implements JottTree{
         
         //[func_def_params]
         if(tokens.get(JottParser.getIndex()).getTokenType() == TokenType.L_BRACKET){
-            children.add(new literal("["));
+            children.add(new Literal("["));
             JottParser.incrementToken();  
 
             

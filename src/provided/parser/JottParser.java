@@ -50,48 +50,6 @@ public class JottParser {
 }
 
 
-/*
- * Class used to store literals like '$$' and 'epsilon' in the parse tree.
- */
-class literal implements JottTree{
-    String lit;
-
-    public literal(String lit){
-        this.lit = lit;
-    }
-
-    @Override
-    public String convertToJott() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public String convertToJava(String className) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public String convertToC() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public String convertToPython() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public boolean validateTree() {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-}
-
 // //NOT WORKING YET
 // class token implements JottTree{
 //     ArrayList<JottTree> children;
@@ -110,35 +68,5 @@ class literal implements JottTree{
 //                 JottParser.incrementToken();
 //             }
 //         }
-//     }
-
-//     @Override
-//     public String convertToJott() {
-//         // TODO Auto-generated method stub
-//         return null;
-//     }
-
-//     @Override
-//     public String convertToJava(String className) {
-//         // TODO Auto-generated method stub
-//         return null;
-//     }
-
-//     @Override
-//     public String convertToC() {
-//         // TODO Auto-generated method stub
-//         return null;
-//     }
-
-//     @Override
-//     public String convertToPython() {
-//         // TODO Auto-generated method stub
-//         return null;
-//     }
-
-//     @Override
-//     public boolean validateTree() {
-//         // TODO Auto-generated method stub
-//         return false;
 //     }
 // }

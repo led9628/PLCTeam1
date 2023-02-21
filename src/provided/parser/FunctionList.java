@@ -18,7 +18,7 @@ public class FunctionList implements JottTree{
             children.add(new FunctionDef(tokens));
             children.add(new FunctionList(tokens));
         }else{
-            children.add(new literal("E"));
+            children.add(new Literal("E"));
         }
     }
 

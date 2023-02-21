@@ -15,7 +15,7 @@ public class ID implements JottTree{
 
     private void parse(ArrayList<Token> tokens){
         if(tokens.get(JottParser.getIndex()).getTokenType() == TokenType.ID_KEYWORD){
-            children.add(new literal(tokens.get(JottParser.getIndex()).getToken()));
+            children.add(new Literal(tokens.get(JottParser.getIndex()).getToken()));
             JottParser.incrementToken();
         }
     }

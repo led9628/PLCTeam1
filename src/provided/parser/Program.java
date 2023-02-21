@@ -17,7 +17,7 @@ public class Program implements JottTree{
         children.add(new FunctionList(tokens));
 
         if(tokens.get(JottParser.getIndex()).getToken().equals("$$")){
-            children.add(new literal("$$"));
+            children.add(new Literal("$$"));
         }
         
     }
