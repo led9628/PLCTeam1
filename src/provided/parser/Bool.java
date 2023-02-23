@@ -9,15 +9,15 @@ import provided.TokenType;
 public class Bool implements JottTree {
     ArrayList<JottTree> children;
 
-    public Bool(ArrayList<Token> tokens) {
+    public Bool(ArrayList<Token> tokens) throws ConstructionFailure {
         Token token = tokens.remove(0);
         if (token.getTokenType() == TokenType.ID_KEYWORD) {
             if (token.getToken() == "True" || token.getToken() == "False") {
                 this.children.add(new Literal(token.getToken()));
             }
-            // TODO: Throw on failure.
+            throw new ConstructionFailure("Boolean is not True or False.");
         }
-        // TODO: Throw on failure.
+        throw new ConstructionFailure("Boolean is not a valid ID_KEYWORD.");
     }
 
     @Override

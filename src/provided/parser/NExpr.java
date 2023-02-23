@@ -6,25 +6,13 @@ import provided.JottTree;
 import provided.Token;
 import provided.TokenType;
 
-public class SExpr implements JottTree {
+public class NExpr implements JottTree {
     ArrayList<JottTree> children;
 
-    public SExpr(ArrayList<Token> tokens){
+    public NExpr(ArrayList<Token> tokens){
         Token token = tokens.remove(0);
 
-        switch (token.getTokenType()) {
-            case STRING -> this.children.add(new Literal(token.getToken()));
-            case ID_KEYWORD -> {
-                try {
-                    this.children.add(new FuncCall(tokens));
-                } catch (ConstructionFailure e) {
-                    this.children.add(new Literal(token.getToken()));
-                }
-            }
-            default -> {
-                throw new ConstructionFailure("Failed to create an SExpr.");
-            }
-        }
+        
     }
 
     @Override
