@@ -17,16 +17,19 @@ public class BExpr implements JottTree {
             this.children.add(new NExpr(tokens));
             this.children.add(new RelOp(tokens));
             this.children.add(new NExpr(tokens));
+            return;
         } catch (ConstructionFailure e) {}
         // If that doesn't work, keep trying to make things.
         if (token.getTokenType() == TokenType.ID_KEYWORD) {
             // Try to create a FuncCall.
             try {
                 this.children.add(new FuncCall(tokens));
+                return;
             } catch (ConstructionFailure e) {}
             // Try to create a Bool.
             try {
                 this.children.add(new Bool(tokens));
+                return;
             } catch (ConstructionFailure e) {}
             // Create an ID if it can't be anything else.
             this.children.add(new Literal(token.getToken()));
