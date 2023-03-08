@@ -13,7 +13,7 @@ public class Params implements JottTree {
         //attempt to create Expr Params_t
         try {
             this.children.add(new Expr(tokens));
-            this.children.add(new Params_t(tokens));
+            this.children.add(new ParamsT(tokens));
             return;
         } catch (ConstructionFailure e) {}
         throw new ConstructionFailure("Failed to create an Param.");

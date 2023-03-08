@@ -5,10 +5,10 @@ import provided.Token;
 
 import java.util.ArrayList;
 
-public class Function_return {
+public class FunctionReturn {
     ArrayList<JottTree> children;
 
-    public Function_return(ArrayList<Token> tokens) throws ConstructionFailure{
+    public FunctionReturn(ArrayList<Token> tokens) throws ConstructionFailure{
         Token token = tokens.remove(0);
         //Try to add a type
         try {
