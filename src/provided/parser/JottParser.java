@@ -14,9 +14,6 @@ import provided.Token;
 import provided.TokenType;
 
 public class JottParser {
-    //static index to determine which token is to be parsed next.
-    private static int tokenIndex;
-
     /**
      * Parses an ArrayList of Jotton tokens into a Jott Parse Tree.
      * @param tokens the ArrayList of Jott tokens to parse
@@ -24,28 +21,12 @@ public class JottParser {
      *         or null upon an error in parsing.
      */
     public static JottTree parse(ArrayList<Token> tokens){
-        JottParser.tokenIndex = 0;
         try{
             JottTree prg = new Program(tokens);
             return prg;
         }catch(Exception e){
             return null;
         }
-    }
-
-    /**
-     * Increments the static token index by 1.
-     */
-    public static void incrementToken(){
-        JottParser.tokenIndex += 1;
-    }
-
-    /**
-     * Returns the static toiken index
-     * @return tokenIndex value
-     */
-    public static int getIndex(){
-        return JottParser.tokenIndex;
     }
 }
 

@@ -6,20 +6,19 @@ import provided.JottTree;
 import provided.Token;
 
 public class Program implements JottTree{
-    ArrayList<JottTree> children;
+    ArrayList<FunctionDef> children;
 
     public Program(ArrayList<Token> tokens){
         parse(tokens);
     }
-
+    
     private void parse(ArrayList<Token> tokens){
-
-        children.add(new FunctionList(tokens));
-
-        if(tokens.get(JottParser.getIndex()).getToken().equals("$$")){
-            children.add(new Literal("$$"));
+        while(tokens.size()>1){
+            children.add(new FunctionDef(tokens));
         }
-        
+        if(tokens.get(0).getToken() == "$$"){
+            //THROW missing $$
+        }
     }
 
     @Override
