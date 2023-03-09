@@ -4,14 +4,47 @@ import provided.JottTree;
 import provided.Token;
 import java.util.ArrayList;
 
-public interface BodyStmt extends JottTree {
-    
-    static BodyStmt parse_body_stmt(ArrayList<Token> tokens) {
+public class BodyStmt implements JottTree {
+    ArrayList<JottTree> children;
+
+    public BodyStmt(ArrayList<Token> tokens) { // <if_stmt> | <while_loop> | <stmt>
         if (tokens.get(0).getToken().equals("if"))
-            return IfStmt.parse_if(tokens);
+            children.add(new IfStmt(tokens));
         else if (tokens.get(0).getToken().equals("While"))
-            return WhileLoop.parse_while(tokens);
+            children.add(new WhileLoop(tokens));
         else
-            return Stmt.parse_stmt(tokens);
+            children.add(new Stmt(tokens));
     }
+    
+   @Override
+   public String convertToJott() {
+       // TODO Auto-generated method stub
+       return null;
+   }
+
+   @Override
+   public String convertToJava(String className) {
+       // TODO Auto-generated method stub
+       return null;
+   }
+
+   @Override
+   public String convertToC() {
+       // TODO Auto-generated method stub
+       return null;
+   }
+
+   @Override
+   public String convertToPython() {
+       // TODO Auto-generated method stub
+       return null;
+   }
+
+   @Override
+   public boolean validateTree() {
+       // TODO Auto-generated method stub
+       return false;
+   }
+
+}
 }
