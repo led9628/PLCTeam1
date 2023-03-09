@@ -8,11 +8,11 @@ import provided.Token;
 public class Program implements JottTree{
     ArrayList<FunctionDef> children;
 
-    public Program(ArrayList<Token> tokens){
+    public Program(ArrayList<Token> tokens) throws ConstructionFailure{
         parse(tokens);
     }
     
-    private void parse(ArrayList<Token> tokens){
+    private void parse(ArrayList<Token> tokens) throws ConstructionFailure{
         while(tokens.size()>1){
             children.add(new FunctionDef(tokens));
         }

@@ -11,7 +11,6 @@ import java.util.ArrayList;
 
 import provided.JottTree;
 import provided.Token;
-import provided.TokenType;
 
 public class JottParser {
     /**
@@ -24,7 +23,8 @@ public class JottParser {
         try{
             JottTree prg = new Program(tokens);
             return prg;
-        }catch(Exception e){
+        }catch(ConstructionFailure e){
+            System.out.println(e.message);
             return null;
         }
     }
