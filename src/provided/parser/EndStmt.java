@@ -1,11 +1,14 @@
 package provided.parser;
 
+import java.util.ArrayList;
+
 import provided.JottTree;
+import provided.Token;
 
 
 public class EndStmt implements JottTree{
 
-   public EndStmt(){}
+   public EndStmt(ArrayList<Token> token){}
 
    @Override
    public String convertToJott() {

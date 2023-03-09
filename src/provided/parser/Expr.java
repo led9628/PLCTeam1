@@ -8,8 +8,20 @@ import provided.Token;
 public class Expr implements JottTree {
     ArrayList<JottTree> children;
 
-    public Expr(ArrayList<Token> tokens){
-        
+    public Expr(ArrayList<Token> tokens) throws ConstructionFailure {
+        try {
+            this.children.add(new NExpr(tokens));
+            return;
+        } catch (ConstructionFailure e) {}
+        try {
+            this.children.add(new BExpr(tokens));
+            return;
+        } catch (ConstructionFailure e) {}
+        try {
+            this.children.add(new SExpr(tokens));
+            return;
+        } catch (ConstructionFailure e) {}
+        throw new ConstructionFailure("Failed to create Expr.");
     }
 
     @Override
