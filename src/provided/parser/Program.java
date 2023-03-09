@@ -17,7 +17,8 @@ public class Program implements JottTree{
             children.add(new FunctionDef(tokens));
         }
         if(tokens.get(0).getToken() == "$$"){
-            //THROW missing $$
+            //Throw missing $$
+            throw new ConstructionFailure("no end of file symbol('$$')");
         }
     }
 
