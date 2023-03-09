@@ -5,20 +5,32 @@ import provided.Token;
 
 import java.util.ArrayList;
 
-public class VarDec implements JottTree{
+public class Asmt implements JottTree {
+
 
     ArrayList<JottTree> children;
 
-    public VarDec(ArrayList<Token> tokens) throws ConstructionFailure{
+    public Asmt(ArrayList<Token> tokens) throws ConstructionFailure{
         Token token = tokens.remove(0);
-        //Try to add a type id end  statement
+        //attempt to create type id = expr end_stmt
         try {
             this.children.add(new Type(tokens));
             this.children.add(new Literal(token.getToken()));
+            //TODO I am not sure if this is right for the = so I need to test for it
+            this.children.add(new Literal(token.getToken()));
+            this.children.add(new Expr(tokens));
             this.children.add(new EndStmt(tokens));
             return;
         } catch (ConstructionFailure e) {}
-        throw new ConstructionFailure("Failed to create an Var_dec.");
+        try {
+            this.children.add(new Literal(token.getToken()));
+            //TODO I am not sure if this is right for the = so I need to test for it
+            this.children.add(new Literal(token.getToken()));
+            this.children.add(new Expr(tokens));
+            this.children.add(new EndStmt(tokens));
+            return;
+        } catch (ConstructionFailure e) {}
+        throw new ConstructionFailure("Failed to create an Asmt.");
     }
 
     @Override
