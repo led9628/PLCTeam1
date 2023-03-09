@@ -25,69 +25,23 @@ public class FunctionDef implements JottTree{
             }
 
             if(tokens.remove(0).getTokenType() == TokenType.L_BRACKET){
-                children.add(new Literal("["));
-
                 //function def params check:
                 if(tokens.get(0).getTokenType() == TokenType.ID_KEYWORD){
-                    //add ID literal
-                    children.add(new Literal(tokens.remove(0).getToken()));
+                    children.add(new FunctionParam(tokens));
 
-                    if(tokens.remove(0).getToken().equals(":")){ //not storing : because every param id will be followed by its type
-                    
-                        //check and add type to children list:
-                        String a = tokens.remove(0).getToken();
-                        if(a.equals("Double") || a.equals("Integer") || a.equals("String") || a.equals("Boolean")){
-                            //add param type
-                            children.add(new Literal(a));
-                        }else{
-                            //throw bad type
-                            throw new ConstructionFailure("invalid param type");
-                        }
-
-                        //check for 2nd+ params
-                        while(tokens.get(0).getToken().equals(",")){
-                            tokens.remove(0); //remove ,
-                    
-                            if(tokens.get(0).getTokenType() == TokenType.ID_KEYWORD){
-                                // add param id
-                                children.add(new Literal(tokens.remove(0).getToken()));
-
-                                //check for param colon and type:
-                                if(tokens.remove(0).getToken().equals(":")){
-                                    a = tokens.remove(0).getToken();
-                                    if(a.equals("Double") || a.equals("Integer") || a.equals("String") || a.equals("Boolean")){
-                                        children.add(new Literal(a));
-                                    }else{
-                                        //throw no/bad type
-                                        throw new ConstructionFailure("invalid param type");
-                                    }
-                                }else{
-                                    //throw missing :
-                                    throw new ConstructionFailure("missing colon (':')");
-                                }
-                            }else{
-                                throw new ConstructionFailure("missing id");
-                            }
-                        }
-                    }else{
-                        //throw missing :
-                        throw new ConstructionFailure("missing colon (':')");
+                    //check for 2nd+ params
+                    while(tokens.get(0).getToken().equals(",")){
+                        tokens.remove(0); //remove ,
+                
+                        children.add(new FunctionParam(tokens));
                     }
                 }
 
                 //check for end of params:
                 if(tokens.remove(0).getTokenType() == TokenType.R_BRACKET){
-                    children.add(new Literal("]"));
-
                     if(tokens.remove(0).getToken().equals(":")){
-                        String a = tokens.remove(0).getToken();
                         //check return type:
-                        if(a.equals("Double") || a.equals("Integer") || a.equals("String") || a.equals("Boolean") || a.equals("Void")){
-                            children.add(new Literal(a));
-                        }else{
-                            //throw no/bad type
-                            throw new ConstructionFailure("invalid return type");
-                        }
+                        children.add(new FunctionReturn(tokens));
                     }else{
                         throw new ConstructionFailure("missing colon (':')");
                     }

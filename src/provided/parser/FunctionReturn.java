@@ -5,7 +5,7 @@ import provided.Token;
 
 import java.util.ArrayList;
 
-public class FunctionReturn {
+public class FunctionReturn implements JottTree{
     ArrayList<JottTree> children;
 
     public FunctionReturn(ArrayList<Token> tokens) throws ConstructionFailure{
@@ -20,5 +20,35 @@ public class FunctionReturn {
             return;
         }
         throw new ConstructionFailure("Failed to create a Function_return.");
+    }
+
+    @Override
+    public String convertToJott() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'convertToJott'");
+    }
+
+    @Override
+    public String convertToJava(String className) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'convertToJava'");
+    }
+
+    @Override
+    public String convertToC() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'convertToC'");
+    }
+
+    @Override
+    public String convertToPython() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'convertToPython'");
+    }
+
+    @Override
+    public boolean validateTree() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'validateTree'");
     }
 }
