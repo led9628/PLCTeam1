@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import provided.JottTree;
 import provided.Token;
-import provided.TokenType;
+
 
 public class Num implements JottTree {
     ArrayList<JottTree> children;

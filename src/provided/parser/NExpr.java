@@ -4,12 +4,11 @@ import java.util.ArrayList;
 
 import provided.JottTree;
 import provided.Token;
-import provided.TokenType;
 
 public class NExpr implements JottTree {
     ArrayList<JottTree> children;
 
-    public NExpr(ArrayList<Token> tokens) {
+    public NExpr(ArrayList<Token> tokens) throws ConstructionFailure {
         Token token = tokens.remove(0);
 
         // Attempt to create a FuncCall Op NExpr
@@ -44,12 +43,12 @@ public class NExpr implements JottTree {
             return;
         } catch (ConstructionFailure e) {}
         // Attempt to create an Id
-        try {
-            this.children.add(new Literal(token.getToken()));
-            return;
-        } catch (ConstructionFailure e) {}
+        //try {
+        this.children.add(new Literal(token.getToken()));
+        return;
+        //} catch (ConstructionFailure e) {}
         // If we failed to turn BExpr into anything, throw.
-        throw new ConstructionFailure("Failed to create an NExpr.");
+        //throw new ConstructionFailure("Failed to create an NExpr.");
     }
 
     @Override

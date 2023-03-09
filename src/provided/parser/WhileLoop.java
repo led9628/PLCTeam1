@@ -9,7 +9,7 @@ import provided.TokenType;
 public class WhileLoop implements JottTree {
     ArrayList<JottTree> children;
 
-    public WhileLoop(ArrayList<Token> tokens){
+    public WhileLoop(ArrayList<Token> tokens) throws ConstructionFailure{
         Token token = tokens.remove(0);
 
         if(token.getToken()!= "while"){

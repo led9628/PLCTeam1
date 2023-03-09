@@ -4,12 +4,11 @@ import java.util.ArrayList;
 
 import provided.JottTree;
 import provided.Token;
-import provided.TokenType;
 
 public class SExpr implements JottTree {
     ArrayList<JottTree> children;
 
-    public SExpr(ArrayList<Token> tokens){
+    public SExpr(ArrayList<Token> tokens) throws ConstructionFailure{
         Token token = tokens.remove(0);
 
         switch (token.getTokenType()) {

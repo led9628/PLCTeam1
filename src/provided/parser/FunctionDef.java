@@ -9,11 +9,11 @@ import provided.TokenType;
 public class FunctionDef implements JottTree{
     ArrayList<JottTree> children;
 
-    public FunctionDef(ArrayList<Token> tokens){
+    public FunctionDef(ArrayList<Token> tokens) throws ConstructionFailure{
         parse(tokens);
     }
 
-    private void parse(ArrayList<Token> tokens){
+    private void parse(ArrayList<Token> tokens) throws ConstructionFailure{
         if(tokens.remove(0).getToken() == "def"){
             children.add(new Literal("def"));
             if(tokens.remove(0).getTokenType() == TokenType.L_BRACKET){
@@ -61,7 +61,7 @@ public class FunctionDef implements JottTree{
                     //no r bracket
                 }
                 if(tokens.remove(0).getTokenType() == TokenType.L_BRACE){
-                    children.add(new Body());
+                    children.add(new Body(tokens));
                     if(tokens.remove(0).getTokenType() != TokenType.R_BRACE){
                         //throw no r brace
                     }
