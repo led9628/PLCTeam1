@@ -8,20 +8,14 @@ public class Body implements JottTree{
     ArrayList<JottTree> children;
 
     public Body(ArrayList<Token> tokens) throws ConstructionFailure{ // <body_stmt><body> | <return_stmt> | *Nothing*
-        if (tokens.size() != 0 && tokens.get(0).getToken() != "return"){
-            if (tokens.get(0).getToken() == "if")
-                children.add(new IfStmt(tokens));
-            else if (tokens.get(0).getToken() == "While")
-                children.add(new WhileLoop(tokens));
-            else
-                children.add(new Stmt(tokens));
-
-            //children.add(new Body());
-
-        } else if(tokens.get(0).getToken() == "return"){ 
-            tokens.remove(0);
-            children.add(new ReturnStmt(tokens));
-        } 
+        if (tokens.size() != 0){
+            if (tokens.get(0).getToken() != "return"){
+                children.add(new BodyStmt(tokens));
+                children.add(new Body(tokens));
+            } else if(tokens.get(0).getToken() == "return"){ 
+                children.add(new ReturnStmt(tokens));
+            } 
+        }
     }
     
 
