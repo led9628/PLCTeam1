@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class BodyStmt implements JottTree {
     ArrayList<JottTree> children;
 
-    public BodyStmt(ArrayList<Token> tokens) { // <if_stmt> | <while_loop> | <stmt>
+    public BodyStmt(ArrayList<Token> tokens)  throws ConstructionFailure{ // <if_stmt> | <while_loop> | <stmt>
         if (tokens.get(0).getToken().equals("if"))
             children.add(new IfStmt(tokens));
         else if (tokens.get(0).getToken().equals("While"))
@@ -46,5 +46,4 @@ public class BodyStmt implements JottTree {
        return false;
    }
 
-}
 }
