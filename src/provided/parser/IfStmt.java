@@ -22,7 +22,7 @@ public class IfStmt implements JottTree{
         if(token.getTokenType() != TokenType.L_BRACKET){
             //throw
         }
-        this.children.add(new Literal(token.getToken()));
+        
         this.children.add(new BExpr(tokens));
         
         //after the bool expr stuff is done, i need the next token
@@ -30,14 +30,14 @@ public class IfStmt implements JottTree{
         if(token.getTokenType() != TokenType.R_BRACKET){
             //throw
         }
-        this.children.add(new Literal(token.getToken()));
+        
 
         // {
         token = tokens.remove(0);
         if(token.getTokenType() != TokenType.L_BRACE){
             //throw
         }
-        this.children.add(new Literal(token.getToken()));
+        
         this.children.add(new Body(tokens));
 
         // after trying to make body, get }
@@ -45,7 +45,7 @@ public class IfStmt implements JottTree{
         if(token.getTokenType() != TokenType.R_BRACE){
             //throw
         }
-        this.children.add(new Literal(token.getToken()));
+        
 
         //check token after closing ifstmt body
         token = tokens.get(0);
@@ -59,7 +59,6 @@ public class IfStmt implements JottTree{
                 if(token.getTokenType() != TokenType.L_BRACKET){
                     //throw
                  }
-                this.children.add(new Literal(token.getToken()));
                 this.children.add(new BExpr(tokens));
         
                 //after the bool expr stuff is done, i need the next token
@@ -67,14 +66,13 @@ public class IfStmt implements JottTree{
                 if(token.getTokenType() != TokenType.R_BRACKET){
                         //throw
                 }
-                this.children.add(new Literal(token.getToken()));
 
                 // {
                 token = tokens.remove(0);
                 if(token.getTokenType() != TokenType.L_BRACE){
                     //throw
                 }
-                this.children.add(new Literal(token.getToken()));
+            
                 this.children.add(new Body(tokens));
 
                 // after trying to make body, get }
@@ -82,7 +80,6 @@ public class IfStmt implements JottTree{
                 if(token.getTokenType() != TokenType.R_BRACE){
                     //throw
                 }
-                this.children.add(new Literal(token.getToken()));
 
                 //check token after closing ifstmt body
                 token = tokens.get(0);
@@ -98,7 +95,7 @@ public class IfStmt implements JottTree{
             if(token.getTokenType() != TokenType.L_BRACE){
             //throw
             }
-            this.children.add(new Literal(token.getToken()));
+            
 
             this.children.add(new Body(tokens));
 
@@ -107,7 +104,7 @@ public class IfStmt implements JottTree{
             if(token.getTokenType() != TokenType.R_BRACE){
             //throw
             }
-            this.children.add(new Literal(token.getToken()));
+        
 
             token = tokens.get(0);
             if(token.getToken() == "else"){
