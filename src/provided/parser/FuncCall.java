@@ -4,11 +4,33 @@ import java.util.ArrayList;
 
 import provided.JottTree;
 import provided.Token;
+import provided.TokenType;
 
 public class FuncCall implements JottTree {
     ArrayList<JottTree> children;
 
-    public FuncCall(ArrayList<Token> tokens){
+    public FuncCall(ArrayList<Token> tokens) throws ConstructionFailure{
+        Token token = tokens.remove(0);
+
+        if(token.getTokenType() != TokenType.ID_KEYWORD){
+            // throw error
+        }
+        this.children.add(new Literal(token.getToken()));
+
+        token = tokens.remove(0);
+        if(token.getTokenType() != TokenType.L_BRACKET){
+            //throw
+        }
+        this.children.add(new Literal(token.getToken()));
+        // da params
+        this.children.add(new Params(tokens));
+        
+        //after the param stuff is done, i need the next token
+        token = tokens.remove(0);
+        if(token.getTokenType() != TokenType.R_BRACKET){
+            //throw
+        }
+        this.children.add(new Literal(token.getToken()));
 
     }
 

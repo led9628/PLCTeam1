@@ -47,37 +47,77 @@ public class IfStmt implements JottTree{
         }
         this.children.add(new Literal(token.getToken()));
 
-        // TODO: ELSEIF, ELSE
+        //check token after closing ifstmt body
+        token = tokens.get(0);
 
-
-
-
+        if(token.getToken()=="elseif"){
+            while(token.getToken()=="elseif"){
+                //remove "elseif" token from list
+                tokens.remove(0);
+                // next token
+                token = tokens.remove(0);
+                if(token.getTokenType() != TokenType.L_BRACKET){
+                    //throw
+                 }
+                this.children.add(new Literal(token.getToken()));
+                this.children.add(new BExpr(tokens));
         
-        //try {
-        //    this.children.add(new BExpr(tokens));
-       //    return;
-       // } catch (ConstructionFailure e){}
-
-
-
-        
-    }
-    
-    //then i will actually do the parsing
-    private void parse(ArrayList<Token> tokens){
-        if(tokens.remove(0).getToken() == "if"){
-            children.add(new Literal("if"));
-            //check next tokens for brachet and parse bool expr
-            if(tokens.remove(0).getTokenType() == TokenType.L_BRACKET){
-                children.add(new BExpr(tokens));
-                if(tokens.get(0).getTokenType() != TokenType.R_BRACKET){
-                    // TODO: throw this error
+                //after the bool expr stuff is done, i need the next token
+                token = tokens.remove(0);
+                if(token.getTokenType() != TokenType.R_BRACKET){
+                        //throw
                 }
-                //children.add()
+                this.children.add(new Literal(token.getToken()));
 
+                // {
+                token = tokens.remove(0);
+                if(token.getTokenType() != TokenType.L_BRACE){
+                    //throw
+                }
+                this.children.add(new Literal(token.getToken()));
+                this.children.add(new Body(tokens));
+
+                // after trying to make body, get }
+                token = tokens.remove(0);
+                if(token.getTokenType() != TokenType.R_BRACE){
+                    //throw
+                }
+                this.children.add(new Literal(token.getToken()));
+
+                //check token after closing ifstmt body
+                token = tokens.get(0);
             }
         }
+
+        // next token is else
+        if(token.getToken() == "else"){
+
+            //remove "else" token from list
+            tokens.remove(0);
+            token = tokens.remove(0);
+            if(token.getTokenType() != TokenType.L_BRACE){
+            //throw
+            }
+            this.children.add(new Literal(token.getToken()));
+
+            this.children.add(new Body(tokens));
+
+            // after trying to make body, get }
+            token = tokens.remove(0);
+            if(token.getTokenType() != TokenType.R_BRACE){
+            //throw
+            }
+            this.children.add(new Literal(token.getToken()));
+
+            token = tokens.get(0);
+            if(token.getToken() == "else"){
+                // throw multiple else error
+                        }
+        }
+
+   
     }
+    
 
 
     @Override
