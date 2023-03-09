@@ -18,7 +18,7 @@ public class Type implements JottTree {
             }
             throw new ConstructionFailure("is not Boolean, Integer, String, or Double.");
         }
-        throw new ConstructionFailure("Not a valid ID_KEYWORD.");
+        throw new ConstructionFailure("Not a valid Type.");
     }
 
     @Override
