@@ -29,25 +29,3 @@ public class JottParser {
         }
     }
 }
-
-
-// //NOT WORKING YET
-// class token implements JottTree{
-//     ArrayList<JottTree> children;
-
-//     public token(ArrayList<Token> tokens){
-//         parse(tokens);
-//     }
-
-//     private void parse(ArrayList<Token> tokens){
-//         if(tokens.get(JottParser.getIndex()).getToken().equals(":")){
-//             children.add(new id(tokens));
-//             JottParser.incrementToken();
-//             String a = tokens.get(JottParser.getIndex()).getToken();
-//             if(a.equals("Double") || a.equals("Integer") || a.equals("String") || a.equals("Boolean")){ 
-//                 children.add(new id(tokens));
-//                 JottParser.incrementToken();
-//             }
-//         }
-//     }
-// }

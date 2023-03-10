@@ -14,8 +14,7 @@ public class Literal implements JottTree{
 
    @Override
    public String convertToJott() {
-       // TODO Auto-generated method stub
-       return null;
+       return lit;
    }
 
    @Override
