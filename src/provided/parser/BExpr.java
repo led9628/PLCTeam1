@@ -12,6 +12,8 @@ public class BExpr implements JottTree {
     public BExpr(ArrayList<Token> tokens) throws ConstructionFailure{
         Token token = tokens.remove(0);
 
+        ArrayList<Token> prior = new ArrayList<Token>(tokens);
+
         // Attempt to create an NExpr RelOp NExpr
         try {
             this.children.add(new NExpr(tokens));
@@ -19,6 +21,7 @@ public class BExpr implements JottTree {
             this.children.add(new NExpr(tokens));
             return;
         } catch (ConstructionFailure e) {}
+        tokens = prior;
         // If that doesn't work, keep trying to make things.
         if (token.getTokenType() == TokenType.ID_KEYWORD) {
             // Try to create a FuncCall.
@@ -26,15 +29,20 @@ public class BExpr implements JottTree {
                 this.children.add(new FuncCall(tokens));
                 return;
             } catch (ConstructionFailure e) {}
+            tokens = prior;
             // Try to create a Bool.
             try {
                 this.children.add(new Bool(tokens));
                 return;
             } catch (ConstructionFailure e) {}
+            tokens = prior;
             // Create an ID if it can't be anything else.
             this.children.add(new Literal(token.getToken()));
+            return;
         }
         // If we failed to turn BExpr into anything, throw.
+        tokens = prior;
+        tokens.add(0, token);
         throw new ConstructionFailure("Failed to create a BExpr.", token.getLineNum());
     }
 

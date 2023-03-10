@@ -12,7 +12,7 @@ public class Params implements JottTree {
     public Params(ArrayList<Token> tokens) throws ConstructionFailure{
         //attempt to create Expr Params_t
         this.children.add(new Expr(tokens));
-        this.children.add(new ParamsT(tokens));
+        //this.children.add(new ParamsT(tokens)); TODO: WE CAN'T HANDLE MULTI-PARAM FUNCTIONS UNLESS WE IMPLEMENT THIS CORRECTLY.
         return;
     }
 

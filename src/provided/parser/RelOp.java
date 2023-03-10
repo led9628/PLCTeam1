@@ -9,12 +9,13 @@ import provided.TokenType;
 public class RelOp implements JottTree {
     ArrayList<JottTree> children = new ArrayList<>();
 
-    public RelOp(ArrayList<Token> tokens){
+    public RelOp(ArrayList<Token> tokens) throws ConstructionFailure{
         Token token = tokens.remove(0);
         if (token.getTokenType() == TokenType.REL_OP) {
             this.children.add(new Literal(token.getToken()));
         }
-        // TODO: Throw on failure.
+        tokens.add(0, token);
+        throw new ConstructionFailure("Failed to create Op.", token.getLineNum());
     }
 
     @Override

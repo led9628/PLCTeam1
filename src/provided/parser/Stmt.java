@@ -11,7 +11,7 @@ public class Stmt implements JottTree{
 
     public Stmt(ArrayList<Token> tokens) throws ConstructionFailure{
         Token token1 = tokens.get(0);
-        Token token2 = tokens.get(2);
+        Token token2 = tokens.get(1);
 
         // if curr token is an id/key and the 2nd token after is a semicolon, var_dec
         if(token1.getTokenType()==TokenType.ID_KEYWORD && token2.getTokenType() == TokenType.SEMICOLON){
@@ -23,7 +23,7 @@ public class Stmt implements JottTree{
             this.children.add(new Asmt(tokens));
         }
         // function call
-        else if(token1.getTokenType()==TokenType.ID_KEYWORD && token2.getTokenType() == TokenType.L_BRACE){
+        else if(token1.getTokenType()==TokenType.ID_KEYWORD && token2.getTokenType() == TokenType.L_BRACKET){
             this.children.add(new FuncCall(tokens));
         }
 

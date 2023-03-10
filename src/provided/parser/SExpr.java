@@ -11,16 +11,21 @@ public class SExpr implements JottTree {
     public SExpr(ArrayList<Token> tokens) throws ConstructionFailure{
         Token token = tokens.remove(0);
 
+        ArrayList<Token> prior = new ArrayList<Token>(tokens);
+
         switch (token.getTokenType()) {
             case STRING -> this.children.add(new Literal(token.getToken()));
             case ID_KEYWORD -> {
                 try {
                     this.children.add(new FuncCall(tokens));
                 } catch (ConstructionFailure e) {
+                    tokens = prior;
                     this.children.add(new Literal(token.getToken()));
                 }
             }
             default -> {
+                tokens = prior;
+                tokens.add(0, token);
                 throw new ConstructionFailure("Failed to create an SExpr.", token.getLineNum());
             }
         }

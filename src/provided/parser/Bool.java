@@ -15,8 +15,10 @@ public class Bool implements JottTree {
             if (token.getToken() == "True" || token.getToken() == "False") {
                 this.children.add(new Literal(token.getToken()));
             }
+            tokens.add(0, token);
             throw new ConstructionFailure("Boolean is not True or False.", token.getLineNum());
         }
+        tokens.add(0, token);
         throw new ConstructionFailure("Boolean is not a valid ID_KEYWORD.", token.getLineNum());
     }
 
