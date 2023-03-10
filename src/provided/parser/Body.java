@@ -12,9 +12,11 @@ public class Body implements JottTree{
             if (tokens.get(0).getToken() != "return"){
                 children.add(new BodyStmt(tokens));
                 children.add(new Body(tokens));
-            } else if(tokens.get(0).getToken() == "return"){ 
+            }else if(tokens.get(0).getToken() == "return"){ 
                 children.add(new ReturnStmt(tokens));
-            } 
+            }else{
+                throw new ConstructionFailure("Invalid Body.");
+            }
         }
     }
     

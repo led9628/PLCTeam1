@@ -4,11 +4,20 @@ import java.util.ArrayList;
 
 import provided.JottTree;
 import provided.Token;
+import provided.TokenType;
 
 
 public class EndStmt implements JottTree{
+    ArrayList<JottTree> children;
 
-   public EndStmt(ArrayList<Token> token){}
+   public EndStmt(ArrayList<Token> tokens) throws ConstructionFailure{
+        Token token = tokens.remove(0);
+        if (token.getTokenType() == TokenType.SEMICOLON){
+            children.add(new Literal(token.getToken()));
+        }else{
+            throw new ConstructionFailure("Invalid End statement.");
+        }
+   }
 
    @Override
    public String convertToJott() {
