@@ -12,31 +12,48 @@ public class Asmt implements JottTree {
 
     public Asmt(ArrayList<Token> tokens) throws ConstructionFailure{
         //attempt to create type id = expr end_stmt
+        Token a = null, b = null;
         try {
             this.children.add(new Type(tokens));
             this.children.add(new Literal(tokens.get(0).getToken()));
             this.children.add(new Literal(tokens.get(1).getToken()));
-            if (!tokens.get(1).getToken().equals("=")) {
+            Token equalsToken = tokens.get(1);
+            a = tokens.remove(0);
+            b = tokens.remove(0);
+            if (!equalsToken.getToken().equals("=")) {
                 throw new ConstructionFailure("asmt should have =", tokens.get(1).getLineNum());
             }
             this.children.add(new Expr(tokens));
             this.children.add(new EndStmt(tokens));
-            tokens.remove(0);
-            tokens.remove(0);
             return;
-        } catch (ConstructionFailure e) {}
+        } catch (ConstructionFailure e) {
+            if (b != null) {
+                tokens.add(0, b);
+            }
+            if (a != null) {
+                tokens.add(0, a);
+            }
+        }
         try {
             this.children.add(new Literal(tokens.get(0).getToken()));
             this.children.add(new Literal(tokens.get(1).getToken()));
-            if (!tokens.get(1).getToken().equals("=")) {
+            Token equalsToken = tokens.get(1);
+            a = tokens.remove(0);
+            b = tokens.remove(0);
+            if (!equalsToken.getToken().equals("=")) {
                 throw new ConstructionFailure("asmt should have =", tokens.get(1).getLineNum());
             }
             this.children.add(new Expr(tokens));
             this.children.add(new EndStmt(tokens));
-            tokens.remove(0);
-            tokens.remove(0);
             return;
-        } catch (ConstructionFailure e) {}
+        } catch (ConstructionFailure e) {
+            if (b != null) {
+                tokens.add(0, b);
+            }
+            if (a != null) {
+                tokens.add(0, a);
+            }
+        }
         throw new ConstructionFailure("Failed to create an Asmt.", tokens.get(0).getLineNum());
     }
 

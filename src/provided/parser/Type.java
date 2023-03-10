@@ -12,7 +12,7 @@ public class Type implements JottTree {
     public Type(ArrayList<Token> tokens) throws ConstructionFailure{
         Token token = tokens.remove(0);
         if (token.getTokenType() == TokenType.ID_KEYWORD) {
-            if (token.getToken() == "Boolean" || token.getToken() == "Integer" || token.getToken() == "String" || token.getToken() == "Double") {
+            if (token.getToken().equals("Boolean") || token.getToken().equals("Integer") || token.getToken().equals("String") || token.getToken().equals("Double")) {
                 this.children.add(new Literal(token.getToken()));
                 return;
             }

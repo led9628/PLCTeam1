@@ -13,7 +13,7 @@ public class Num implements JottTree {
         Token token = tokens.remove(0);
         // Make sure it's actually a number.
         for (char c : token.getToken().toCharArray()) {
-            if (!Character.isDigit(c)) {
+            if (!Character.isDigit(c) && (c != '.')) {
                 // If it's not actually a number, fail and throw an exception.
                 tokens.add(0, token);
                 throw new ConstructionFailure("Num isn't actually a number.", token.getLineNum());
