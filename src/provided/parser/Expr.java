@@ -10,6 +10,7 @@ public class Expr implements JottTree {
 
     public Expr(ArrayList<Token> tokens) throws ConstructionFailure {
         var ex = new ConstructionFailure("", 0);
+        System.out.println(tokens.get(0).getToken());
         try {
             this.children.add(new NExpr(tokens));
             return;
@@ -17,6 +18,7 @@ public class Expr implements JottTree {
             ex.line = e.line;
             ex.message = e.message;
         }
+        System.out.println(tokens.get(0).getToken());
         try {
             this.children.add(new SExpr(tokens));
             return;
