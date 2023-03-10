@@ -9,17 +9,21 @@ public class FunctionReturn implements JottTree{
     ArrayList<JottTree> children = new ArrayList<>();
 
     public FunctionReturn(ArrayList<Token> tokens) throws ConstructionFailure{
-        Token token = tokens.remove(0);
         //Try to add a type
+        int lnm;
         try {
             this.children.add(new Type(tokens));
             return;
-        } catch (ConstructionFailure e) {}
-        if (token.getToken() == "Void"){
+        } catch (ConstructionFailure e) {
+            lnm = e.line;
+        }
+        Token token = tokens.remove(0);
+        if (token.getToken().equals("Void")){
             this.children.add(new Literal(token.getToken()));
             return;
         }
-        throw new ConstructionFailure("Failed to create a Function_return.", token.getLineNum());
+        tokens.add(token);
+        throw new ConstructionFailure("Failed to create a function return. ", lnm);
     }
 
     @Override
