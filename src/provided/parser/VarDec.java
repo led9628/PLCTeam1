@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class VarDec implements JottTree{
 
-    ArrayList<JottTree> children;
+    ArrayList<JottTree> children = new ArrayList<>();
 
     public VarDec(ArrayList<Token> tokens) throws ConstructionFailure{
         Token token = tokens.remove(0);

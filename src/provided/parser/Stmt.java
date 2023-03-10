@@ -7,7 +7,7 @@ import provided.Token;
 import provided.TokenType;
 
 public class Stmt implements JottTree{
-    ArrayList<JottTree> children;
+    ArrayList<JottTree> children = new ArrayList<>();
 
     public Stmt(ArrayList<Token> tokens) throws ConstructionFailure{
         Token token1 = tokens.get(0);

@@ -6,7 +6,7 @@ import provided.Token;
 import java.util.ArrayList;
 
 public class FunctionReturn implements JottTree{
-    ArrayList<JottTree> children;
+    ArrayList<JottTree> children = new ArrayList<>();
 
     public FunctionReturn(ArrayList<Token> tokens) throws ConstructionFailure{
         Token token = tokens.remove(0);

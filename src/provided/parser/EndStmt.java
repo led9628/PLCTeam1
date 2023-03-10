@@ -8,7 +8,7 @@ import provided.TokenType;
 
 
 public class EndStmt implements JottTree{
-    ArrayList<JottTree> children;
+    ArrayList<JottTree> children = new ArrayList<>();
 
    public EndStmt(ArrayList<Token> tokens) throws ConstructionFailure{
         Token token = tokens.remove(0);

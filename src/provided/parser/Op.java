@@ -7,7 +7,7 @@ import provided.Token;
 import provided.TokenType;
 
 public class Op implements JottTree {
-    ArrayList<JottTree> children;
+    ArrayList<JottTree> children = new ArrayList<>();
 
     public Op(ArrayList<Token> tokens) {
         Token token = tokens.remove(0);

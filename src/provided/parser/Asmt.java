@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class Asmt implements JottTree {
 
 
-    ArrayList<JottTree> children;
+    ArrayList<JottTree> children = new ArrayList<>();
 
     public Asmt(ArrayList<Token> tokens) throws ConstructionFailure{
         Token token = tokens.remove(0);

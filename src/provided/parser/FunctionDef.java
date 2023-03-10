@@ -2,14 +2,12 @@ package provided.parser;
 
 import java.util.ArrayList;
 
-import javax.swing.text.DefaultStyledDocument.ElementSpec;
-
 import provided.JottTree;
 import provided.Token;
 import provided.TokenType;
 
 public class FunctionDef implements JottTree{
-    ArrayList<JottTree> children;
+    ArrayList<JottTree> children = new ArrayList<>();
 
     public FunctionDef(ArrayList<Token> tokens) throws ConstructionFailure{
         parse(tokens);

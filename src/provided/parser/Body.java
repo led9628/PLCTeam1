@@ -5,7 +5,7 @@ import provided.JottTree;
 import java.util.ArrayList;
 
 public class Body implements JottTree{
-    ArrayList<JottTree> children;
+    ArrayList<JottTree> children = new ArrayList<>();
 
     public Body(ArrayList<Token> tokens) throws ConstructionFailure{ // <body_stmt><body> | <return_stmt> | *Nothing*
         if (tokens.size() != 0){
