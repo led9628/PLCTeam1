@@ -19,7 +19,6 @@ public class Expr implements JottTree {
         }
         try {
             this.children.add(new SExpr(tokens));
-            System.out.println("xx " + tokens.get(0).getToken());
             return;
         } catch (ConstructionFailure e) {
             ex.line = e.line;
