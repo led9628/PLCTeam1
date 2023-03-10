@@ -18,6 +18,7 @@ public class Program implements JottTree{
         }
         if(tokens.get(0).getToken() == "$$"){
             //THROW missing $$
+            throw new ConstructionFailure("No end of file symbol ($$)", tokens.get(0).getLineNum());
         }
     }
 

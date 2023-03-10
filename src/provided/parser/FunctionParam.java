@@ -19,20 +19,22 @@ public class FunctionParam implements JottTree{
             children.add(new Literal(tokens.remove(0).getToken()));
 
             //check for param colon and type:
-            if(tokens.remove(0).getToken().equals(":")){
-                String a = tokens.remove(0).getToken();
+            if(tokens.get(0).getToken().equals(":")){
+                tokens.remove(0); // remove :
+
+                String a = tokens.get(0).getToken();
                 if(a.equals("Double") || a.equals("Integer") || a.equals("String") || a.equals("Boolean")){
+                    tokens.remove(0);
                     children.add(new Literal(a));
                 }else{
-                    //throw no/bad type
-                    throw new ConstructionFailure("invalid param type");
+                    throw new ConstructionFailure("Invalid parameter type", tokens.get(0).getLineNum()); //throw no/bad type
                 }
             }else{
                 //throw missing :
-                throw new ConstructionFailure("missing colon (':')");
+                throw new ConstructionFailure("Missing colon (:)", tokens.get(0).getLineNum());
             }
         }else{
-            throw new ConstructionFailure("missing id");
+            throw new ConstructionFailure("Missing function parameter id", tokens.get(0).getLineNum());
         }
     }
 

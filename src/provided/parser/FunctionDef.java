@@ -16,7 +16,16 @@ public class FunctionDef implements JottTree{
     private void parse(ArrayList<Token> tokens) throws ConstructionFailure{
         if(tokens.remove(0).getToken() == "def"){
             children.add(new Literal("def"));
-            if(tokens.remove(0).getTokenType() == TokenType.L_BRACKET){
+
+            if(tokens.get(0).getTokenType() == TokenType.ID_KEYWORD){
+                children.add(new Literal(tokens.remove(0).getToken())); //add ID literal
+            }else{
+                throw new ConstructionFailure("Missing function name ID", tokens.get(0).getLineNum()); //throw missing id
+            }
+
+            if(tokens.get(0).getTokenType() == TokenType.L_BRACKET){
+                tokens.remove(0); // remove L bracket
+
                 //function def params check:
                 if(tokens.get(0).getTokenType() == TokenType.ID_KEYWORD){
                     children.add(new FunctionParam(tokens));
@@ -28,25 +37,37 @@ public class FunctionDef implements JottTree{
                         children.add(new FunctionParam(tokens));
                     }
                 }
-                if(tokens.remove(0).getTokenType() == TokenType.R_BRACKET){
-                    if(tokens.remove(0).getToken().equals(":")){
-                        //check return type:
-                        children.add(new FunctionReturn(tokens));
+
+                //check for end of params:
+                if(tokens.get(0).getTokenType() == TokenType.R_BRACKET){
+                    tokens.remove(0); //remove r bracket
+
+                    if(tokens.get(0).getToken().equals(":")){
+                        tokens.remove(0); //remove colon
+                        children.add(new FunctionReturn(tokens)); //check return type:
                     }else{
-                        //throw no colon
+                        throw new ConstructionFailure("Missing colon (:)", tokens.get(0).getLineNum()); // throw missing colon
                     }
+                    
                 }else{
-                    //no r bracket
+                    throw new ConstructionFailure("Missing right bracket (])", tokens.get(0).getLineNum()); // throw no r bracket
                 }
-                if(tokens.remove(0).getTokenType() == TokenType.L_BRACE){
+
+                //check for body curly brackets
+                if(tokens.get(0).getTokenType() == TokenType.L_BRACE){
+                    tokens.remove(0); // remove L brace
                     children.add(new Body(tokens));
-                    if(tokens.remove(0).getTokenType() != TokenType.R_BRACE){
-                        //throw no r brace
+
+                    if(tokens.get(0).getTokenType() != TokenType.R_BRACE){
+                        tokens.remove(0); // remove R brace
+                        throw new ConstructionFailure("Missing right brace (})", tokens.get(0).getLineNum()); //throw no r brace
                     }
                 }else{
-                    //throw no l brace
+                    throw new ConstructionFailure("Missing left brace ({)", tokens.get(0).getLineNum()); // throw no l brace
                 }
-            }   
+            } else {
+                throw new ConstructionFailure("Missing left bracket ([)", tokens.get(0).getLineNum()); // throw no l brace
+            }     
         }
     }
 
