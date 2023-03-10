@@ -31,7 +31,10 @@ public class Stmt implements JottTree{
 
     @Override
     public String convertToJott() {
-        // TODO Auto-generated method stub
+        StringBuilder sb = new StringBuilder();
+        for(var child : this.children){
+            sb.append(child.convertToJott());
+        }
         return null;
     }
 

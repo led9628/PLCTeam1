@@ -21,6 +21,7 @@ public class FuncCall implements JottTree {
         if(token.getTokenType() != TokenType.L_BRACKET){
             //throw
         }
+        this.children.add(new Literal(token.getToken()));
         // da params
         this.children.add(new Params(tokens));
         
@@ -29,13 +30,17 @@ public class FuncCall implements JottTree {
         if(token.getTokenType() != TokenType.R_BRACKET){
             //throw
         }
+        this.children.add(new Literal(token.getToken()));
 
 
     }
 
     @Override
     public String convertToJott() {
-        // TODO Auto-generated method stub
+        StringBuilder sb = new StringBuilder();
+        for(var child : this.children){
+            sb.append(child.convertToJott());
+        }
         return null;
     }
 
