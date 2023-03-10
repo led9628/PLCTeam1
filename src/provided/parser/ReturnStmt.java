@@ -9,7 +9,7 @@ public class ReturnStmt implements JottTree{
 
     public ReturnStmt(ArrayList<Token> tokens) throws ConstructionFailure{ // return <expr><end_stmt>
         var token = tokens.remove(0);
-        if(token.getToken() == "return"){
+        if(token.getToken().equals("return")){
             children.add(new Literal("return"));
             children.add(new Expr(tokens));
             children.add(new EndStmt(tokens));

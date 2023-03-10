@@ -25,7 +25,7 @@ public class Type implements JottTree {
 
     @Override
     public String convertToJott() {
-        return this.children.get(0).toString();
+        return this.children.get(0).convertToJott();
     }
 
     @Override

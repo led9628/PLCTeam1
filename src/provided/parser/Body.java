@@ -18,10 +18,10 @@ public class Body implements JottTree{
                 // System.out.println("END");
                 return;
             }
-            if (token.getToken() != "return"){
+            if (!token.getToken().equals("return")){
                 children.add(new BodyStmt(tokens));
                 children.add(new Body(tokens));
-            }else if(token.getToken() == "return"){ 
+            }else if(token.getToken().equals("return")){ 
                 children.add(new ReturnStmt(tokens));
             }else{
                 throw new ConstructionFailure("Invalid Body.", token.getLineNum());
