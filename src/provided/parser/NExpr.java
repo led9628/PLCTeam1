@@ -4,12 +4,12 @@ import java.util.ArrayList;
 
 import provided.JottTree;
 import provided.Token;
+import provided.TokenType;
 
 public class NExpr implements JottTree {
     ArrayList<JottTree> children = new ArrayList<>();
 
     public NExpr(ArrayList<Token> tokens) throws ConstructionFailure {
-        Token token = tokens.remove(0);
 
         ArrayList<Token> prior = new ArrayList<Token>(tokens);
 
@@ -37,6 +37,7 @@ public class NExpr implements JottTree {
         tokens = prior;
         // Attempt to create an Id Op NExpr
         try {
+            Token token = tokens.remove(0);
             this.children.add(new Literal(token.getToken()));
             this.children.add(new Op(tokens));
             this.children.add(new NExpr(tokens));
@@ -50,8 +51,12 @@ public class NExpr implements JottTree {
         } catch (ConstructionFailure e) {}
         tokens = prior;
         // Attempt to create an Id
-        this.children.add(new Literal(token.getToken()));
-        return;
+        if (tokens.get(0).getTokenType() == TokenType.ID_KEYWORD) {
+            this.children.add(new Literal(tokens.remove(0).getToken()));
+            return;
+        }
+        tokens = prior;
+        throw new ConstructionFailure("NExpr failure", tokens.get(0).getLineNum());
     }
 
     @Override
