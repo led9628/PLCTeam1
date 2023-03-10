@@ -1,3 +1,2 @@
-def main [ ] : Integer { Double x = 5.0 ;
-return x ;
-} 
+def foo [ x :String ] : String { print [ x ] ;
+} def main [ ] : Void { } 

@@ -23,7 +23,6 @@ public class FunctionParam implements JottTree{
                 tokens.remove(0); // remove :
 
                 children.add(new Type(tokens));
-                tokens.remove(0); // remove type token
             }else{
                 //throw missing :
                 throw new ConstructionFailure("Missing colon (:)", tokens.get(0).getLineNum());

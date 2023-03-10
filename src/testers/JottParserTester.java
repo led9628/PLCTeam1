@@ -50,8 +50,8 @@ public class JottParserTester {
         testCases.add(new TestCase("missing expr (error)", "missingExp.jott", true ));
         testCases.add(new TestCase("missingBrace (error)", "missingBrace.jott", true ));
         testCases.add(new TestCase("elseif without if (error)", "elseIfNoIf.jott", true ));
-        //testCases.add(new TestCase("missing return", "missingReturn.jott", false ));
-        //testCases.add(new TestCase("Void not valid param type (error)", "voidParam.jott", true ));
+        testCases.add(new TestCase("missing return", "missingReturn.jott", false ));
+        testCases.add(new TestCase("Void not valid param type (error)", "voidParam.jott", true ));
         //testCases.add(new TestCase("function not defined", "funcNotDefined.jott", false ));
         //testCases.add(new TestCase("mismatch return type", "mismatchedReturn.jott", false ));
         //testCases.add(new TestCase("function call param type not matching", "funcCallParamInvalid.jott", false ));
