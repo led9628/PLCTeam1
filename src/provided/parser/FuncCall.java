@@ -10,30 +10,33 @@ public class FuncCall implements JottTree {
     ArrayList<JottTree> children = new ArrayList<>();
 
     public FuncCall(ArrayList<Token> tokens) throws ConstructionFailure{
-        Token token = tokens.remove(0);
+        Token token1 = tokens.remove(0);
 
-        if(token.getTokenType() != TokenType.ID_KEYWORD){
-            tokens.add(0, token);
-            throw new ConstructionFailure("Unexpected symbol or id", token.getLineNum());
+        if(token1.getTokenType() != TokenType.ID_KEYWORD){
+            tokens.add(0, token1);
+            throw new ConstructionFailure("Unexpected symbol or id", token1.getLineNum());
         }
-        this.children.add(new Literal(token.getToken()));
+        this.children.add(new Literal(token1.getToken()));
 
-        token = tokens.remove(0);
-        if(token.getTokenType() != TokenType.L_BRACKET){
-            tokens.add(0, token);
-            throw new ConstructionFailure("Missing left operand", token.getLineNum());
+        Token token2 = tokens.remove(0);
+        if(token2.getTokenType() != TokenType.L_BRACKET){
+            tokens.add(0, token2);
+            tokens.add(0, token1);
+            throw new ConstructionFailure("Missing left operand", token2.getLineNum());
         }
-        this.children.add(new Literal(token.getToken()));
+        this.children.add(new Literal(token2.getToken()));
         // da params
         this.children.add(new Params(tokens));
         
         //after the param stuff is done, i need the next token
-        token = tokens.remove(0);
-        if(token.getTokenType() != TokenType.R_BRACKET){
-            tokens.add(0, token);
-            throw new ConstructionFailure("Missing right operand", token.getLineNum());
+        Token token3 = tokens.remove(0);
+        if(token3.getTokenType() != TokenType.R_BRACKET){
+            tokens.add(0, token3);
+            tokens.add(0, token2);
+            tokens.add(0, token1);
+            throw new ConstructionFailure("Missing right operand", token3.getLineNum());
         }
-        this.children.add(new Literal(token.getToken()));
+        this.children.add(new Literal(token3.getToken()));
 
 
     }

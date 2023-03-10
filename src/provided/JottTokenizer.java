@@ -70,6 +70,7 @@ public class JottTokenizer {
                         tokens.add(new Token("==", filename, line, TokenType.REL_OP));
                     } else {
                         tokens.add(new Token("=", filename, line, TokenType.ASSIGN));
+                        continue;
                     }
                 } else if (i == '>' || i == '<') {
                     int j = i;
