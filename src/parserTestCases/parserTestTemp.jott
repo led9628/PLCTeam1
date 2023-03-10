@@ -1,4 +1,3 @@
-def foo [ x :Integer ] : Integer { return x + 1 ;
-} def main [ ] : Void { Integer x = 0 ;
-while [ x < 0 ] { print [ x ] ;
-} } 
+def foo [ ] : Void { Integer while = 5 ;
+print [ while ] ;
+} 
