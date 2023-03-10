@@ -1,3 +1,2 @@
-def main [ ] : Void { print [ 5 ] ;
-print [ "foo bar" ] ;
+def main [ ] : Void { print [ "Hello World" ] ;
 } 

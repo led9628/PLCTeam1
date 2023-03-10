@@ -7,7 +7,7 @@ import provided.Token;
 import provided.TokenType;
 
 public class FunctionParam implements JottTree{
-    ArrayList<JottTree> children; //will only store an id and a type
+    ArrayList<JottTree> children = new ArrayList<>(); //will only store an id and a type
 
     public FunctionParam(ArrayList<Token> tokens) throws ConstructionFailure{
         parse(tokens);
