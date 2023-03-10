@@ -18,13 +18,18 @@ public class Program implements JottTree{
         }
         if(tokens.get(0).getToken() == "$$"){
             //THROW missing $$
+            throw new ConstructionFailure("No end of file symbol ($$)", tokens.get(0).getLineNum());
         }
     }
 
     @Override
     public String convertToJott() {
-        // TODO Auto-generated method stub
-        return null;
+        StringBuilder sb = new StringBuilder();
+        for (var child : this.children) {
+            sb.append(child.convertToJott());
+        }
+        sb.append("$$");
+        return sb.toString();
     }
 
     @Override
