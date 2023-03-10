@@ -13,7 +13,7 @@ public class IfStmt implements JottTree{
         Token token = tokens.remove(0);
 
         //check if the token is "if"
-        if(t!oken.getToken().equals("if")){
+        if(token.getToken().equals("if")){
             throw new ConstructionFailure("Unexpected symbol or id", token.getLineNum());
         }
         this.children.add(new Literal("if"));
