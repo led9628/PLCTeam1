@@ -6,7 +6,7 @@ import provided.JottTree;
 import provided.Token;
 
 public class Expr implements JottTree {
-    ArrayList<JottTree> children;
+    ArrayList<JottTree> children = new ArrayList<>();
 
     public Expr(ArrayList<Token> tokens) throws ConstructionFailure {
         var ex = new ConstructionFailure("", 0);

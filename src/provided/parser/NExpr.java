@@ -6,7 +6,7 @@ import provided.JottTree;
 import provided.Token;
 
 public class NExpr implements JottTree {
-    ArrayList<JottTree> children;
+    ArrayList<JottTree> children = new ArrayList<>();
 
     public NExpr(ArrayList<Token> tokens) throws ConstructionFailure {
         Token token = tokens.remove(0);

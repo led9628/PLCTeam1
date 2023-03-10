@@ -7,7 +7,7 @@ import provided.Token;
 import provided.TokenType;
 
 public class RelOp implements JottTree {
-    ArrayList<JottTree> children;
+    ArrayList<JottTree> children = new ArrayList<>();
 
     public RelOp(ArrayList<Token> tokens){
         Token token = tokens.remove(0);

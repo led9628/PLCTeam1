@@ -5,7 +5,7 @@ import provided.JottTree;
 import java.util.ArrayList;
 
 public class ReturnStmt implements JottTree{
-    ArrayList<JottTree> children;
+    ArrayList<JottTree> children = new ArrayList<>();
 
     public ReturnStmt(ArrayList<Token> tokens) throws ConstructionFailure{ // return <expr><end_stmt>
         var token = tokens.remove(0);

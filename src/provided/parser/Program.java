@@ -6,7 +6,7 @@ import provided.JottTree;
 import provided.Token;
 
 public class Program implements JottTree{
-    ArrayList<FunctionDef> children;
+    ArrayList<FunctionDef> children = new ArrayList<>();
 
     public Program(ArrayList<Token> tokens) throws ConstructionFailure{
         parse(tokens);

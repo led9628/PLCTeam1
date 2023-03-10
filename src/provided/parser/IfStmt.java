@@ -7,7 +7,7 @@ import provided.Token;
 import provided.TokenType;
 
 public class IfStmt implements JottTree{
-    ArrayList<JottTree> children;
+    ArrayList<JottTree> children = new ArrayList<>();
     
     public IfStmt(ArrayList<Token> tokens) throws ConstructionFailure{
         Token token = tokens.remove(0);

@@ -7,7 +7,7 @@ import provided.Token;
 import provided.TokenType;
 
 public class FuncCall implements JottTree {
-    ArrayList<JottTree> children;
+    ArrayList<JottTree> children = new ArrayList<>();
 
     public FuncCall(ArrayList<Token> tokens) throws ConstructionFailure{
         Token token = tokens.remove(0);

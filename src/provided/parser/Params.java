@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class Params implements JottTree {
 
-    ArrayList<JottTree> children;
+    ArrayList<JottTree> children = new ArrayList<>();
 
     public Params(ArrayList<Token> tokens) throws ConstructionFailure{
         //attempt to create Expr Params_t

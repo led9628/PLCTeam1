@@ -7,7 +7,7 @@ import provided.TokenType;
 import java.util.ArrayList;
 
 public class Type implements JottTree {
-    ArrayList<JottTree> children;
+    ArrayList<JottTree> children = new ArrayList<>();
 
     public Type(ArrayList<Token> tokens) throws ConstructionFailure{
         Token token = tokens.remove(0);

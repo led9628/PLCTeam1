@@ -7,7 +7,7 @@ import provided.Token;
 
 
 public class Num implements JottTree {
-    ArrayList<JottTree> children;
+    ArrayList<JottTree> children = new ArrayList<>();
 
     public Num(ArrayList<Token> tokens) throws ConstructionFailure {
         Token token = tokens.remove(0);
