@@ -15,6 +15,19 @@ public class NExpr implements JottTree {
             this.children.add(new FuncCall(tokens));
             return;
         } catch (ConstructionFailure e) {}
+        // Attempt to create an Id Op NExpr
+        Token token = tokens.remove(0);
+        try {
+            if (token.getTokenType() != TokenType.ID_KEYWORD || (tokens.get(0).getTokenType() != TokenType.MATH_OP)) {
+                throw new ConstructionFailure("", -1);
+            }
+            this.children.add(new Literal(token.getToken()));
+            this.children.add(new Op(tokens));
+            this.children.add(new NExpr(tokens));
+            return;
+        } catch (ConstructionFailure e) {
+            tokens.add(0, token);
+        }
         // Attempt to create an Id
         if (tokens.get(0).getTokenType() == TokenType.ID_KEYWORD) {
             this.children.add(new Literal(tokens.remove(0).getToken()));
@@ -39,16 +52,6 @@ public class NExpr implements JottTree {
             this.children.add(new NExpr(tokens));
             return;
         } catch (ConstructionFailure e) {}
-        // Attempt to create an Id Op NExpr
-        Token token = tokens.remove(0);
-        try {
-            this.children.add(new Literal(token.getToken()));
-            this.children.add(new Op(tokens));
-            this.children.add(new NExpr(tokens));
-            return;
-        } catch (ConstructionFailure e) {
-            tokens.add(0, token);
-        }
         throw new ConstructionFailure("NExpr failure", tokens.get(0).getLineNum());
     }
 

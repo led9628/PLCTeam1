@@ -13,6 +13,7 @@ public class Op implements JottTree {
         Token token = tokens.remove(0);
         if (token.getTokenType() == TokenType.MATH_OP) {
             this.children.add(new Literal(token.getToken()));
+            return;
         }
         tokens.add(0, token);
         throw new ConstructionFailure("Failed to create Op.", token.getLineNum());

@@ -18,10 +18,10 @@ public class WhileLoop implements JottTree {
         this.children.add(new Literal(token.getToken()));
 
 
-        if(token.getTokenType() != TokenType.L_BRACKET){
+        if(tokens.get(0).getTokenType() != TokenType.L_BRACKET){
             throw new ConstructionFailure("Missing left operand", token.getLineNum());
         }
-        this.children.add(new Literal(token.getToken()));
+        this.children.add(new Literal(tokens.remove(0).getToken()));
         // bool expression
         this.children.add(new BExpr(tokens));
         
