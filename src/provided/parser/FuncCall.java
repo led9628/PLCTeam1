@@ -41,7 +41,7 @@ public class FuncCall implements JottTree {
         for(var child : this.children){
             sb.append(child.convertToJott());
         }
-        return sb;
+        return sb.toString();
     }
 
     @Override
