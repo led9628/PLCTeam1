@@ -13,7 +13,7 @@ public class IfStmt implements JottTree{
         Token token = tokens.remove(0);
 
         //check if the token is "if"
-        if(token.getToken() != "if"){
+        if(t!oken.getToken().equals("if")){
             throw new ConstructionFailure("Unexpected symbol or id", token.getLineNum());
         }
         this.children.add(new Literal("if"));
@@ -50,8 +50,8 @@ public class IfStmt implements JottTree{
         //check token after closing ifstmt body
         token = tokens.get(0);
 
-        if(token.getToken()=="elseif"){
-            while(token.getToken()=="elseif"){
+        if(token.getToken().equals("elseif")){
+            while(token.getToken().equals("elseif")){
                 //remove "elseif" token from list
                 tokens.remove(0);
                 // next token
@@ -90,7 +90,7 @@ public class IfStmt implements JottTree{
         }
 
         // next token is else
-        if(token.getToken() == "else"){
+        if(token.getToken().equals("else")){
 
             //remove "else" token from list
             tokens.remove(0);
@@ -110,9 +110,10 @@ public class IfStmt implements JottTree{
             this.children.add(new Literal(token.getToken()));
 
             token = tokens.get(0);
-            if(token.getToken() == "else"){
-                // throw multiple else error
+            if(token.getToken().equals("else")){
+                throw new ConstructionFailure("More than one else for single if bloc", token.getLineNum());
             }
+        
         }
 
    
