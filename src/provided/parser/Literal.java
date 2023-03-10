@@ -18,7 +18,7 @@ public class Literal implements JottTree{
 
    @Override
    public String convertToJott() {
-       return lit;
+       return this.toString();
    }
 
    @Override
