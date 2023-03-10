@@ -56,7 +56,8 @@ public class WhileLoop implements JottTree {
         for(var child : this.children){
             sb.append(child.convertToJott());
         }
-        return sb;
+        String str = sb.toString();
+        return str;
     }
 
     @Override
