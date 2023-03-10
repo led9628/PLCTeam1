@@ -35,7 +35,7 @@ public class Stmt implements JottTree{
         for(var child : this.children){
             sb.append(child.convertToJott());
         }
-        return null;
+        return sb;
     }
 
     @Override
