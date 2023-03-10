@@ -20,11 +20,14 @@ public class JottParser {
      *         or null upon an error in parsing.
      */
     public static JottTree parse(ArrayList<Token> tokens){
+        String filename = tokens.get(0).getFilename();
         try{
             JottTree prg = new Program(tokens);
             return prg;
         }catch(ConstructionFailure e){
+            System.out.println("Syntax Error:");
             System.out.println(e.message);
+            System.out.println(filename + ":" + e.line);
             return null;
         }
     }
