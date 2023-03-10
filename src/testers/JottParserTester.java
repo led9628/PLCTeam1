@@ -39,10 +39,10 @@ public class JottParserTester {
     private void createTestCases(){
         this.testCases = new ArrayList<>();
         testCases.add(new TestCase("provided writeup example1", "providedExample1.jott", false ));
-        //testCases.add(new TestCase("provided writeup example2 (error)", "providedExample2.jott", true ));
-        //testCases.add(new TestCase("provided writeup example3 (error)", "providedExample3.jott", true ));
-        //testCases.add(new TestCase("provided writeup example4 (error)", "providedExample4.jott", true ));
-        //testCases.add(new TestCase("provided writeup example5 (error)", "providedExample5.jott", true ));
+        testCases.add(new TestCase("provided writeup example2 (error)", "providedExample2.jott", true ));
+        testCases.add(new TestCase("provided writeup example3 (error)", "providedExample3.jott", true ));
+        testCases.add(new TestCase("provided writeup example4 (error)", "providedExample4.jott", true ));
+        testCases.add(new TestCase("provided writeup example5 (error)", "providedExample5.jott", true ));
         //testCases.add(new TestCase("hello world", "helloWorld.jott", false ));
         //testCases.add(new TestCase("1foo error (error)", "1foo.jott", true ));
         //testCases.add(new TestCase("return <id> type mismatch", "returnId.jott", false ));

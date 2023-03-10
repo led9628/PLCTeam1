@@ -19,7 +19,13 @@ public class Stmt implements JottTree{
 
         }
         // assignment
-        else if(token1.getTokenType()==TokenType.ID_KEYWORD && token2.getTokenType() == TokenType.ASSIGN){
+        else if(token1.getTokenType()==TokenType.ID_KEYWORD &&
+            (
+                tokens.get(1).getTokenType() == TokenType.ASSIGN || 
+                tokens.get(2).getTokenType() == TokenType.ASSIGN
+            ))
+            
+        {
             this.children.add(new Asmt(tokens));
         }
         // function call

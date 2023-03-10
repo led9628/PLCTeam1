@@ -11,26 +11,33 @@ public class Asmt implements JottTree {
     ArrayList<JottTree> children = new ArrayList<>();
 
     public Asmt(ArrayList<Token> tokens) throws ConstructionFailure{
-        Token token = tokens.remove(0);
         //attempt to create type id = expr end_stmt
         try {
             this.children.add(new Type(tokens));
-            this.children.add(new Literal(token.getToken()));
-            //TODO I am not sure if this is right for the = so I need to test for it
-            this.children.add(new Literal(token.getToken()));
+            this.children.add(new Literal(tokens.get(0).getToken()));
+            this.children.add(new Literal(tokens.get(1).getToken()));
+            if (!tokens.get(1).getToken().equals("=")) {
+                throw new ConstructionFailure("asmt should have =", tokens.get(1).getLineNum());
+            }
             this.children.add(new Expr(tokens));
             this.children.add(new EndStmt(tokens));
+            tokens.remove(0);
+            tokens.remove(0);
             return;
         } catch (ConstructionFailure e) {}
         try {
-            this.children.add(new Literal(token.getToken()));
-            //TODO I am not sure if this is right for the = so I need to test for it
-            this.children.add(new Literal(token.getToken()));
+            this.children.add(new Literal(tokens.get(0).getToken()));
+            this.children.add(new Literal(tokens.get(1).getToken()));
+            if (!tokens.get(1).getToken().equals("=")) {
+                throw new ConstructionFailure("asmt should have =", tokens.get(1).getLineNum());
+            }
             this.children.add(new Expr(tokens));
             this.children.add(new EndStmt(tokens));
+            tokens.remove(0);
+            tokens.remove(0);
             return;
         } catch (ConstructionFailure e) {}
-        throw new ConstructionFailure("Failed to create an Asmt.", token.getLineNum());
+        throw new ConstructionFailure("Failed to create an Asmt.", tokens.get(0).getLineNum());
     }
 
     @Override
