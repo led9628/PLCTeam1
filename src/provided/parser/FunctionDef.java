@@ -14,7 +14,7 @@ public class FunctionDef implements JottTree{
     }
 
     private void parse(ArrayList<Token> tokens) throws ConstructionFailure{
-        if(tokens.remove(0).getToken() == "def"){
+        if(tokens.remove(0).getToken().equals("def")){
             children.add(new Literal("def"));
 
             if(tokens.get(0).getTokenType() == TokenType.ID_KEYWORD){
@@ -86,6 +86,7 @@ public class FunctionDef implements JottTree{
 
             String currString = child.convertToJott();
             sb.append(currString);
+            sb.append("x");
 
             if(currString.equals("]")){
                 sb.append(":");
