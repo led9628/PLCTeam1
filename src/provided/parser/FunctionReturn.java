@@ -24,12 +24,7 @@ public class FunctionReturn implements JottTree{
 
     @Override
     public String convertToJott() {
-        StringBuilder sb = new StringBuilder();
-        for (var child : this.children) {
-            sb.append(child.convertToJott());
-        }
-        sb.append("$$");
-        return sb.toString();
+        return this.children.get(0).convertToJott();
     }
 
     @Override

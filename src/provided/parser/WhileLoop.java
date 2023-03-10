@@ -21,6 +21,7 @@ public class WhileLoop implements JottTree {
         if(token.getTokenType() != TokenType.L_BRACKET){
             //throw
         }
+        this.children.add(new Literal(token.getToken()));
         // bool expression
         this.children.add(new BExpr(tokens));
         
@@ -29,13 +30,14 @@ public class WhileLoop implements JottTree {
         if(token.getTokenType() != TokenType.R_BRACKET){
             //throw
         }
+        this.children.add(new Literal(token.getToken()));
 
         // {
         token = tokens.remove(0);
         if(token.getTokenType() != TokenType.L_BRACE){
             //throw
         }
-    
+        this.children.add(new Literal(token.getToken()));
         // get body
         this.children.add(new Body(tokens));
 
@@ -44,13 +46,17 @@ public class WhileLoop implements JottTree {
         if(token.getTokenType() != TokenType.R_BRACE){
             //throw
         }
+        this.children.add(new Literal(token.getToken()));
         
     }
 
     @Override
     public String convertToJott() {
-        // TODO Auto-generated method stub
-        return null;
+        StringBuilder sb = new StringBuilder();
+        for(var child : this.children){
+            sb.append(child.convertToJott());
+        }
+        return sb.toString();
     }
 
     @Override

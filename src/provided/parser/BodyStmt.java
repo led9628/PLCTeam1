@@ -16,11 +16,10 @@ public class BodyStmt implements JottTree {
             children.add(new Stmt(tokens));
     }
     
-   @Override
-   public String convertToJott() {
-       // TODO Auto-generated method stub
-       return null;
-   }
+    @Override
+    public String convertToJott() {
+        return this.children.get(0).convertToJott();
+    }
 
    @Override
    public String convertToJava(String className) {
