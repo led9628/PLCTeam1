@@ -24,8 +24,7 @@ public class FunctionReturn implements JottTree{
 
     @Override
     public String convertToJott() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'convertToJott'");
+        return this.children.get(0).convertToJott();
     }
 
     @Override

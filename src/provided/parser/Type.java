@@ -23,7 +23,7 @@ public class Type implements JottTree {
 
     @Override
     public String convertToJott() {
-        return null;
+        return this.children.get(0).toString();
     }
 
     @Override
