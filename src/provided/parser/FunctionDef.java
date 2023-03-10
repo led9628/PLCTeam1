@@ -86,7 +86,6 @@ public class FunctionDef implements JottTree{
 
             String currString = child.convertToJott();
             sb.append(currString);
-            sb.append("x");
 
             if(currString.equals("]")){
                 sb.append(":");

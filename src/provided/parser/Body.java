@@ -10,10 +10,9 @@ public class Body implements JottTree{
     public Body(ArrayList<Token> tokens) throws ConstructionFailure{ // <body_stmt><body> | <return_stmt> | *Nothing*
         if (tokens.size() != 0){
             var token = tokens.get(0);
-            System.out.println(token.getToken());
-            //if (token.getToken() == "}") {
-            //    return;
-            //}
+            if (token.getToken() == "}") {
+                return;
+            }
             if (token.getToken() != "return"){
                 children.add(new BodyStmt(tokens));
                 children.add(new Body(tokens));

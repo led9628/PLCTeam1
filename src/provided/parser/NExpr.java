@@ -11,8 +11,15 @@ public class NExpr implements JottTree {
     public NExpr(ArrayList<Token> tokens) throws ConstructionFailure {
         Token token = tokens.remove(0);
 
-        // Attempt to create a FuncCall Op NExpr
         ArrayList<Token> prior = new ArrayList<Token>(tokens);
+
+        // Attempt to create a Num
+        try {
+            this.children.add(new Num(tokens));
+            return;
+        } catch (ConstructionFailure e) {}
+        tokens = prior;
+        // Attempt to create a FuncCall Op NExpr
         try {
             this.children.add(new FuncCall(tokens));
             this.children.add(new Op(tokens));
@@ -39,12 +46,6 @@ public class NExpr implements JottTree {
         // Attempt to create a FuncCall
         try {
             this.children.add(new FuncCall(tokens));
-            return;
-        } catch (ConstructionFailure e) {}
-        tokens = prior;
-        // Attempt to create a Num
-        try {
-            this.children.add(new Num(tokens));
             return;
         } catch (ConstructionFailure e) {}
         tokens = prior;

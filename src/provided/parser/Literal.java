@@ -13,7 +13,7 @@ public class Literal implements JottTree{
    }
 
    public String toString() {
-        return this.lit;
+        return this.lit + " ";
    }
 
    @Override

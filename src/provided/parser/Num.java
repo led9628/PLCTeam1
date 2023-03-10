@@ -15,6 +15,7 @@ public class Num implements JottTree {
         for (char c : token.getToken().toCharArray()) {
             if (!Character.isDigit(c)) {
                 // If it's not actually a number, fail and throw an exception.
+                tokens.add(0, token);
                 throw new ConstructionFailure("Num isn't actually a number.", token.getLineNum());
             }
         }

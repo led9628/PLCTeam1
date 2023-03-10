@@ -25,6 +25,7 @@ public class Stmt implements JottTree{
         // function call
         else if(token1.getTokenType()==TokenType.ID_KEYWORD && token2.getTokenType() == TokenType.L_BRACKET){
             this.children.add(new FuncCall(tokens));
+            this.children.add(new EndStmt(tokens));
         }
 
     }
