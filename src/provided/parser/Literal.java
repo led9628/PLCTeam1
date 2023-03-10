@@ -12,6 +12,10 @@ public class Literal implements JottTree{
        this.lit = lit;
    }
 
+   public String toString() {
+        return this.lit;
+   }
+
    @Override
    public String convertToJott() {
        return lit;

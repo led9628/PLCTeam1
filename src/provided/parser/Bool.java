@@ -22,8 +22,7 @@ public class Bool implements JottTree {
 
     @Override
     public String convertToJott() {
-        // TODO Auto-generated method stub
-        return null;
+        return this.children.get(0).toString();
     }
 
     @Override
