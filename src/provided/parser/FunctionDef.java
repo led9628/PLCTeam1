@@ -2,6 +2,8 @@ package provided.parser;
 
 import java.util.ArrayList;
 
+import javax.swing.text.DefaultStyledDocument.ElementSpec;
+
 import provided.JottTree;
 import provided.Token;
 import provided.TokenType;
@@ -24,7 +26,7 @@ public class FunctionDef implements JottTree{
             }
 
             if(tokens.get(0).getTokenType() == TokenType.L_BRACKET){
-                tokens.remove(0); // remove L bracket
+                children.add(new Literal(tokens.remove(0).getToken())); // add L bracket
 
                 //function def params check:
                 if(tokens.get(0).getTokenType() == TokenType.ID_KEYWORD){
@@ -40,7 +42,7 @@ public class FunctionDef implements JottTree{
 
                 //check for end of params:
                 if(tokens.get(0).getTokenType() == TokenType.R_BRACKET){
-                    tokens.remove(0); //remove r bracket
+                    children.add(new Literal(tokens.remove(0).getToken())); //remove r bracket
 
                     if(tokens.get(0).getToken().equals(":")){
                         tokens.remove(0); //remove colon
@@ -55,11 +57,11 @@ public class FunctionDef implements JottTree{
 
                 //check for body curly brackets
                 if(tokens.get(0).getTokenType() == TokenType.L_BRACE){
-                    tokens.remove(0); // remove L brace
+                    children.add(new Literal(tokens.remove(0).getToken())); // add L brace
                     children.add(new Body(tokens));
 
                     if(tokens.get(0).getTokenType() != TokenType.R_BRACE){
-                        tokens.remove(0); // remove R brace
+                        children.add(new Literal(tokens.remove(0).getToken())); // add R brace
                         throw new ConstructionFailure("Missing right brace (})", tokens.get(0).getLineNum()); //throw no r brace
                     }
                 }else{
@@ -73,8 +75,25 @@ public class FunctionDef implements JottTree{
 
     @Override
     public String convertToJott() {
-        // TODO Auto-generated method stub
-        return null;
+        StringBuilder sb = new StringBuilder();
+        boolean firstParam = true;
+        for (var child : this.children) {
+            if(child instanceof FunctionParam){
+                if(firstParam){
+                    firstParam = false;
+                }else{
+                    sb.append(",");
+                }
+            }
+
+            String currString = child.convertToJott();
+            sb.append(currString);
+
+            if(currString.equals("]")){
+                sb.append(":");
+            }
+        }
+        return sb.toString();
     }
 
     @Override

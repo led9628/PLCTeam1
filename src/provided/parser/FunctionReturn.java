@@ -24,8 +24,12 @@ public class FunctionReturn implements JottTree{
 
     @Override
     public String convertToJott() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'convertToJott'");
+        StringBuilder sb = new StringBuilder();
+        for (var child : this.children) {
+            sb.append(child.convertToJott());
+        }
+        sb.append("$$");
+        return sb.toString();
     }
 
     @Override

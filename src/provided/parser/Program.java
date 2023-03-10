@@ -24,8 +24,12 @@ public class Program implements JottTree{
 
     @Override
     public String convertToJott() {
-        // TODO Auto-generated method stub
-        return null;
+        StringBuilder sb = new StringBuilder();
+        for (var child : this.children) {
+            sb.append(child.convertToJott());
+        }
+        sb.append("$$");
+        return sb.toString();
     }
 
     @Override

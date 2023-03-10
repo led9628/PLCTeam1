@@ -22,13 +22,8 @@ public class FunctionParam implements JottTree{
             if(tokens.get(0).getToken().equals(":")){
                 tokens.remove(0); // remove :
 
-                String a = tokens.get(0).getToken();
-                if(a.equals("Double") || a.equals("Integer") || a.equals("String") || a.equals("Boolean")){
-                    tokens.remove(0);
-                    children.add(new Literal(a));
-                }else{
-                    throw new ConstructionFailure("Invalid parameter type", tokens.get(0).getLineNum()); //throw no/bad type
-                }
+                children.add(new Type(tokens));
+                tokens.remove(0); // remove type token
             }else{
                 //throw missing :
                 throw new ConstructionFailure("Missing colon (:)", tokens.get(0).getLineNum());
@@ -40,8 +35,17 @@ public class FunctionParam implements JottTree{
 
     @Override
     public String convertToJott() {
-        // TODO Auto-generated method stub
-        return null;
+        StringBuilder sb = new StringBuilder();
+
+        for (var child : this.children) {
+            if(child instanceof Type){
+                sb.append(":");
+                
+            }
+            sb.append(child.convertToJott());
+        }
+        
+        return sb.toString();
     }
 
     @Override
