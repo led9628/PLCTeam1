@@ -21,8 +21,7 @@ public class EndStmt implements JottTree{
 
    @Override
    public String convertToJott() {
-       // TODO Auto-generated method stub
-       return null;
+       return ";\n";
    }
 
    @Override

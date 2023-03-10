@@ -21,8 +21,9 @@ public class ReturnStmt implements JottTree{
 
    @Override
    public String convertToJott() {
-       // TODO Auto-generated method stub
-       return null;
+       String s1 = this.children.get(1).convertToJott();
+       String s2 = this.children.get(2).convertToJott();
+       return "return " + s1 + s2;
    }
 
    @Override
