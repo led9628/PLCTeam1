@@ -55,7 +55,7 @@ public class JottParserTester {
         testCases.add(new TestCase("function not defined", "funcNotDefined.jott", false ));
         testCases.add(new TestCase("mismatch return type", "mismatchedReturn.jott", false ));
         testCases.add(new TestCase("function call param type not matching", "funcCallParamInvalid.jott", false ));
-        //testCases.add(new TestCase("single expression program (error)", "singleExpr.jott", true ));
+        testCases.add(new TestCase("single expression program (error)", "singleExpr.jott", true ));
         //testCases.add(new TestCase("valid while loop", "validLoop.jott", false ));
         //testCases.add(new TestCase("missing main", "missingMain.jott", false ));
         //testCases.add(new TestCase("main must be integer", "mainReturnNotInt.jott", false ));
