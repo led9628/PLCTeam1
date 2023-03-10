@@ -13,13 +13,13 @@ public class FuncCall implements JottTree {
         Token token = tokens.remove(0);
 
         if(token.getTokenType() != TokenType.ID_KEYWORD){
-            // throw error
+            throw new ConstructionFailure("Unexpected symbol or id", token.getLineNum());
         }
         this.children.add(new Literal(token.getToken()));
 
         token = tokens.remove(0);
         if(token.getTokenType() != TokenType.L_BRACKET){
-            //throw
+            throw new ConstructionFailure("Missing left operand", token.getLineNum());
         }
         this.children.add(new Literal(token.getToken()));
         // da params
@@ -28,7 +28,7 @@ public class FuncCall implements JottTree {
         //after the param stuff is done, i need the next token
         token = tokens.remove(0);
         if(token.getTokenType() != TokenType.R_BRACKET){
-            //throw
+            throw new ConstructionFailure("Missing right operand", token.getLineNum());
         }
         this.children.add(new Literal(token.getToken()));
 

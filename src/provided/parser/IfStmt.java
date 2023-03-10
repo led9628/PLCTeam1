@@ -14,13 +14,13 @@ public class IfStmt implements JottTree{
 
         //check if the token is "if"
         if(token.getToken() != "if"){
-            //throw error
+            throw new ConstructionFailure("Unexpected symbol or id", token.getLineNum());
         }
         this.children.add(new Literal("if"));
         // next token
         token = tokens.remove(0);
         if(token.getTokenType() != TokenType.L_BRACKET){
-            //throw
+            throw new ConstructionFailure("Missing left operand", token.getLineNum());
         }
         this.children.add(new Literal(token.getToken()));
         this.children.add(new BExpr(tokens));
@@ -28,14 +28,14 @@ public class IfStmt implements JottTree{
         //after the bool expr stuff is done, i need the next token
         token = tokens.remove(0);
         if(token.getTokenType() != TokenType.R_BRACKET){
-            //throw
+            throw new ConstructionFailure("Missing right operand", token.getLineNum());
         }
         this.children.add(new Literal(token.getToken()));
 
         // {
         token = tokens.remove(0);
         if(token.getTokenType() != TokenType.L_BRACE){
-            //throw
+            throw new ConstructionFailure("Missing left operand", token.getLineNum());
         }
         this.children.add(new Literal(token.getToken()));
         this.children.add(new Body(tokens));
@@ -43,7 +43,7 @@ public class IfStmt implements JottTree{
         // after trying to make body, get }
         token = tokens.remove(0);
         if(token.getTokenType() != TokenType.R_BRACE){
-            //throw
+            throw new ConstructionFailure("Missing right operand", token.getLineNum());
         }
         this.children.add(new Literal(token.getToken()));
 
@@ -57,7 +57,7 @@ public class IfStmt implements JottTree{
                 // next token
                 token = tokens.remove(0);
                 if(token.getTokenType() != TokenType.L_BRACKET){
-                    //throw
+                    throw new ConstructionFailure("Missing left operand", token.getLineNum());
                 }
 
                 this.children.add(new Literal(token.getToken()));
@@ -66,14 +66,14 @@ public class IfStmt implements JottTree{
                 //after the bool expr stuff is done, i need the next token
                 token = tokens.remove(0);
                 if(token.getTokenType() != TokenType.R_BRACKET){
-                        //throw
+                    throw new ConstructionFailure("Missing right operand", token.getLineNum());
                 }
                 this.children.add(new Literal(token.getToken()));
 
                 // {
                 token = tokens.remove(0);
                 if(token.getTokenType() != TokenType.L_BRACE){
-                    //throw
+                    throw new ConstructionFailure("Missing left operand", token.getLineNum());
                 }
                 this.children.add(new Literal(token.getToken()));
                 this.children.add(new Body(tokens));
@@ -81,7 +81,7 @@ public class IfStmt implements JottTree{
                 // after trying to make body, get }
                 token = tokens.remove(0);
                 if(token.getTokenType() != TokenType.R_BRACE){
-                    //throw
+                    throw new ConstructionFailure("Missing right operand", token.getLineNum());
                 }
                 this.children.add(new Literal(token.getToken()));
                 //check token after closing ifstmt body
@@ -96,7 +96,7 @@ public class IfStmt implements JottTree{
             tokens.remove(0);
             token = tokens.remove(0);
             if(token.getTokenType() != TokenType.L_BRACE){
-            //throw
+                throw new ConstructionFailure("Missing left operand", token.getLineNum());
             }
             this.children.add(new Literal(token.getToken()));
 
@@ -105,7 +105,7 @@ public class IfStmt implements JottTree{
             // after trying to make body, get }
             token = tokens.remove(0);
             if(token.getTokenType() != TokenType.R_BRACE){
-            //throw
+                throw new ConstructionFailure("Missing right operand", token.getLineNum());
             }
             this.children.add(new Literal(token.getToken()));
 

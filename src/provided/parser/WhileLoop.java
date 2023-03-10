@@ -13,13 +13,13 @@ public class WhileLoop implements JottTree {
         Token token = tokens.remove(0);
 
         if(token.getToken()!= "while"){
-            //throw error
+            throw new ConstructionFailure("Unexpected symbol or id", token.getLineNum());
         }
         this.children.add(new Literal(token.getToken()));
 
 
         if(token.getTokenType() != TokenType.L_BRACKET){
-            //throw
+            throw new ConstructionFailure("Missing left operand", token.getLineNum());
         }
         this.children.add(new Literal(token.getToken()));
         // bool expression
@@ -28,14 +28,14 @@ public class WhileLoop implements JottTree {
         //after the bool expr stuff is done, i need the next token
         token = tokens.remove(0);
         if(token.getTokenType() != TokenType.R_BRACKET){
-            //throw
+            throw new ConstructionFailure("Missing right operand", token.getLineNum());
         }
         this.children.add(new Literal(token.getToken()));
 
         // {
         token = tokens.remove(0);
         if(token.getTokenType() != TokenType.L_BRACE){
-            //throw
+            throw new ConstructionFailure("Missing left operand", token.getLineNum());
         }
         this.children.add(new Literal(token.getToken()));
         // get body
@@ -44,7 +44,7 @@ public class WhileLoop implements JottTree {
         // after trying to make body, get }
         token = tokens.remove(0);
         if(token.getTokenType() != TokenType.R_BRACE){
-            //throw
+            throw new ConstructionFailure("Missing right operand", token.getLineNum());
         }
         this.children.add(new Literal(token.getToken()));
         
