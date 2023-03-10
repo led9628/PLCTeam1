@@ -12,7 +12,7 @@ public class WhileLoop implements JottTree {
     public WhileLoop(ArrayList<Token> tokens) throws ConstructionFailure{
         Token token = tokens.remove(0);
 
-        if(token.getToken()!= "while"){
+        if(!token.getToken().equalsIgnoreCase("while")){
             throw new ConstructionFailure("Unexpected symbol or id", token.getLineNum());
         }
         this.children.add(new Literal(token.getToken()));
