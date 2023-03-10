@@ -33,6 +33,9 @@ public class Stmt implements JottTree{
             this.children.add(new FuncCall(tokens));
             this.children.add(new EndStmt(tokens));
         }
+        else {
+            throw new ConstructionFailure("Invalid Statement", token1.getLineNum());
+        }
 
     }
 
