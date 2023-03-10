@@ -57,9 +57,9 @@ public class FunctionDef implements JottTree{
                 if(tokens.get(0).getTokenType() == TokenType.L_BRACE){
                     children.add(new Literal(tokens.remove(0).getToken())); // add L brace
                     children.add(new Body(tokens));
-
-                    if(tokens.get(0).getTokenType() != TokenType.R_BRACE){
+                    if(tokens.get(0).getTokenType() == TokenType.R_BRACE){
                         children.add(new Literal(tokens.remove(0).getToken())); // add R brace
+                    }else{
                         throw new ConstructionFailure("Missing right brace (})", tokens.get(0).getLineNum()); //throw no r brace
                     }
                 }else{
@@ -86,9 +86,8 @@ public class FunctionDef implements JottTree{
 
             String currString = child.convertToJott();
             sb.append(currString);
-
-            if(currString.equals("]")){
-                sb.append(":");
+            if(currString.equals("] ")){
+                sb.append(": ");
             }
         }
         return sb.toString();

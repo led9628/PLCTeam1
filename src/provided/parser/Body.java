@@ -11,6 +11,11 @@ public class Body implements JottTree{
         if (tokens.size() != 0){
             var token = tokens.get(0);
             if (token.getToken() == "}") {
+                System.out.println("TOKENS: ");
+                for(var i : tokens){
+                    System.out.println(i.getToken());
+                }
+                System.out.println("END");
                 return;
             }
             if (token.getToken() != "return"){

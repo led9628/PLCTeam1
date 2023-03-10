@@ -16,10 +16,10 @@ public class Program implements JottTree{
         while(tokens.size()>1){
             children.add(new FunctionDef(tokens));
         }
-        if(tokens.get(0).getToken() == "$$"){
-            //THROW missing $$
-            throw new ConstructionFailure("No end of file symbol ($$)", tokens.get(0).getLineNum());
-        }
+        // if(tokens.get(0).getToken() == "$$"){
+        //     //THROW missing $$
+        //     throw new ConstructionFailure("No end of file symbol ($$)", tokens.get(0).getLineNum());
+        // }
     }
 
     @Override

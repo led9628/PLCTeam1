@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "JottParserTester",
+            "request": "launch",
+            "mainClass": "testers.JottParserTester",
+            "projectName": "PLCTeam1_2d902452"
+        },
+        {
+            "type": "java",
             "name": "Launch Java Program",
             "request": "launch",
             "mainClass": "Main"
