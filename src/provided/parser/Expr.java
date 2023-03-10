@@ -9,25 +9,34 @@ public class Expr implements JottTree {
     ArrayList<JottTree> children;
 
     public Expr(ArrayList<Token> tokens) throws ConstructionFailure {
+        var ex = new ConstructionFailure("", 0);
         try {
             this.children.add(new NExpr(tokens));
             return;
-        } catch (ConstructionFailure e) {}
+        } catch (ConstructionFailure e) {
+            ex.line = e.line;
+            ex.message = e.message;
+        }
         try {
             this.children.add(new BExpr(tokens));
             return;
-        } catch (ConstructionFailure e) {}
+        } catch (ConstructionFailure e) {
+            ex.line = e.line;
+            ex.message = e.message;
+        }
         try {
             this.children.add(new SExpr(tokens));
             return;
-        } catch (ConstructionFailure e) {}
-        throw new ConstructionFailure("Failed to create Expr.", 0 /* TODO */);
+        } catch (ConstructionFailure e) {
+            ex.line = e.line;
+            ex.message = e.message;
+        }
+        throw ex;
     }
 
     @Override
     public String convertToJott() {
-        // TODO Auto-generated method stub
-        return null;
+        return this.children.get(0).convertToJott();
     }
 
     @Override

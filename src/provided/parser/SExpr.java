@@ -28,8 +28,11 @@ public class SExpr implements JottTree {
 
     @Override
     public String convertToJott() {
-        // TODO Auto-generated method stub
-        return null;
+        StringBuilder sb = new StringBuilder();
+        for (var child : this.children) {
+            sb.append(child.convertToJott());
+        }
+        return sb.toString();
     }
 
     @Override
