@@ -28,7 +28,6 @@ public class Program implements JottTree{
         for (var child : this.children) {
             sb.append(child.convertToJott());
         }
-        sb.append("$$");
         return sb.toString();
     }
 

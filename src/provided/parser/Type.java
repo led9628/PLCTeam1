@@ -16,8 +16,10 @@ public class Type implements JottTree {
                 this.children.add(new Literal(token.getToken()));
                 return;
             }
+            tokens.add(0, token);
             throw new ConstructionFailure("is not Boolean, Integer, String, or Double.", token.getLineNum());
         }
+        tokens.add(0, token);
         throw new ConstructionFailure("Not a valid Type.", token.getLineNum());
     }
 
