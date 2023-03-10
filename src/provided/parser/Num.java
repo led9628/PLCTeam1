@@ -25,8 +25,7 @@ public class Num implements JottTree {
 
     @Override
     public String convertToJott() {
-        // TODO Auto-generated method stub
-        return null;
+        return this.children.get(0).convertToJott();
     }
 
     @Override

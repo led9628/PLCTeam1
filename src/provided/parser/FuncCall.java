@@ -24,8 +24,6 @@ public class FuncCall implements JottTree {
         this.children.add(new Literal(token.getToken()));
         // da params
         this.children.add(new Params(tokens));
-
-        System.out.println(tokens.get(0).getToken());
         
         //after the param stuff is done, i need the next token
         token = tokens.remove(0);

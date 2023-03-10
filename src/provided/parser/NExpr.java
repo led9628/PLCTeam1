@@ -15,7 +15,9 @@ public class NExpr implements JottTree {
 
         // Attempt to create a Num
         try {
+            System.out.println(tokens.get(0).getToken());
             this.children.add(new Num(tokens));
+            System.out.println(tokens.get(0).getToken());
             return;
         } catch (ConstructionFailure e) {}
         tokens = prior;
