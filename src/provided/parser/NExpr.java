@@ -10,17 +10,11 @@ public class NExpr implements JottTree {
     ArrayList<JottTree> children = new ArrayList<>();
 
     public NExpr(ArrayList<Token> tokens) throws ConstructionFailure {
-
-        ArrayList<Token> prior = new ArrayList<Token>(tokens);
-
         // Attempt to create a Num
         try {
-            System.out.println(tokens.get(0).getToken());
             this.children.add(new Num(tokens));
-            System.out.println(tokens.get(0).getToken());
             return;
         } catch (ConstructionFailure e) {}
-        tokens = prior;
         // Attempt to create a FuncCall Op NExpr
         try {
             this.children.add(new FuncCall(tokens));
@@ -28,7 +22,6 @@ public class NExpr implements JottTree {
             this.children.add(new NExpr(tokens));
             return;
         } catch (ConstructionFailure e) {}
-        tokens = prior;
         // Attempt to create a Num Op NExpr
         try {
             this.children.add(new Num(tokens));
@@ -36,28 +29,26 @@ public class NExpr implements JottTree {
             this.children.add(new NExpr(tokens));
             return;
         } catch (ConstructionFailure e) {}
-        tokens = prior;
         // Attempt to create an Id Op NExpr
+        Token token = tokens.remove(0);
         try {
-            Token token = tokens.remove(0);
             this.children.add(new Literal(token.getToken()));
             this.children.add(new Op(tokens));
             this.children.add(new NExpr(tokens));
             return;
-        } catch (ConstructionFailure e) {}
-        tokens = prior;
+        } catch (ConstructionFailure e) {
+            tokens.add(0, token);
+        }
         // Attempt to create a FuncCall
         try {
             this.children.add(new FuncCall(tokens));
             return;
         } catch (ConstructionFailure e) {}
-        tokens = prior;
         // Attempt to create an Id
         if (tokens.get(0).getTokenType() == TokenType.ID_KEYWORD) {
             this.children.add(new Literal(tokens.remove(0).getToken()));
             return;
         }
-        tokens = prior;
         throw new ConstructionFailure("NExpr failure", tokens.get(0).getLineNum());
     }
 
