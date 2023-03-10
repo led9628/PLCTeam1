@@ -21,7 +21,7 @@ public class Expr implements JottTree {
             this.children.add(new SExpr(tokens));
             return;
         } catch (ConstructionFailure e) {}
-        throw new ConstructionFailure("Failed to create Expr.");
+        throw new ConstructionFailure("Failed to create Expr.", 0 /* TODO */);
     }
 
     @Override

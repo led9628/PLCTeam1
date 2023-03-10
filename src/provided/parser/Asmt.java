@@ -30,7 +30,7 @@ public class Asmt implements JottTree {
             this.children.add(new EndStmt(tokens));
             return;
         } catch (ConstructionFailure e) {}
-        throw new ConstructionFailure("Failed to create an Asmt.");
+        throw new ConstructionFailure("Failed to create an Asmt.", token.getLineNum());
     }
 
     @Override

@@ -9,13 +9,14 @@ public class Body implements JottTree{
 
     public Body(ArrayList<Token> tokens) throws ConstructionFailure{ // <body_stmt><body> | <return_stmt> | *Nothing*
         if (tokens.size() != 0){
-            if (tokens.get(0).getToken() != "return"){
+            var token = tokens.get(0);
+            if (token.getToken() != "return"){
                 children.add(new BodyStmt(tokens));
                 children.add(new Body(tokens));
-            }else if(tokens.get(0).getToken() == "return"){ 
+            }else if(token.getToken() == "return"){ 
                 children.add(new ReturnStmt(tokens));
             }else{
-                throw new ConstructionFailure("Invalid Body.");
+                throw new ConstructionFailure("Invalid Body.", token.getLineNum());
             }
         }
     }

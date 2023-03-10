@@ -8,12 +8,13 @@ public class ReturnStmt implements JottTree{
     ArrayList<JottTree> children;
 
     public ReturnStmt(ArrayList<Token> tokens) throws ConstructionFailure{ // return <expr><end_stmt>
-        if(tokens.remove(0).getToken() == "return"){
+        var token = tokens.remove(0);
+        if(token.getToken() == "return"){
             children.add(new Literal("return"));
             children.add(new Expr(tokens));
             children.add(new EndStmt(tokens));
         }else{
-            throw new ConstructionFailure("Invalid Return statement.");
+            throw new ConstructionFailure("Invalid Return statement.", token.getLineNum());
         }
     }
     

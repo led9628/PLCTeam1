@@ -18,7 +18,7 @@ public class VarDec implements JottTree{
             this.children.add(new EndStmt(tokens));
             return;
         } catch (ConstructionFailure e) {}
-        throw new ConstructionFailure("Failed to create an Var_dec.");
+        throw new ConstructionFailure("Failed to create an Var_dec.", token.getLineNum());
     }
 
     @Override

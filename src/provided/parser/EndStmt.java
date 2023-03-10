@@ -15,7 +15,7 @@ public class EndStmt implements JottTree{
         if (token.getTokenType() == TokenType.SEMICOLON){
             children.add(new Literal(token.getToken()));
         }else{
-            throw new ConstructionFailure("Invalid End statement.");
+            throw new ConstructionFailure("Invalid End statement.", token.getLineNum());
         }
    }
 

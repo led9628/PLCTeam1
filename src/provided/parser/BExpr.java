@@ -35,7 +35,7 @@ public class BExpr implements JottTree {
             this.children.add(new Literal(token.getToken()));
         }
         // If we failed to turn BExpr into anything, throw.
-        throw new ConstructionFailure("Failed to create a BExpr.");
+        throw new ConstructionFailure("Failed to create a BExpr.", token.getLineNum());
     }
 
     @Override

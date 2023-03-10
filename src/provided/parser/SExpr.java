@@ -21,7 +21,7 @@ public class SExpr implements JottTree {
                 }
             }
             default -> {
-                throw new ConstructionFailure("Failed to create an SExpr.");
+                throw new ConstructionFailure("Failed to create an SExpr.", token.getLineNum());
             }
         }
     }

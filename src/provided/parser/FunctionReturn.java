@@ -19,7 +19,7 @@ public class FunctionReturn implements JottTree{
             this.children.add(new Literal(token.getToken()));
             return;
         }
-        throw new ConstructionFailure("Failed to create a Function_return.");
+        throw new ConstructionFailure("Failed to create a Function_return.", token.getLineNum());
     }
 
     @Override

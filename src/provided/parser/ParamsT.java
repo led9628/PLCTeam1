@@ -10,12 +10,9 @@ public class ParamsT implements JottTree {
     ArrayList<JottTree> children;
 
     public ParamsT(ArrayList<Token> tokens) throws ConstructionFailure {
-        try {
-            this.children.add(new Expr(tokens));
-            this.children.add(new ParamsT(tokens));
-            return;
-        }  catch (ConstructionFailure e) {}
-        throw new ConstructionFailure("Failed to create an Param_t.");
+        this.children.add(new Expr(tokens));
+        this.children.add(new ParamsT(tokens));
+        return;
     }
 
     @Override
