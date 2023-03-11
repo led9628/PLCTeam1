@@ -21,7 +21,7 @@ public class Asmt implements JottTree {
             a = tokens.remove(0);
             b = tokens.remove(0);
             if (!equalsToken.getToken().equals("=")) {
-                throw new ConstructionFailure("asmt should have =", tokens.get(1).getLineNum());
+                throw new ConstructionFailure("Assignment Statement should have =", tokens.get(1).getLineNum());
             }
             this.children.add(new Expr(tokens));
             this.children.add(new EndStmt(tokens));
@@ -41,7 +41,7 @@ public class Asmt implements JottTree {
             a = tokens.remove(0);
             b = tokens.remove(0);
             if (!equalsToken.getToken().equals("=")) {
-                throw new ConstructionFailure("asmt should have =", tokens.get(1).getLineNum());
+                throw new ConstructionFailure("Assignment Statement should have =", tokens.get(1).getLineNum());
             }
             this.children.add(new Expr(tokens));
             this.children.add(new EndStmt(tokens));
@@ -54,7 +54,7 @@ public class Asmt implements JottTree {
                 tokens.add(0, a);
             }
         }
-        throw new ConstructionFailure("Failed to create an Asmt.", tokens.get(0).getLineNum());
+        throw new ConstructionFailure("Assignment Statement is Invalid", tokens.get(0).getLineNum());
     }
 
     @Override

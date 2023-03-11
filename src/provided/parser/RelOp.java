@@ -16,7 +16,7 @@ public class RelOp implements JottTree {
             return;
         }
         tokens.add(0, token);
-        throw new ConstructionFailure("Failed to create Op.", token.getLineNum());
+        throw new ConstructionFailure("Operator is invalid", token.getLineNum());
     }
 
     @Override

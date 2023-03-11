@@ -23,7 +23,7 @@ public class FunctionReturn implements JottTree{
             return;
         }
         tokens.add(token);
-        throw new ConstructionFailure("Failed to create a function return. ", lnm);
+        throw new ConstructionFailure("Return from function Invalid", lnm);
     }
 
     @Override

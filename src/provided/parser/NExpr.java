@@ -52,7 +52,7 @@ public class NExpr implements JottTree {
             this.children.add(new NExpr(tokens));
             return;
         } catch (ConstructionFailure e) {}
-        throw new ConstructionFailure("NExpr failure", tokens.get(0).getLineNum());
+        throw new ConstructionFailure("Number Expression is Invalid", tokens.get(0).getLineNum());
     }
 
     @Override

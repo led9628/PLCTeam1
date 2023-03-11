@@ -111,7 +111,7 @@ public class IfStmt implements JottTree{
 
             token = tokens.get(0);
             if(token.getToken().equals("else")){
-                throw new ConstructionFailure("More than one else for single if bloc", token.getLineNum());
+                throw new ConstructionFailure("More than one else for single if block", token.getLineNum());
             }
         
         }

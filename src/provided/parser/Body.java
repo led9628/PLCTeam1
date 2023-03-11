@@ -24,7 +24,7 @@ public class Body implements JottTree{
             }else if(token.getToken().equals("return")){ 
                 children.add(new ReturnStmt(tokens));
             }else{
-                throw new ConstructionFailure("Invalid Body.", token.getLineNum());
+                throw new ConstructionFailure("Body is Invalid", token.getLineNum());
             }
         }
     }

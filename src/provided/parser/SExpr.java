@@ -20,7 +20,7 @@ public class SExpr implements JottTree {
                 }
             }
             default -> {
-                throw new ConstructionFailure("Failed to create an SExpr.", tokens.get(0).getLineNum());
+                throw new ConstructionFailure("String Expression is not Valid", tokens.get(0).getLineNum());
             }
         }
     }

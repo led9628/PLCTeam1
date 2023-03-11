@@ -18,7 +18,7 @@ public class BExpr implements JottTree {
             return;
         } catch (ConstructionFailure e) {}
         // If that doesn't work, keep trying to make things.
-        Token token = tokens.remove(0);
+        Token token = tokens.get(0);
         if (token.getTokenType() == TokenType.ID_KEYWORD) {
             // Try to create a FuncCall.
             try {
@@ -31,12 +31,12 @@ public class BExpr implements JottTree {
                 return;
             } catch (ConstructionFailure e) {}
             // Create an ID if it can't be anything else.
-            this.children.add(new Literal(token.getToken()));
+            this.children.add(new Literal(tokens.remove(0).getToken()));
             return;
         }
         // If we failed to turn BExpr into anything, throw.
         tokens.add(0, token);
-        throw new ConstructionFailure("Failed to create a BExpr.", token.getLineNum());
+        throw new ConstructionFailure("Boolean Expression is Invalid", token.getLineNum());
     }
 
     @Override

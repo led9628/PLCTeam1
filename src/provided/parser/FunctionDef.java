@@ -69,7 +69,7 @@ public class FunctionDef implements JottTree{
                 throw new ConstructionFailure("Missing left bracket ([)", tokens.get(0).getLineNum()); // throw no l brace
             }     
         } else {
-            throw new ConstructionFailure("Missing def", tokens.get(0).getLineNum());
+            throw new ConstructionFailure("Missing def for Function Definition", tokens.get(0).getLineNum());
         }
     }
 

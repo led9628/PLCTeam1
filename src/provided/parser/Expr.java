@@ -9,7 +9,7 @@ public class Expr implements JottTree {
     ArrayList<JottTree> children = new ArrayList<>();
 
     public Expr(ArrayList<Token> tokens) throws ConstructionFailure {
-        var ex = new ConstructionFailure("", 0);
+        var ex = new ConstructionFailure("Expression is Invalid", 0);
         try {
             this.children.add(new NExpr(tokens));
             return;

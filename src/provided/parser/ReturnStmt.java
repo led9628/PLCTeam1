@@ -14,7 +14,7 @@ public class ReturnStmt implements JottTree{
             children.add(new Expr(tokens));
             children.add(new EndStmt(tokens));
         }else{
-            throw new ConstructionFailure("Invalid Return statement.", token.getLineNum());
+            throw new ConstructionFailure("Return statement is Invalid", token.getLineNum());
         }
     }
     
