@@ -1,7 +1,9 @@
 import java.util.ArrayList;
 
 import provided.Token;
+import provided.parser.JottParser;
 import provided.JottTokenizer;
+import provided.JottTree;
 
 class Main {
     public static void main(String[] args) {
@@ -9,11 +11,15 @@ class Main {
             System.out.println("Invalid number of arguments.");
         } else {
             ArrayList<Token> tokenList = JottTokenizer.tokenize(args[0]);
-            if (tokenList != null) {
-                for (Token token : tokenList) {
-                    System.out.println(token.getTokenType() + ": " + token.getToken());
-                }
-            }
+            JottTree parseTree = JottParser.parse(tokenList);
+            String result = switch (args[2]) {
+                case "Jott" -> parseTree.convertToJott();
+                case "Java" -> parseTree.convertToJava(args[2].substring(0, args[2].length()-5));
+                case "Python" -> parseTree.convertToPython();
+                case "C" -> parseTree.convertToC();
+                default -> "Last command line argument is an invalid language.  Should be Jott, Java, Python, or C.";
+            };
+            System.out.println(result);
         }
         
         
