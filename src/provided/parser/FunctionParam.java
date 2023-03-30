@@ -22,7 +22,7 @@ public class FunctionParam implements JottTree{
         if(tokens.get(0).getTokenType() == TokenType.ID_KEYWORD){
             // add param id
             Literal paramID = new Literal(tokens.get(0).getToken());
-            if(Program.localSymtabs.get(funcName).get(paramID.toString()) == null){
+            if(Program.functions.get(funcName).localSymtab.get(paramID.toString()) == null){
                 children.add(paramID);
                 tokens.remove(0);
             }else{
@@ -37,7 +37,7 @@ public class FunctionParam implements JottTree{
 
                 children.add(new Type(tokens));
                 // localSymTab.put(children.get(0).toString(), this);
-                Program.localSymtabs.get(funcName.toString()).put(paramID.toString(), this); //put in this function node 
+                Program.functions.get(funcName.toString()).localSymtab.put(paramID.toString(), this); //put in this function node 
             }else{
                 //throw missing :
                 throw new ConstructionFailure("Missing colon (:)", tokens.get(0).getLineNum());

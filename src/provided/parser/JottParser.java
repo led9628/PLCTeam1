@@ -25,9 +25,14 @@ public class JottParser {
             JottTree prg = new Program(tokens);
             return prg;
         }catch(ConstructionFailure e){
-            System.out.println("Syntax Error:");
-            System.out.println(e.message);
-            System.out.println(filename + ":" + e.line);
+            System.err.println("Syntax Error:");
+            System.err.println(e.message);
+            System.err.println(filename + ":" + e.line);
+            return null;
+        }catch(SemanticFailure e){
+            System.err.println("Semantic Error:");
+            System.err.println(e.message);
+            System.err.println(filename + ":" + e.line);
             return null;
         }
     }

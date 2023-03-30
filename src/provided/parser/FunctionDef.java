@@ -11,23 +11,23 @@ public class FunctionDef implements JottTree{
     ArrayList<JottTree> children = new ArrayList<>();
     Literal funcName;
 
-    public FunctionDef(ArrayList<Token> tokens) throws ConstructionFailure{
+    public FunctionDef(ArrayList<Token> tokens) throws ConstructionFailure, SemanticFailure{
         parse(tokens);
     }
 
-    private void parse(ArrayList<Token> tokens) throws ConstructionFailure{
+    private void parse(ArrayList<Token> tokens) throws ConstructionFailure, SemanticFailure{
         if(tokens.remove(0).getToken().equals("def")){
             children.add(new Literal("def"));
 
             if(tokens.get(0).getTokenType() == TokenType.ID_KEYWORD){
                 funcName = new Literal(tokens.get(0).getToken());
-                
-                if(Program.localSymtabs.get(funcName.toString()) == null){
+
+                if(Program.functions.get(funcName.toString()) == null){
                     children.add(funcName); //add ID literal
                     tokens.remove(0);
-                    Program.localSymtabs.put(funcName.toString(), new HashMap<String, JottTree>()); //create local symbol table
+                    Program.functions.put(funcName.toString(), new FunctionInfo()); //create local symbol table
                 }else{
-                    throw new ConstructionFailure("Function with name "+funcName+" already exists.", tokens.get(0).getLineNum());
+                    throw new SemanticFailure("Duplicate function: "+funcName+" already exists.", tokens.get(0).getLineNum());
                 }
                 
             }else{
