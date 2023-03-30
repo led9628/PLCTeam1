@@ -1,6 +1,7 @@
 package provided.parser;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import provided.JottTree;
 import provided.Token;
@@ -8,6 +9,7 @@ import provided.TokenType;
 
 public class FunctionDef implements JottTree{
     ArrayList<JottTree> children = new ArrayList<>();
+    Literal funcName;
 
     public FunctionDef(ArrayList<Token> tokens) throws ConstructionFailure{
         parse(tokens);
@@ -18,7 +20,16 @@ public class FunctionDef implements JottTree{
             children.add(new Literal("def"));
 
             if(tokens.get(0).getTokenType() == TokenType.ID_KEYWORD){
-                children.add(new Literal(tokens.remove(0).getToken())); //add ID literal
+                funcName = new Literal(tokens.get(0).getToken());
+                
+                if(Program.localSymtabs.get(funcName.toString()) == null){
+                    children.add(funcName); //add ID literal
+                    tokens.remove(0);
+                    Program.localSymtabs.put(funcName.toString(), new HashMap<String, JottTree>()); //create local symbol table
+                }else{
+                    throw new ConstructionFailure("Function with name "+funcName+" already exists.", tokens.get(0).getLineNum());
+                }
+                
             }else{
                 throw new ConstructionFailure("Missing function name ID", tokens.get(0).getLineNum()); //throw missing id
             }
@@ -28,13 +39,13 @@ public class FunctionDef implements JottTree{
 
                 //function def params check:
                 if(tokens.get(0).getTokenType() == TokenType.ID_KEYWORD){
-                    children.add(new FunctionParam(tokens));
+                    children.add(new FunctionParam(tokens, funcName.toString()));
 
                     //check for 2nd+ params
                     while(tokens.get(0).getToken().equals(",")){
                         tokens.remove(0); //remove ,
                 
-                        children.add(new FunctionParam(tokens));
+                        children.add(new FunctionParam(tokens, funcName.toString()));
                     }
                 }
 

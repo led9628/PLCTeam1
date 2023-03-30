@@ -1,6 +1,7 @@
 package provided.parser;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import provided.JottTree;
 import provided.Token;
@@ -8,21 +9,35 @@ import provided.TokenType;
 
 public class FunctionParam implements JottTree{
     ArrayList<JottTree> children = new ArrayList<>(); //will only store an id and a type
+    String funcName;
+    // HashMap<String, JottTree> localSymTab;
 
-    public FunctionParam(ArrayList<Token> tokens) throws ConstructionFailure{
+    public FunctionParam(ArrayList<Token> tokens, String funcName) throws ConstructionFailure{
+        // this.localSymTab = localSymTab;
+        this.funcName = funcName;
         parse(tokens);
     }
 
     private void parse(ArrayList<Token> tokens) throws ConstructionFailure{
         if(tokens.get(0).getTokenType() == TokenType.ID_KEYWORD){
             // add param id
-            children.add(new Literal(tokens.remove(0).getToken()));
+            Literal paramID = new Literal(tokens.get(0).getToken());
+            if(Program.localSymtabs.get(funcName).get(paramID.toString()) == null){
+                children.add(paramID);
+                tokens.remove(0);
+            }else{
+                //throw semantic error
+                throw new ConstructionFailure("Parameter "+paramID.toString()+"already exists", tokens.get(0).getLineNum());
+            }
+            
 
             //check for param colon and type:
             if(tokens.get(0).getToken().equals(":")){
                 tokens.remove(0); // remove :
 
                 children.add(new Type(tokens));
+                // localSymTab.put(children.get(0).toString(), this);
+                Program.localSymtabs.get(funcName.toString()).put(paramID.toString(), this); //put in this function node 
             }else{
                 //throw missing :
                 throw new ConstructionFailure("Missing colon (:)", tokens.get(0).getLineNum());

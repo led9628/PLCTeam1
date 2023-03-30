@@ -1,12 +1,15 @@
 package provided.parser;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import provided.JottTree;
 import provided.Token;
 
 public class Program implements JottTree{
-    ArrayList<FunctionDef> children = new ArrayList<>();
+    ArrayList<FunctionDef> children = new ArrayList<>(); //lsit of functions
+    public static HashMap<String, HashMap<String, JottTree>> localSymtabs = new HashMap<String, HashMap<String, JottTree>>(); //function name to hashmap
+    public static HashMap<String, JottTree> symtab = new HashMap<String, JottTree>(); //global variable name to vairable as JottTree hashmap.
 
     public Program(ArrayList<Token> tokens) throws ConstructionFailure{
         parse(tokens);
