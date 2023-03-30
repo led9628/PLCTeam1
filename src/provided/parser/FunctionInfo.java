@@ -10,10 +10,10 @@ public class FunctionInfo {
     public Type returnType;
     public ArrayList<Type> paramTypes;
 
-    public FunctionInfo(ArrayList<Type> paramTypes){
+    public FunctionInfo(){
         localSymtab = new HashMap<String, JottTree>();
         returnType = null;
-        this.paramTypes = paramTypes;
+        this.paramTypes = new ArrayList<Type>();
     }
 
     public Type getReturnType(){
