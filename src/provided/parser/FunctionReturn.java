@@ -51,7 +51,11 @@ public class FunctionReturn implements JottTree{
 
     @Override
     public boolean validateTree() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'validateTree'");
+        for(var child : this.children) {
+            boolean result = child.validateTree();
+            if (!result)
+                return false;
+        }
+        return true;
     }
 }

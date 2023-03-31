@@ -84,7 +84,11 @@ public class NExpr implements JottTree {
 
     @Override
     public boolean validateTree() {
-        // TODO Auto-generated method stub
-        return false;
+        for(var child : this.children) {
+            boolean result = child.validateTree();
+            if (!result)
+                return false;
+        }
+        return true;
     }
 }
