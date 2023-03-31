@@ -42,7 +42,7 @@ public class Literal implements JottTree{
    @Override
    public boolean validateTree() {
        // TODO Auto-generated method stub
-       return false;
+       return true;
    }
 
 }

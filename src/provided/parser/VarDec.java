@@ -46,6 +46,11 @@ public class VarDec implements JottTree{
 
     @Override
     public boolean validateTree() {
-        return false;
+        for(var child : this.children) {
+            boolean result = child.validateTree();
+            if (!result)
+                return false;
+        }
+        return true;
     }
 }
