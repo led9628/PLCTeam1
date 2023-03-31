@@ -51,7 +51,7 @@ public class FunctionDef implements JottTree{
 
                 //check for end of params:
                 if(tokens.get(0).getTokenType() == TokenType.R_BRACKET){
-                    children.add(new Literal(tokens.remove(0).getToken())); //remove r bracket
+                    children.add(new Literal(tokens.remove(0).getToken())    ); //remove r bracket
 
                     if(tokens.get(0).getToken().equals(":")){
                         tokens.remove(0); //remove colon
@@ -82,6 +82,7 @@ public class FunctionDef implements JottTree{
         } else {
             throw new ConstructionFailure("Missing def for Function Definition", tokens.get(0).getLineNum());
         }
+        validateTree();
     }
 
     @Override
@@ -127,9 +128,10 @@ public class FunctionDef implements JottTree{
     @Override
     public boolean validateTree() {
         for(JottTree child : children){
-            if(child.validateTree()==false){
+            if(!child.validateTree() || (child.getClass().getName().equals("provided.parser.FunctionReturn") && this.children.contains(new Literal("void "))) || (!child.getClass().getName().equals("provided.parser.FunctionReturn") && !this.children.contains(new Literal("void ")))){
                 return false;
             }
+            System.out.print(child.getClass());
         }
         return true;
     }
