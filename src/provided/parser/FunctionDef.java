@@ -126,8 +126,8 @@ public class FunctionDef implements JottTree{
 
     @Override
     public boolean validateTree() {
-        for(int i=0;i<children.size();i++){
-            if(children.get(i).validateTree()==false){
+        for(JottTree child : children){
+            if(child.validateTree()==false){
                 return false;
             }
         }

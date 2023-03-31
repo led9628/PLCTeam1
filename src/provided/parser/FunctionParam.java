@@ -80,7 +80,12 @@ public class FunctionParam implements JottTree{
 
     @Override
     public boolean validateTree() {
-        return children.get(0).validateTree() && children.get(2).validateTree();
+        for(JottTree child : children){
+            if(child.validateTree()==false){
+                return false;
+            }
+        }
+        return true;
         //validate paramID && param type.
     }
 }
