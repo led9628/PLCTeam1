@@ -45,8 +45,7 @@ public class EndStmt implements JottTree{
 
    @Override
    public boolean validateTree() {
-       // TODO Auto-generated method stub
-       return false;
+       return !this.children.isEmpty();
    }
 
 }

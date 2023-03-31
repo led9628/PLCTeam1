@@ -47,7 +47,9 @@ public class Bool implements JottTree {
 
     @Override
     public boolean validateTree() {
-        // TODO Auto-generated method stub
-        return false;
+        if (this.children.isEmpty()) {
+            return false;
+        }
+        return true;
     }
 }

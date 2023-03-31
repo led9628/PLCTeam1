@@ -45,6 +45,6 @@ public class Type implements JottTree {
 
     @Override
     public boolean validateTree() {
-        return false;
+        return !this.children.isEmpty();
     }
 }

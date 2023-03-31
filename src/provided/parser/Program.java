@@ -19,7 +19,7 @@ public class Program implements JottTree{
         while(tokens.size()>1){
             children.add(new FunctionDef(tokens));
         }
-        if(functions.get("Main") == null){
+        if(functions.get("main ") == null){
             throw new SemanticFailure("No main function", 0);
         }
         // if(tokens.get(0).getToken() == "$$"){

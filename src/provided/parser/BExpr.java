@@ -9,6 +9,7 @@ import provided.TokenType;
 public class BExpr implements JottTree {
     ArrayList<JottTree> children = new ArrayList<>();
 
+
     public BExpr(ArrayList<Token> tokens) throws ConstructionFailure{
         // Attempt to create an NExpr RelOp NExpr
         try {
