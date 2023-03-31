@@ -19,7 +19,13 @@ class Main {
             System.out.println("Invalid number of arguments.");
         } else {
             ArrayList<Token> tokenList = JottTokenizer.tokenize(args[1]);
+            if(tokenList == null){
+                return;
+            }
             JottTree parseTree = JottParser.parse(tokenList);
+            if(parseTree == null){
+                return;
+            }
             String result = switch (args[3]) {
                 case "Jott" -> parseTree.convertToJott();
                 case "Java" -> parseTree.convertToJava(args[3].substring(0, args[3].length()-5));

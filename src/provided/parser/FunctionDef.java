@@ -1,7 +1,6 @@
 package provided.parser;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import provided.JottTree;
 import provided.Token;
@@ -22,6 +21,7 @@ public class FunctionDef implements JottTree{
             if(tokens.get(0).getTokenType() == TokenType.ID_KEYWORD){
                 funcName = new Literal(tokens.get(0).getToken());
 
+                //Sem: Duplicate function check.
                 if(Program.functions.get(funcName.toString()) == null){
                     children.add(funcName); //add ID literal
                     tokens.remove(0);

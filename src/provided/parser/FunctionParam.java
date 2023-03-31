@@ -1,7 +1,6 @@
 package provided.parser;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import provided.JottTree;
 import provided.Token;
