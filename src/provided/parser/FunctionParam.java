@@ -8,7 +8,7 @@ import provided.Token;
 import provided.TokenType;
 
 public class FunctionParam implements JottTree{
-    ArrayList<JottTree> children = new ArrayList<>(); //will only store an id and a type
+    ArrayList<JottTree> children = new ArrayList<>(); //will only store an id, :, a type
     String funcName;
     // HashMap<String, JottTree> localSymTab;
 
@@ -22,22 +22,20 @@ public class FunctionParam implements JottTree{
         if(tokens.get(0).getTokenType() == TokenType.ID_KEYWORD){
             // add param id
             Literal paramID = new Literal(tokens.get(0).getToken());
-            if(Program.functions.get(funcName).localSymtab.get(paramID.toString()) == null){
-                children.add(paramID);
-                tokens.remove(0);
-            }else{
-                //throw semantic error
-                throw new ConstructionFailure("Parameter "+paramID.toString()+"already exists", tokens.get(0).getLineNum());
-            }
+            children.add(paramID);
+            tokens.remove(0);
+            // Program.functions.get(funcName).paramTypes.add(this);
             
-
             //check for param colon and type:
             if(tokens.get(0).getToken().equals(":")){
                 tokens.remove(0); // remove :
 
                 children.add(new Type(tokens));
-                // localSymTab.put(children.get(0).toString(), this);
-                Program.functions.get(funcName.toString()).localSymtab.put(paramID.toString(), this); //put in this function node 
+                
+                //add param types to functioninfo.
+                Program.functions.get(funcName).paramTypes.add((Type)(children.get(children.size() - 1)));
+                //add this parameter as local var.
+                Program.functions.get(funcName).localSymtab.put(paramID.toString(), this);
             }else{
                 //throw missing :
                 throw new ConstructionFailure("Missing colon (:)", tokens.get(0).getLineNum());
@@ -82,7 +80,7 @@ public class FunctionParam implements JottTree{
 
     @Override
     public boolean validateTree() {
-        // TODO Auto-generated method stub
-        return false;
+        return children.get(0).validateTree() && children.get(2).validateTree();
+        //validate paramID && param type.
     }
 }

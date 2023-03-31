@@ -126,7 +126,11 @@ public class FunctionDef implements JottTree{
 
     @Override
     public boolean validateTree() {
-        // TODO Auto-generated method stub
-        return false;
+        for(int i=0;i<children.size();i++){
+            if(children.get(i).validateTree()==false){
+                return false;
+            }
+        }
+        return true;
     }
 }
