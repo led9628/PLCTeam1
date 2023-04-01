@@ -34,7 +34,7 @@ public class FunctionParam implements JottTree{
                 //add param types to functioninfo.
                 Program.functions.get(funcName).paramTypes.add((Type)(children.get(children.size() - 1)));
                 
-                Variable vari = new Variable((Type)(children.get(children.size()-1)), null);
+                Variable vari = new Variable((Type)(children.get(children.size()-1)), null, paramID.toString());
                 
                 //add this parameter as local var.
                 Program.functions.get(funcName).localSymtab.put(paramID.toString(), vari);

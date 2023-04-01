@@ -16,12 +16,15 @@ public class NExpr implements JottTree {
             return;
         } catch (ConstructionFailure e) {}
         // Attempt to create an Id Op NExpr
-        Token token = tokens.remove(0);
+        Token token = tokens.get(0);
         try {
             if (token.getTokenType() != TokenType.ID_KEYWORD || (tokens.get(0).getTokenType() != TokenType.MATH_OP)) {
-                throw new ConstructionFailure("", -1);
+                throw new ConstructionFailure("Unexpected error", -1);
             }
-            this.children.add(new Literal(token.getToken()));
+            ID id = new ID(tokens);
+            ////////////asdfghjk54weyudrtyfiglihnokljmp;,u65editrfygbljhnk;olm',''
+            tokens.remove(0);
+            this.children.add(id);
             this.children.add(new Op(tokens));
             this.children.add(new NExpr(tokens));
             return;
@@ -30,7 +33,10 @@ public class NExpr implements JottTree {
         }
         // Attempt to create an Id
         if (tokens.get(0).getTokenType() == TokenType.ID_KEYWORD) {
-            this.children.add(new Literal(tokens.remove(0).getToken()));
+            ////////////asdfghjk54weyudrtyfiglihnokljmp;,u65editrfygbljhnk;olm',''
+            ID id = new ID(tokens);
+            tokens.remove(0);
+            this.children.add(id);
             return;
         }
         // Attempt to create a Num

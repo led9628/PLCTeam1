@@ -9,7 +9,7 @@ import provided.TokenType;
 public class WhileLoop implements JottTree {
     ArrayList<JottTree> children = new ArrayList<>();
 
-    public WhileLoop(ArrayList<Token> tokens) throws ConstructionFailure{
+    public WhileLoop(ArrayList<Token> tokens, String funcName) throws ConstructionFailure{
         Token token = tokens.remove(0);
 
         if(!token.getToken().equalsIgnoreCase("while")){
@@ -38,7 +38,7 @@ public class WhileLoop implements JottTree {
         }
         this.children.add(new Literal(token.getToken()));
         // get body
-        this.children.add(new Body(tokens));
+        this.children.add(new Body(tokens, funcName));
 
         // after trying to make body, get }
         token = tokens.remove(0);

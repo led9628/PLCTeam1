@@ -16,7 +16,9 @@ public class SExpr implements JottTree {
                 try {
                     this.children.add(new FuncCall(tokens));
                 } catch (ConstructionFailure e) {
-                    this.children.add(new Literal(tokens.remove(0).getToken()));
+                    ID id = new ID(tokens);
+                    tokens.remove(0);
+                    this.children.add(id);
                 }
             }
             default -> {

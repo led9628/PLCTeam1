@@ -23,7 +23,7 @@ public class VarDec implements JottTree{
             this.children.add(b);
             this.children.add(c);
 
-            Variable newVar = new Variable(a, null);
+            Variable newVar = new Variable(a, null, b.toString());
             Program.functions.get(funcName).localSymtab.put(b.toString(), newVar);// adding new var to symtab.
             return;
         } catch (ConstructionFailure e) {}

@@ -10,16 +10,24 @@ public class Asmt implements JottTree {
 
     ArrayList<JottTree> children = new ArrayList<>();
 
-    public Asmt(ArrayList<Token> tokens) throws ConstructionFailure{
+    public Asmt(ArrayList<Token> tokens, String funcName) throws ConstructionFailure{
         //attempt to create type id = expr end_stmt
         Token a = null, b = null;
         try {
-            this.children.add(new Type(tokens));
-            this.children.add(new Literal(tokens.get(0).getToken()));
-            this.children.add(new Literal(tokens.get(1).getToken()));
+            Type type = new Type(tokens);
+            ID id = new ID(tokens);
+
+            this.children.add(type);
+            this.children.add(id);//id
+            this.children.add(new Literal(tokens.get(1).getToken()));//=
+        
             Token equalsToken = tokens.get(1);
-            a = tokens.remove(0);
-            b = tokens.remove(0);
+            a = tokens.remove(0);//type
+            b = tokens.remove(0);//id
+
+            Variable newVar = new Variable(type, null, id.toString());
+            Program.functions.get(funcName).localSymtab.put(b.toString(), newVar);// adding new var to symtab.
+
             if (!equalsToken.getToken().equals("=")) {
                 throw new ConstructionFailure("Assignment Statement should have =", tokens.get(1).getLineNum());
             }
@@ -35,14 +43,20 @@ public class Asmt implements JottTree {
             }
         }
         try {
-            this.children.add(new Literal(tokens.get(0).getToken()));
-            this.children.add(new Literal(tokens.get(1).getToken()));
+            ID id = new ID(tokens);
+
+            this.children.add(id);//id
+            this.children.add(new Literal(tokens.get(1).getToken()));//=
             Token equalsToken = tokens.get(1);
+
             a = tokens.remove(0);
             b = tokens.remove(0);
             if (!equalsToken.getToken().equals("=")) {
                 throw new ConstructionFailure("Assignment Statement should have =", tokens.get(1).getLineNum());
             }
+
+            //not in program.if(Program.)
+
             this.children.add(new Expr(tokens));
             this.children.add(new EndStmt(tokens));
             return;
