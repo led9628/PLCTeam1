@@ -9,7 +9,7 @@ import provided.TokenType;
 public class IfStmt implements JottTree{
     ArrayList<JottTree> children = new ArrayList<>();
     
-    public IfStmt(ArrayList<Token> tokens, String funcName) throws ConstructionFailure{
+    public IfStmt(ArrayList<Token> tokens, String funcName) throws ConstructionFailure, SemanticFailure{
         Token token = tokens.remove(0);
 
         //check if the token is "if"

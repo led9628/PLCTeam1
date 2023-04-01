@@ -9,7 +9,7 @@ import provided.TokenType;
 public class Stmt implements JottTree{
     ArrayList<JottTree> children = new ArrayList<>();
 
-    public Stmt(ArrayList<Token> tokens, String funcName) throws ConstructionFailure{
+    public Stmt(ArrayList<Token> tokens, String funcName) throws ConstructionFailure, SemanticFailure{
         Token token1 = tokens.get(0);
         Token token2 = tokens.get(1);
 

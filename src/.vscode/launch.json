@@ -11,7 +11,7 @@
             "name": "Launch Java Program",
             "request": "launch",
             "mainClass": "Main",
-            "args": "Jott parserTestCases/loneExpr.jott out.jott Jott"
+            "args": "Jott parserTestCases/helloWorld.jott out.jott Jott"
         }
     ]
 }

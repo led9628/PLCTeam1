@@ -29,7 +29,7 @@ public class NExpr implements JottTree {
             this.children.add(new NExpr(tokens));
             return;
         } catch (ConstructionFailure e) {
-            tokens.add(0, token);
+            // tokens.add(0, token);
         }
         // Attempt to create an Id
         if (tokens.get(0).getTokenType() == TokenType.ID_KEYWORD) {

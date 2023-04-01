@@ -19,7 +19,7 @@ public class FunctionDef implements JottTree{
             children.add(new Literal("def"));
 
             if(tokens.get(0).getTokenType() == TokenType.ID_KEYWORD){
-                funcName = tokens.get(0).getToken();
+                funcName = tokens.get(0).getToken()+" ";
 
                 //Sem: Duplicate function check.
                 if(Program.functions.get(funcName) == null){
