@@ -127,12 +127,20 @@ public class FunctionDef implements JottTree{
 
     @Override
     public boolean validateTree() {
-        for(JottTree child : children){
-            if(!child.validateTree() || (child.getClass().getName().equals("provided.parser.FunctionReturn") && this.children.contains(new Literal("void "))) || (!child.getClass().getName().equals("provided.parser.FunctionReturn") && !this.children.contains(new Literal("void ")))){
+        boolean isValid = true;
+        for (var child : children) {
+            if (child instanceof ArrayList<?>) {
+                isValid = isValid && child.validateTree();
+            }
+            if (!isValid) {
+                return false;
+            }
+            if ((child instanceof FunctionReturn && !this.children.contains(new Literal("void "))) || (!(child instanceof FunctionReturn) && !this.children.contains(new Literal("void ")))) {
                 return false;
             }
             System.out.print(child.getClass());
         }
         return true;
     }
+
 }
