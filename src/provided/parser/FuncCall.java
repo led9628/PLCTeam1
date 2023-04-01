@@ -16,7 +16,7 @@ public class FuncCall implements JottTree {
             tokens.add(0, token1);
             throw new ConstructionFailure("Unexpected symbol or id", token1.getLineNum());
         }
-        this.children.add(new Literal(token1.getToken()));
+        this.children.add(new ID(tokens));
 
         Token token2 = tokens.remove(0);
         if(token2.getTokenType() != TokenType.L_BRACKET){
@@ -24,7 +24,7 @@ public class FuncCall implements JottTree {
             tokens.add(0, token1);
             throw new ConstructionFailure("Missing left operand", token2.getLineNum());
         }
-        this.children.add(new Literal(token2.getToken()));
+        this.children.add(new Literal(token2.getToken())); // l brakcet
         // da params
         this.children.add(new Params(tokens));
         

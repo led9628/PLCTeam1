@@ -7,13 +7,13 @@ import java.util.ArrayList;
 public class BodyStmt implements JottTree {
     ArrayList<JottTree> children = new ArrayList<>();
 
-    public BodyStmt(ArrayList<Token> tokens)  throws ConstructionFailure{ // <if_stmt> | <while_loop> | <stmt>
+    public BodyStmt(ArrayList<Token> tokens, String funcName)  throws ConstructionFailure{ // <if_stmt> | <while_loop> | <stmt>
         if (tokens.get(0).getToken().equals("if"))
             children.add(new IfStmt(tokens));
         else if (tokens.get(0).getToken().equals("while"))
             children.add(new WhileLoop(tokens));
         else
-            children.add(new Stmt(tokens));
+            children.add(new Stmt(tokens, funcName));
     }
     
     @Override

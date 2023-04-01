@@ -67,7 +67,7 @@ public class FunctionDef implements JottTree{
                 //check for body curly brackets
                 if(tokens.get(0).getTokenType() == TokenType.L_BRACE){
                     children.add(new Literal(tokens.remove(0).getToken())); // add L brace
-                    children.add(new Body(tokens));
+                    children.add(new Body(tokens, funcName));
                     if(tokens.get(0).getTokenType() == TokenType.R_BRACE){
                         children.add(new Literal(tokens.remove(0).getToken())); // add R brace
                     }else{

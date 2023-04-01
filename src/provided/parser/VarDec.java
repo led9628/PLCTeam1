@@ -9,13 +9,22 @@ public class VarDec implements JottTree{
 
     ArrayList<JottTree> children = new ArrayList<>();
 
-    public VarDec(ArrayList<Token> tokens) throws ConstructionFailure{
+    public VarDec(ArrayList<Token> tokens, String funcName) throws ConstructionFailure{
         Token token = tokens.remove(0);
         //Try to add a type id end  statement
         try {
-            this.children.add(new Type(tokens));
-            this.children.add(new Literal(token.getToken()));
-            this.children.add(new EndStmt(tokens));
+            ID b = new ID(tokens);
+            tokens.remove(0);
+
+            Type a = new Type(tokens);
+            EndStmt c = new EndStmt(tokens);
+            
+            this.children.add(a);
+            this.children.add(b);
+            this.children.add(c);
+
+            Variable newVar = new Variable(a, null);
+            Program.functions.get(funcName).localSymtab.put(b.toString(), newVar);// adding new var to symtab.
             return;
         } catch (ConstructionFailure e) {}
         throw new ConstructionFailure("Variable Declaration is Invalid", token.getLineNum());
