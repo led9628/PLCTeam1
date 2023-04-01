@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class Body implements JottTree{
     ArrayList<JottTree> children = new ArrayList<>();
 
-    public Body(ArrayList<Token> tokens) throws ConstructionFailure{ // <body_stmt><body> | <return_stmt> | *Nothing*
+    public Body(ArrayList<Token> tokens, String funcName) throws ConstructionFailure{ // <body_stmt><body> | <return_stmt> | *Nothing*
         if (tokens.size() != 0){
             var token = tokens.get(0);
             if (token.getToken() == "}") {
@@ -19,8 +19,8 @@ public class Body implements JottTree{
                 return;
             }
             if (!token.getToken().equals("return")){
-                children.add(new BodyStmt(tokens));
-                children.add(new Body(tokens));
+                children.add(new BodyStmt(tokens, funcName));
+                children.add(new Body(tokens, funcName));
             }else if(token.getToken().equals("return")){ 
                 children.add(new ReturnStmt(tokens));
             }else{

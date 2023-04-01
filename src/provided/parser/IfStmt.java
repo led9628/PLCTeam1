@@ -9,7 +9,7 @@ import provided.TokenType;
 public class IfStmt implements JottTree{
     ArrayList<JottTree> children = new ArrayList<>();
     
-    public IfStmt(ArrayList<Token> tokens) throws ConstructionFailure{
+    public IfStmt(ArrayList<Token> tokens, String funcName) throws ConstructionFailure{
         Token token = tokens.remove(0);
 
         //check if the token is "if"
@@ -38,7 +38,7 @@ public class IfStmt implements JottTree{
             throw new ConstructionFailure("Missing left operand", token.getLineNum());
         }
         this.children.add(new Literal(token.getToken()));
-        this.children.add(new Body(tokens));
+        this.children.add(new Body(tokens, funcName));
 
         // after trying to make body, get }
         token = tokens.remove(0);
@@ -76,7 +76,7 @@ public class IfStmt implements JottTree{
                     throw new ConstructionFailure("Missing left operand", token.getLineNum());
                 }
                 this.children.add(new Literal(token.getToken()));
-                this.children.add(new Body(tokens));
+                this.children.add(new Body(tokens, funcName));
 
                 // after trying to make body, get }
                 token = tokens.remove(0);
@@ -100,7 +100,7 @@ public class IfStmt implements JottTree{
             }
             this.children.add(new Literal(token.getToken()));
 
-            this.children.add(new Body(tokens));
+            this.children.add(new Body(tokens, funcName));
 
             // after trying to make body, get }
             token = tokens.remove(0);
