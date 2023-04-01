@@ -27,7 +27,7 @@ public class BExpr implements JottTree {
                 throw new SemanticFailure(("Invalid attempt to compare" + n1.type + " and " + n2.type + "."), tokens.get(0).getLineNum());
             }
             return;
-        } catch (ConstructionFailure e) {}
+        } catch (ConstructionFailure | SemanticFailure e) {}
         // If that doesn't work, keep trying to make things.
         Token token = tokens.get(0);
         if (token.getTokenType() == TokenType.ID_KEYWORD) {
@@ -48,10 +48,13 @@ public class BExpr implements JottTree {
             // Create an ID if it can't be anything else.
 
             ID id = new ID(tokens, funcName, null);
-            if(!Program.functions.get(funcName).localSymtab.containsKey(id.toString())){
-                throw new SemanticFailure("id not found", tokens.get(0).getLineNum());
+
+            if (!Program.functions.get(funcName).settingParams){
+                if(!Program.functions.get(funcName).localSymtab.containsKey(id.toString())){
+                    throw new SemanticFailure("id not found", tokens.get(0).getLineNum());
+                }
+                id.type = Program.functions.get(funcName).localSymtab.get(id.toString()).varType;
             }
-            id.type = Program.functions.get(funcName).localSymtab.get(id.toString()).varType;
             this.type = id.type;
             tokens.remove(0);
             this.children.add(id);

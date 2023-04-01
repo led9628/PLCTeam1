@@ -19,6 +19,9 @@ public class Expr implements JottTree {
         } catch (ConstructionFailure e) {
             ex.line = e.line;
             ex.message = e.message;
+        } catch (SemanticFailure e){
+            ex.line = e.line;
+            ex.message = e.message;
         }
 
         try {
@@ -29,6 +32,9 @@ public class Expr implements JottTree {
         } catch (ConstructionFailure e) {
             ex.line = e.line;
             ex.message = e.message;
+        } catch (SemanticFailure e){
+            ex.line = e.line;
+            ex.message = e.message;
         }
 
         try {
@@ -37,6 +43,9 @@ public class Expr implements JottTree {
             this.children.add(b);
             return;
         } catch (ConstructionFailure e) {
+            ex.line = e.line;
+            ex.message = e.message;
+        } catch (SemanticFailure e){
             ex.line = e.line;
             ex.message = e.message;
         }

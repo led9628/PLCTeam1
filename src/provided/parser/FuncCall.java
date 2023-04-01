@@ -23,12 +23,10 @@ public class FuncCall implements JottTree {
             throw new ConstructionFailure("Unexpected symbol or id", token1.getLineNum());
         }
         ID id = new ID(tokens, funcName, null);
-        if(!Program.functions.containsKey(id.toString())){
-            throw new SemanticFailure("function "+id.toString()+" not found", tokens.get(0).getLineNum());
-        }
-        type = Program.functions.get(id.toString()).returnType;
+        
+        // type = Program.functions.get(id.toString()).returnType;
         // id.type = Program.functions.get(funcName).localSymtab.get(id.toString()).varType;
-        id.type = type;
+        // id.type = type;
         this.children.add(id);
         tokens.remove(0);
 
@@ -40,7 +38,7 @@ public class FuncCall implements JottTree {
         }
         this.children.add(new Literal(token2.getToken())); // l brakcet
         // da params
-        this.children.add(new Params(tokens, funcName));
+        this.children.add(new Params(tokens, token1.getToken()+" "));
         
         //after the param stuff is done, i need the next token
         Token token3 = tokens.remove(0);
@@ -86,23 +84,33 @@ public class FuncCall implements JottTree {
     @Override
     //You need to add params stuff
     public boolean validateTree() {
-        for(int i = 0; i < this.children.size(); i++) {
-            //if function does not exist
-            if (i == 0){
-                try {
-                    Program.functions.get(this.children.get(0).toString());
-                }
-                catch (Exception e){
-                    return false;
-                }
-            }
-            //if validate tree bad
-            else{
-                boolean result = this.children.get(i).validateTree();
-                if (!result)
-                    return false;
-            }
+        //validate function exists.
+        ID id = (ID)children.get(0);
+        
+        if(!Program.functions.containsKey(id.toString())){
+            throw new SemanticFailure("function "+id.toString()+" not found", tokens.get(0).getLineNum());
         }
-        return true;
+        
+        this.type = Program.functions.get(id.toString()).returnType;
+        id.type = type;
+
+        // for(int i = 0; i < this.children.size(); i++) {
+        //     //if function does not exist
+        //     if (i == 0){
+        //         try {
+        //             Program.functions.get(this.children.get(0).toString());
+        //         }
+        //         catch (Exception e){
+        //             return false;
+        //         }
+        //     }
+        //     //if validate tree bad
+        //     else{
+        //         boolean result = this.children.get(i).validateTree();
+        //         if (!result)
+        //             return false;
+        //     }
+        // }
+        // return true;
     }
 }

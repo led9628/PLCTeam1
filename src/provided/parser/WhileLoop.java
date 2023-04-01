@@ -6,7 +6,7 @@ import provided.JottTree;
 import provided.Token;
 import provided.TokenType;
 
-public class WhileLoop implements JottTree {
+public class WhileLoop implements JottTree, Returnable {
     ArrayList<JottTree> children = new ArrayList<>();
 
     public WhileLoop(ArrayList<Token> tokens, String funcName) throws ConstructionFailure, SemanticFailure{
@@ -85,6 +85,19 @@ public class WhileLoop implements JottTree {
                 return false;
         }
         return true;
+    }
+
+    @Override
+    public boolean checkReturn() {
+        for(var child: this.children){
+            if(child instanceof Returnable){
+                Returnable c = (Returnable) child;
+                if(c.checkReturn() == true){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
     
 }

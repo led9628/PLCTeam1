@@ -33,6 +33,7 @@ public class Num implements JottTree {
         }
         // If it is actually a number, succeed.
         this.children.add(new Literal(token.getToken()));
+        tokens.remove(0);
     }
 
     @Override

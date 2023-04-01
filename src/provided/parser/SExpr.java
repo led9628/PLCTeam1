@@ -24,10 +24,13 @@ public class SExpr implements JottTree {
                     this.children.add(fc);
                 } catch (ConstructionFailure e) {
                     ID id = new ID(tokens, funcName, null);
-                    if(!Program.functions.get(funcName).localSymtab.containsKey(id.toString())){
-                        throw new SemanticFailure("id not found", tokens.get(0).getLineNum());
+
+                    if (!Program.functions.get(funcName).settingParams){
+                        if(!Program.functions.get(funcName).localSymtab.containsKey(id.toString())){
+                            throw new SemanticFailure("id not found", tokens.get(0).getLineNum());
+                        }
+                        id.type = Program.functions.get(funcName).localSymtab.get(id.toString()).varType;
                     }
-                    id.type = Program.functions.get(funcName).localSymtab.get(id.toString()).varType;
                     this.type = id.type;
                     tokens.remove(0);
                     this.children.add(id);

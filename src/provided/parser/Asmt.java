@@ -22,12 +22,12 @@ public class Asmt implements JottTree {
             this.children.add(new Literal(tokens.get(1).getToken()));//=
         
             Token equalsToken = tokens.get(1);
-            a = tokens.remove(0);//type
-            b = tokens.remove(0);//id
+            a = tokens.remove(0);//id
+            b = tokens.remove(0);//=
 
             //creating new variable with id and ctype.
             Variable newVar = new Variable(ctype, null, id.toString());
-            Program.functions.get(funcName).localSymtab.put(b.toString(), newVar);// adding new var to symtab.
+            Program.functions.get(funcName).localSymtab.put(id.toString(), newVar);// adding new var to symtab.
 
             if (!equalsToken.getToken().equals("=")) {
                 throw new ConstructionFailure("Assignment Statement should have =", tokens.get(1).getLineNum());
@@ -55,7 +55,7 @@ public class Asmt implements JottTree {
             //create and check id exists
             ID id = new ID(tokens, funcName, null);
             if(!Program.functions.get(funcName).localSymtab.containsKey(id.toString())){
-                throw new SemanticFailure("Uninitialized variable", tokens.get(0).getLineNum());
+                throw new SemanticFailure("Uninitialized variable: " + id.toString(), tokens.get(0).getLineNum());
             }
             id.type = Program.functions.get(funcName).localSymtab.get(id.toString()).varType;
             this.children.add(id);//id

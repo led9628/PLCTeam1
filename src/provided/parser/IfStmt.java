@@ -6,7 +6,7 @@ import provided.JottTree;
 import provided.Token;
 import provided.TokenType;
 
-public class IfStmt implements JottTree{
+public class IfStmt implements JottTree, Returnable{
     ArrayList<JottTree> children = new ArrayList<>();
     
     public IfStmt(ArrayList<Token> tokens, String funcName) throws ConstructionFailure, SemanticFailure{
@@ -155,6 +155,19 @@ public class IfStmt implements JottTree{
             boolean result = child.validateTree();
             if (!result)
                 return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean checkReturn() {
+        for(var child: this.children){
+            if(child instanceof Returnable){
+                Returnable c = (Returnable) child;
+                if(c.checkReturn() != true){
+                    return false;
+                }
+            }
         }
         return true;
     }

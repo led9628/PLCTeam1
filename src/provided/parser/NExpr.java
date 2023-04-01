@@ -26,10 +26,14 @@ public class NExpr implements JottTree {
             }
 
             ID id = new ID(tokens, funcName, null);
-            if(!Program.functions.get(funcName).localSymtab.containsKey(id.toString())){
-                throw new SemanticFailure("id not found", tokens.get(0).getLineNum());
+            if (!Program.functions.get(funcName).settingParams){
+                if(!Program.functions.get(funcName).localSymtab.containsKey(id.toString())){
+                    throw new SemanticFailure("id not found", tokens.get(0).getLineNum());
+                }
+                id.type = Program.functions.get(funcName).localSymtab.get(id.toString()).varType;
+            
             }
-            id.type = Program.functions.get(funcName).localSymtab.get(id.toString()).varType;
+            
             this.type = id.type;
             tokens.remove(0);
             this.children.add(id);
@@ -43,17 +47,20 @@ public class NExpr implements JottTree {
             }
             this.children.add(n);
             return;
-        } catch (ConstructionFailure e) {
+        } catch (ConstructionFailure | SemanticFailure e) {
             // tokens.add(0, token);
         }
 
         // Attempt to create an Id
         if (tokens.get(0).getTokenType() == TokenType.ID_KEYWORD) {
             ID id = new ID(tokens, funcName, null);
-            if(!Program.functions.get(funcName).localSymtab.containsKey(id.toString())){
-                throw new SemanticFailure("id not found", tokens.get(0).getLineNum());
+
+            if (!Program.functions.get(funcName).settingParams){
+                if(!Program.functions.get(funcName).localSymtab.containsKey(id.toString())){
+                    throw new SemanticFailure("id not found", tokens.get(0).getLineNum());
+                }
+                id.type = Program.functions.get(funcName).localSymtab.get(id.toString()).varType;
             }
-            id.type = Program.functions.get(funcName).localSymtab.get(id.toString()).varType;
             type = id.type;
             // if(Program.functions.get(funcName))
             tokens.remove(0);
@@ -87,7 +94,7 @@ public class NExpr implements JottTree {
                 throw new SemanticFailure("Invalid comparison between " + fc.type + " and " + n.type, ln);
             }
             return;
-        } catch (ConstructionFailure e) {}
+        } catch (ConstructionFailure | SemanticFailure e) {}
 
         // Attempt to create a Num Op NExpr
         try {
@@ -104,7 +111,7 @@ public class NExpr implements JottTree {
                 throw new SemanticFailure("Invalid comparison between " + num.type + " and " + n.type, ln);
             }
             return;
-        } catch (ConstructionFailure e) {}
+        } catch (ConstructionFailure | SemanticFailure e) {}
         throw new ConstructionFailure("Number Expression is Invalid", tokens.get(0).getLineNum());
     }
 

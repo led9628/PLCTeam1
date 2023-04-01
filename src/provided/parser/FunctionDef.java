@@ -52,6 +52,7 @@ public class FunctionDef implements JottTree{
 
                 //check for end of params:
                 if(tokens.get(0).getTokenType() == TokenType.R_BRACKET){
+                    Program.functions.get(funcName).settingParams = false;
                     children.add(new Literal(tokens.remove(0).getToken())    ); //remove r bracket
 
                     if(tokens.get(0).getToken().equals(":")){

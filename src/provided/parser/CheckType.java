@@ -88,4 +88,9 @@ public class CheckType {
         }
         return false;
     }
+
+    @Override
+    public String toString(){
+        return type.name();
+    }
 }
