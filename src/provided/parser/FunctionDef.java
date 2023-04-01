@@ -18,6 +18,7 @@ public class FunctionDef implements JottTree{
         if(tokens.remove(0).getToken().equals("def")){
             children.add(new Literal("def"));
 
+            //check function id(name)
             if(tokens.get(0).getTokenType() == TokenType.ID_KEYWORD){
                 funcName = tokens.get(0).getToken()+" ";
 
@@ -55,7 +56,7 @@ public class FunctionDef implements JottTree{
 
                     if(tokens.get(0).getToken().equals(":")){
                         tokens.remove(0); //remove colon
-                        children.add(new FunctionReturn(tokens)); //check return type:
+                        children.add(new FunctionReturn(tokens, funcName)); //check return type:
                     }else{
                         throw new ConstructionFailure("Missing colon (:)", tokens.get(0).getLineNum()); // throw missing colon
                     }

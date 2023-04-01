@@ -15,6 +15,7 @@ public class SExpr implements JottTree {
                 String tokenStr = tokens.get(0).getToken();
                 this.type = new CheckType("String");
                 this.children.add(new Literal(tokenStr));
+                tokens.remove(0);
             }
             case ID_KEYWORD -> {
                 try {

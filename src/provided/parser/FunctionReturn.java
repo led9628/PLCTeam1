@@ -8,11 +8,14 @@ import java.util.ArrayList;
 public class FunctionReturn implements JottTree{
     ArrayList<JottTree> children = new ArrayList<>();
 
-    public FunctionReturn(ArrayList<Token> tokens) throws ConstructionFailure{
+    public FunctionReturn(ArrayList<Token> tokens, String funcName) throws ConstructionFailure{
         //Try to add a type
         int lnm;
         try {
+            Token token = tokens.get(0);
             this.children.add(new Type(tokens));
+            CheckType ctype = new CheckType(token.getToken());
+            Program.functions.get(funcName).returnType = ctype;
             return;
         } catch (ConstructionFailure e) {
             lnm = e.line;

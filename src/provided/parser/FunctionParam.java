@@ -20,11 +20,13 @@ public class FunctionParam implements JottTree{
     private void parse(ArrayList<Token> tokens) throws ConstructionFailure, SemanticFailure{
         if(tokens.get(0).getTokenType() == TokenType.ID_KEYWORD){
             // add param id
+
+            //create and add id for parameter
             ID paramID = new ID(tokens, funcName, null);
-            if(!Program.functions.get(funcName).localSymtab.containsKey(paramID.toString())){
-                throw new SemanticFailure("id not found", tokens.get(0).getLineNum());
-            }
-            paramID.type = Program.functions.get(funcName).localSymtab.get(paramID.toString()).varType;
+            // if(!Program.functions.get(funcName).localSymtab.containsKey(paramID.toString())){
+            //     throw new SemanticFailure("id not found", tokens.get(0).getLineNum());
+            // }
+            // paramID.type = Program.functions.get(funcName).localSymtab.get(paramID.toString()).varType;
             
             children.add(paramID);
             tokens.remove(0);
@@ -33,13 +35,17 @@ public class FunctionParam implements JottTree{
             //check for param colon and type:
             if(tokens.get(0).getToken().equals(":")){
                 tokens.remove(0); // remove :
+
                 Token token = tokens.get(0);
                 children.add(new Type(tokens));
-                
+
                 //add param types to functioninfo.
                 CheckType ctype = new CheckType(token.getToken());
                 Program.functions.get(funcName).paramTypes.add(ctype);
 
+                //set paramId type
+                paramID.type = ctype;
+                
                 //add this parameter as local var.
                 Variable vari = new Variable(ctype, null, paramID.toString());
                 Program.functions.get(funcName).localSymtab.put(paramID.toString(), vari);

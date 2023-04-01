@@ -11,6 +11,8 @@ public class Body implements JottTree{
         if (tokens.size() != 0){
             var token = tokens.get(0);
             if (token.getToken() == "}") {
+                //CHECK IF THERE SHOULDVE BEEN A RETURN STATEMENT 
+
                 // System.out.println("TOKENS: ");
                 // for(var i : tokens){
                 //     System.out.println(i.getToken());
@@ -18,6 +20,7 @@ public class Body implements JottTree{
                 // System.out.println("END");
                 return;
             }
+            
             if (!token.getToken().equals("return")){
                 children.add(new BodyStmt(tokens, funcName));
                 children.add(new Body(tokens, funcName));
