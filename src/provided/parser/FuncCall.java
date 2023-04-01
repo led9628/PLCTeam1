@@ -70,11 +70,24 @@ public class FuncCall implements JottTree {
     }
 
     @Override
+    //You need to add params stuff
     public boolean validateTree() {
-        for(var child : this.children) {
-            boolean result = child.validateTree();
-            if (!result)
-                return false;
+        for(int i = 0; i < this.children.size(); i++) {
+            //if function does not exist
+            if (i == 0){
+                try {
+                    Program.functions.get(this.children.get(0).toString());
+                }
+                catch (Exception e){
+                    return false;
+                }
+            }
+            //if validate tree bad
+            else{
+                boolean result = this.children.get(i).validateTree();
+                if (!result)
+                    return false;
+            }
         }
         return true;
     }
