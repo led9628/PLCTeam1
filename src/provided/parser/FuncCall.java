@@ -8,7 +8,7 @@ import provided.TokenType;
 
 public class FuncCall implements JottTree {
     ArrayList<JottTree> children = new ArrayList<>();
-    Type type;
+    CheckType type;
 
     public FuncCall(ArrayList<Token> tokens, String funcName) throws ConstructionFailure, SemanticFailure{
         Token token1 = tokens.get(0);

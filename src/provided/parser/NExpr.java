@@ -8,13 +8,13 @@ import provided.TokenType;
 
 public class NExpr implements JottTree {
     ArrayList<JottTree> children = new ArrayList<>();
-    public Type type;
+    public CheckType type;
 
     public NExpr(ArrayList<Token> tokens, String funcName) throws ConstructionFailure, SemanticFailure {
         // Attempt to create a FuncCall
         try {
             FuncCall func = new FuncCall(tokens, funcName);
-            type = func.type;
+            this.type = func.type;
             this.children.add(new FuncCall(tokens, funcName));
             return;
         } catch (ConstructionFailure e) {}
@@ -30,22 +30,23 @@ public class NExpr implements JottTree {
                 throw new SemanticFailure("id not found", tokens.get(0).getLineNum());
             }
             id.type = Program.functions.get(funcName).localSymtab.get(id.toString()).varType;
-            type = id.type;
-
+            this.type = id.type;
             tokens.remove(0);
             this.children.add(id);
+
             this.children.add(new Op(tokens));
 
             int lineNo = tokens.get(0).getLineNum();
             NExpr n = new NExpr(tokens, funcName);
-            if(!n.type.equals(type)){
-                throw new SemanticFailure("Invalid Comparison between" + id.type + " and " + n.type, lineNo);
+            if(!n.type.equals(id.type)){
+                throw new SemanticFailure("Invalid operation between" + id.type + " and " + n.type, lineNo);
             }
             this.children.add(n);
             return;
         } catch (ConstructionFailure e) {
             // tokens.add(0, token);
         }
+
         // Attempt to create an Id
         if (tokens.get(0).getTokenType() == TokenType.ID_KEYWORD) {
             ID id = new ID(tokens, funcName, null);
@@ -59,6 +60,7 @@ public class NExpr implements JottTree {
             this.children.add(id);
             return;
         }
+        
         // Attempt to create a Num
         try {
             // Token tok = tokens.get(0);
@@ -69,6 +71,7 @@ public class NExpr implements JottTree {
             // this.type = new Type(tokens);
             return;
         } catch (ConstructionFailure e) {}
+        
         // Attempt to create a FuncCall Op NExpr
         try {
             FuncCall fc = new FuncCall(tokens, funcName);

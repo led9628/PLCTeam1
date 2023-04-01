@@ -61,18 +61,5 @@ public class Type implements JottTree {
         return !this.children.isEmpty();
     }
 
-    @Override
-    public boolean equals(Object o){
-        if(o == this){
-            return true;
-        }
-
-        if(!(o instanceof Type)){
-            return false;
-        }
-        
-        Type t = (Type)o;
-
-        return (this.type==t.type);
-    }
+    
 }

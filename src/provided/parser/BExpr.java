@@ -8,7 +8,7 @@ import provided.TokenType;
 
 public class BExpr implements JottTree {
     ArrayList<JottTree> children = new ArrayList<>();
-    public Type type;
+    public CheckType type;
 
 
     public BExpr(ArrayList<Token> tokens, String funcName) throws ConstructionFailure, SemanticFailure{

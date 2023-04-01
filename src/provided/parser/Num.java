@@ -8,12 +8,13 @@ import provided.Token;
 
 public class Num implements JottTree {
     ArrayList<JottTree> children = new ArrayList<>();
-    public Type type;
+    public CheckType type;
+    Boolean isDouble;
 
     public Num(ArrayList<Token> tokens) throws ConstructionFailure {
         Token token = tokens.get(0);
-        this.type = new Type(tokens);
-        
+        isDouble = false;
+
         // Make sure it's actually a number.
         for (char c : token.getToken().toCharArray()) {
             if (!Character.isDigit(c) && (c != '.')) {
@@ -21,6 +22,15 @@ public class Num implements JottTree {
                 tokens.add(0, token);
                 throw new ConstructionFailure("Number is Invalid", token.getLineNum());
             }
+            if(c == '.'){
+                isDouble = true;
+            }
+        }
+
+        if(isDouble == true){
+            this.type = new CheckType("Double");
+        }else{
+            this.type = new CheckType("Integer");
         }
         // If it is actually a number, succeed.
         this.children.add(new Literal(token.getToken()));

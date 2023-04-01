@@ -9,9 +9,9 @@ public class ID implements JottTree {
     
     JottTree child = null;
     public String funcName;
-    public Type type;
+    public CheckType type;
 
-    public ID(ArrayList<Token> tokens, String funcName, Type type){
+    public ID(ArrayList<Token> tokens, String funcName, CheckType type){
         this.funcName = funcName;
         this.type = type;
         child = new Literal(tokens.get(0).getToken()); 

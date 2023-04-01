@@ -7,7 +7,7 @@ import provided.Token;
 
 public class Expr implements JottTree {
     ArrayList<JottTree> children = new ArrayList<>();
-    Type type;
+    CheckType type;
 
     public Expr(ArrayList<Token> tokens, String funcName) throws ConstructionFailure, SemanticFailure{
         var ex = new ConstructionFailure("Expression is Invalid", 0);

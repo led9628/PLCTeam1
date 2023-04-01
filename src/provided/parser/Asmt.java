@@ -12,8 +12,10 @@ public class Asmt implements JottTree {
         //attempt to create type id = expr end_stmt
         Token a = null, b = null;
         try {
+            
+            CheckType ctype = new CheckType(tokens);
             Type type = new Type(tokens);
-            ID id = new ID(tokens, funcName, type);
+            ID id = new ID(tokens, funcName, ctype);
 
             this.children.add(type);
             this.children.add(id);//id
@@ -23,17 +25,19 @@ public class Asmt implements JottTree {
             a = tokens.remove(0);//type
             b = tokens.remove(0);//id
 
-            Variable newVar = new Variable(type, null, id.toString());
+            //creating new variable with id and ctype.
+            Variable newVar = new Variable(ctype, null, id.toString());
             Program.functions.get(funcName).localSymtab.put(b.toString(), newVar);// adding new var to symtab.
 
             if (!equalsToken.getToken().equals("=")) {
                 throw new ConstructionFailure("Assignment Statement should have =", tokens.get(1).getLineNum());
             }
             Expr expr = new Expr(tokens, funcName);
+            //CHECK IF ID.TYPE = EXPR.TYPE.
             if(!id.type.equals(expr.type)){
                 throw new SemanticFailure("Assignment between wrong types", tokens.get(0).getLineNum());
             }
-            //CHECK IF ID.TYPE = EXPR.TYPE.
+            
             this.children.add(expr);
             this.children.add(new EndStmt(tokens));
             return;
@@ -48,6 +52,7 @@ public class Asmt implements JottTree {
 
         //id = sth
         try {
+            //create and check id exists
             ID id = new ID(tokens, funcName, null);
             if(!Program.functions.get(funcName).localSymtab.containsKey(id.toString())){
                 throw new SemanticFailure("Uninitialized variable", tokens.get(0).getLineNum());
@@ -56,7 +61,8 @@ public class Asmt implements JottTree {
             this.children.add(id);//id
             this.children.add(new Literal(tokens.get(1).getToken()));//=
             Token equalsToken = tokens.get(1);
-
+            
+            //check =
             a = tokens.remove(0);
             b = tokens.remove(0);
             if (!equalsToken.getToken().equals("=")) {

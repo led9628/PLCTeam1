@@ -12,7 +12,7 @@ public class Program implements JottTree{
     public static HashMap<String, JottTree> symtab = new HashMap<String, JottTree>(); //global variable name to vairable as JottTree hashmap.
 
     public Program(ArrayList<Token> tokens) throws ConstructionFailure, SemanticFailure{
-        functions.put("print",new FunctionInfo()); 
+        functions.put("print ",new FunctionInfo()); 
         parse(tokens);
     }
     
