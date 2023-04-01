@@ -7,16 +7,25 @@ import provided.Token;
 
 public class SExpr implements JottTree {
     ArrayList<JottTree> children = new ArrayList<>();
+    Type type;
 
-    public SExpr(ArrayList<Token> tokens) throws ConstructionFailure{
-
+    public SExpr(ArrayList<Token> tokens, String funcName) throws ConstructionFailure, SemanticFailure{
         switch (tokens.get(0).getTokenType()) {
-            case STRING -> this.children.add(new Literal(tokens.remove(0).getToken()));
+            case STRING -> {
+                String tokenStr = tokens.get(0).getToken();
+                this.type = new Type(tokens);
+                this.children.add(new Literal(tokenStr));
+            }
             case ID_KEYWORD -> {
                 try {
-                    this.children.add(new FuncCall(tokens));
+                    this.children.add(new FuncCall(tokens, funcName));
                 } catch (ConstructionFailure e) {
-                    ID id = new ID(tokens);
+                    ID id = new ID(tokens, funcName, null);
+                    if(!Program.functions.get(funcName).localSymtab.containsKey(id.toString())){
+                        throw new SemanticFailure("id not found", tokens.get(0).getLineNum());
+                    }
+                    id.type = Program.functions.get(funcName).localSymtab.get(id.toString()).varType;
+                    this.type = id.type;
                     tokens.remove(0);
                     this.children.add(id);
                 }

@@ -9,9 +9,9 @@ public class ParamsT implements JottTree {
 
     ArrayList<JottTree> children = new ArrayList<>();
 
-    public ParamsT(ArrayList<Token> tokens) throws ConstructionFailure {
-        this.children.add(new Expr(tokens));
-        this.children.add(new ParamsT(tokens));
+    public ParamsT(ArrayList<Token> tokens, String funcName) throws ConstructionFailure, SemanticFailure {
+        this.children.add(new Expr(tokens, funcName));
+        this.children.add(new ParamsT(tokens, funcName));
         return;
     }
 

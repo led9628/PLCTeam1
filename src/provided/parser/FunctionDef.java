@@ -22,8 +22,8 @@ public class FunctionDef implements JottTree{
                 funcName = tokens.get(0).getToken()+" ";
 
                 //Sem: Duplicate function check.
-                if(Program.functions.get(funcName) == null){
-                    children.add(new ID(tokens)); //add ID literal
+                if(!Program.functions.containsKey(funcName)){
+                    children.add(new ID(tokens, tokens.get(0).getToken(), null)); //add ID literal
                     tokens.remove(0);
                     Program.functions.put(funcName, new FunctionInfo()); //create local symbol table
                 }else{

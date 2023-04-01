@@ -8,8 +8,9 @@ import provided.TokenType;
 
 public class FuncCall implements JottTree {
     ArrayList<JottTree> children = new ArrayList<>();
+    Type type;
 
-    public FuncCall(ArrayList<Token> tokens) throws ConstructionFailure{
+    public FuncCall(ArrayList<Token> tokens, String funcName) throws ConstructionFailure, SemanticFailure{
         Token token1 = tokens.get(0);
 
         // System.out.println("FUNCTOKENS: ");
@@ -21,7 +22,14 @@ public class FuncCall implements JottTree {
             // tokens.add(0, token1);
             throw new ConstructionFailure("Unexpected symbol or id", token1.getLineNum());
         }
-        this.children.add(new ID(tokens));
+        ID id = new ID(tokens, funcName, null);
+        if(!Program.functions.containsKey(id.toString())){
+            throw new SemanticFailure("function "+id.toString()+" not found", tokens.get(0).getLineNum());
+        }
+        type = Program.functions.get(id.toString()).returnType;
+        // id.type = Program.functions.get(funcName).localSymtab.get(id.toString()).varType;
+        id.type = type;
+        this.children.add(id);
         tokens.remove(0);
 
         Token token2 = tokens.remove(0);
@@ -32,7 +40,7 @@ public class FuncCall implements JottTree {
         }
         this.children.add(new Literal(token2.getToken())); // l brakcet
         // da params
-        this.children.add(new Params(tokens));
+        this.children.add(new Params(tokens, funcName));
         
         //after the param stuff is done, i need the next token
         Token token3 = tokens.remove(0);

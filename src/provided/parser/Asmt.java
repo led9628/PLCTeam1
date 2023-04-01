@@ -6,8 +6,6 @@ import provided.Token;
 import java.util.ArrayList;
 
 public class Asmt implements JottTree {
-
-
     ArrayList<JottTree> children = new ArrayList<>();
 
     public Asmt(ArrayList<Token> tokens, String funcName) throws ConstructionFailure, SemanticFailure{
@@ -15,7 +13,7 @@ public class Asmt implements JottTree {
         Token a = null, b = null;
         try {
             Type type = new Type(tokens);
-            ID id = new ID(tokens);
+            ID id = new ID(tokens, funcName, type);
 
             this.children.add(type);
             this.children.add(id);//id
@@ -31,7 +29,12 @@ public class Asmt implements JottTree {
             if (!equalsToken.getToken().equals("=")) {
                 throw new ConstructionFailure("Assignment Statement should have =", tokens.get(1).getLineNum());
             }
-            this.children.add(new Expr(tokens));
+            Expr expr = new Expr(tokens, funcName);
+            if(!id.type.equals(expr.type)){
+                throw new SemanticFailure("Assignment between wrong types", tokens.get(0).getLineNum());
+            }
+            //CHECK IF ID.TYPE = EXPR.TYPE.
+            this.children.add(expr);
             this.children.add(new EndStmt(tokens));
             return;
         } catch (ConstructionFailure e) {
@@ -42,24 +45,30 @@ public class Asmt implements JottTree {
                 tokens.add(0, a);
             }
         }
+
+        //id = sth
         try {
-            ID id = new ID(tokens);
-
-            this.children.add(id);//id
-            this.children.add(new Literal(tokens.get(1).getToken()));//=
-            Token equalsToken = tokens.get(1);
-
+            ID id = new ID(tokens, funcName, null);
             if(!Program.functions.get(funcName).localSymtab.containsKey(id.toString())){
                 throw new SemanticFailure("Uninitialized variable", tokens.get(0).getLineNum());
             }
+            id.type = Program.functions.get(funcName).localSymtab.get(id.toString()).varType;
+            this.children.add(id);//id
+            this.children.add(new Literal(tokens.get(1).getToken()));//=
+            Token equalsToken = tokens.get(1);
 
             a = tokens.remove(0);
             b = tokens.remove(0);
             if (!equalsToken.getToken().equals("=")) {
                 throw new ConstructionFailure("Assignment Statement should have =", tokens.get(1).getLineNum());
             }
+            //CHECK IF TYPES ARE THE SAME
+            Expr expr = new Expr(tokens, funcName);
+            if(!id.type.equals(expr.type)){
+                throw new SemanticFailure("Assignment between wrong types", tokens.get(1).getLineNum());
+            }
 
-            this.children.add(new Expr(tokens));
+            this.children.add(expr);
             this.children.add(new EndStmt(tokens));
             return;
         } catch (ConstructionFailure e) {

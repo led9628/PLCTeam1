@@ -13,12 +13,12 @@ public class VarDec implements JottTree{
         Token token = tokens.remove(0);
         //Try to add a type id end  statement
         try {
-            ID b = new ID(tokens);
-            tokens.remove(0);
-
             Type a = new Type(tokens);
             EndStmt c = new EndStmt(tokens);
-            
+
+            ID b = new ID(tokens, funcName, a);
+            tokens.remove(0);
+
             this.children.add(a);
             this.children.add(b);
             this.children.add(c);

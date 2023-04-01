@@ -37,9 +37,15 @@ public class JottParser {
             System.err.println(filename + ":" + e.line);
             return null;
         }catch(SemanticFailure e){
-            // for(var j : Program.functions.keySet()){
-            //     System.out.println(j);
-            // }
+            for(var j : Program.functions.keySet()){
+                System.out.println(j);
+            }
+            System.out.println("TOKENS: ");
+            for(var i : tokens){
+                System.out.println(i.getToken());
+            }
+            System.out.println("END");
+            e.printStackTrace();
             System.err.println("Semantic Error:");
             System.err.println(e.message);
             System.err.println(filename + ":" + e.line);

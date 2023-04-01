@@ -8,8 +8,12 @@ import provided.Token;
 public class ID implements JottTree {
     
     JottTree child = null;
+    public String funcName;
+    public Type type;
 
-    public ID(ArrayList<Token> tokens){
+    public ID(ArrayList<Token> tokens, String funcName, Type type){
+        this.funcName = funcName;
+        this.type = type;
         child = new Literal(tokens.get(0).getToken()); 
     }
 
@@ -43,7 +47,6 @@ public class ID implements JottTree {
 
     @Override
     public boolean validateTree() {
-        // TODO Auto-generated method stub
-        return false;
+        return child.validateTree();
     }
 }

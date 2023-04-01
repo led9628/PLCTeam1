@@ -22,7 +22,7 @@ public class WhileLoop implements JottTree {
         }
         this.children.add(new Literal(tokens.remove(0).getToken()));
         // bool expression
-        this.children.add(new BExpr(tokens));
+        this.children.add(new BExpr(tokens, funcName));
         
         //after the bool expr stuff is done, i need the next token
         token = tokens.remove(0);

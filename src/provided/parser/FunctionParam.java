@@ -11,16 +11,21 @@ public class FunctionParam implements JottTree{
     String funcName;
     // HashMap<String, JottTree> localSymTab;
 
-    public FunctionParam(ArrayList<Token> tokens, String funcName) throws ConstructionFailure{
+    public FunctionParam(ArrayList<Token> tokens, String funcName) throws ConstructionFailure, SemanticFailure{
         // this.localSymTab = localSymTab;
         this.funcName = funcName;
         parse(tokens);
     }
 
-    private void parse(ArrayList<Token> tokens) throws ConstructionFailure{
+    private void parse(ArrayList<Token> tokens) throws ConstructionFailure, SemanticFailure{
         if(tokens.get(0).getTokenType() == TokenType.ID_KEYWORD){
             // add param id
-            ID paramID = new ID(tokens);
+            ID paramID = new ID(tokens, funcName, null);
+            if(!Program.functions.get(funcName).localSymtab.containsKey(paramID.toString())){
+                throw new SemanticFailure("id not found", tokens.get(0).getLineNum());
+            }
+            paramID.type = Program.functions.get(funcName).localSymtab.get(paramID.toString()).varType;
+            
             children.add(paramID);
             tokens.remove(0);
             // Program.functions.get(funcName).paramTypes.add(this);

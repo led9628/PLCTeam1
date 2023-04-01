@@ -7,11 +7,11 @@ import java.util.ArrayList;
 public class ReturnStmt implements JottTree{
     ArrayList<JottTree> children = new ArrayList<>();
 
-    public ReturnStmt(ArrayList<Token> tokens) throws ConstructionFailure{ // return <expr><end_stmt>
+    public ReturnStmt(ArrayList<Token> tokens, String funcName) throws ConstructionFailure, SemanticFailure{ // return <expr><end_stmt>
         var token = tokens.remove(0);
         if(token.getToken().equals("return")){
             children.add(new Literal("return"));
-            children.add(new Expr(tokens));
+            children.add(new Expr(tokens, funcName));
             children.add(new EndStmt(tokens));
         }else{
             throw new ConstructionFailure("Return statement is Invalid", token.getLineNum());

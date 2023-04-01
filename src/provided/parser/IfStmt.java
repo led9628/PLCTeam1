@@ -23,7 +23,7 @@ public class IfStmt implements JottTree{
             throw new ConstructionFailure("Missing left operand", token.getLineNum());
         }
         this.children.add(new Literal(token.getToken()));
-        this.children.add(new BExpr(tokens));
+        this.children.add(new BExpr(tokens, funcName));
         
         //after the bool expr stuff is done, i need the next token
         token = tokens.remove(0);
@@ -61,7 +61,7 @@ public class IfStmt implements JottTree{
                 }
 
                 this.children.add(new Literal(token.getToken()));
-                this.children.add(new BExpr(tokens));
+                this.children.add(new BExpr(tokens, funcName));
         
                 //after the bool expr stuff is done, i need the next token
                 token = tokens.remove(0);

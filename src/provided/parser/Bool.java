@@ -8,9 +8,11 @@ import provided.TokenType;
 
 public class Bool implements JottTree {
     ArrayList<JottTree> children = new ArrayList<>();
+    public Type type;
 
     public Bool(ArrayList<Token> tokens) throws ConstructionFailure {
-        Token token = tokens.remove(0);
+        Token token = tokens.get(0);
+        type = new Type(tokens);
         if (token.getTokenType() == TokenType.ID_KEYWORD) {
             if (token.getToken() == "True" || token.getToken() == "False") {
                 this.children.add(new Literal(token.getToken()));

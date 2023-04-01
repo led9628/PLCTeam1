@@ -8,14 +8,24 @@ import provided.TokenType;
 
 public class BExpr implements JottTree {
     ArrayList<JottTree> children = new ArrayList<>();
+    public Type type;
 
 
-    public BExpr(ArrayList<Token> tokens) throws ConstructionFailure{
+    public BExpr(ArrayList<Token> tokens, String funcName) throws ConstructionFailure, SemanticFailure{
         // Attempt to create an NExpr RelOp NExpr
         try {
-            this.children.add(new NExpr(tokens));
+            NExpr n1 = new NExpr(tokens, funcName);
+            this.children.add(n1);
+
             this.children.add(new RelOp(tokens));
-            this.children.add(new NExpr(tokens));
+
+            NExpr n2 = new NExpr(tokens, funcName);
+            this.children.add(n2);
+
+            if(!n1.type.equals(n2.type)){
+                //LINE NUMBER MAY BE WRONG.
+                throw new SemanticFailure(("Invalid attempt to compare" + n1.type + " and " + n2.type + "."), tokens.get(0).getLineNum());
+            }
             return;
         } catch (ConstructionFailure e) {}
         // If that doesn't work, keep trying to make things.
@@ -23,16 +33,28 @@ public class BExpr implements JottTree {
         if (token.getTokenType() == TokenType.ID_KEYWORD) {
             // Try to create a FuncCall.
             try {
-                this.children.add(new FuncCall(tokens));
+                FuncCall f = new FuncCall(tokens, funcName);
+                this.children.add(f);
+                this.type = f.type;
                 return;
             } catch (ConstructionFailure e) {}
             // Try to create a Bool.
             try {
-                this.children.add(new Bool(tokens));
+                Bool b = new Bool(tokens);
+                this.children.add(b);
+                this.type = b.type;
                 return;
             } catch (ConstructionFailure e) {}
             // Create an ID if it can't be anything else.
-            this.children.add(new Literal(tokens.remove(0).getToken()));
+
+            ID id = new ID(tokens, funcName, null);
+            if(!Program.functions.get(funcName).localSymtab.containsKey(id.toString())){
+                throw new SemanticFailure("id not found", tokens.get(0).getLineNum());
+            }
+            id.type = Program.functions.get(funcName).localSymtab.get(id.toString()).varType;
+            this.type = id.type;
+            tokens.remove(0);
+            this.children.add(id);
             return;
         }
         // If we failed to turn BExpr into anything, throw.

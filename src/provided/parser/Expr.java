@@ -7,25 +7,34 @@ import provided.Token;
 
 public class Expr implements JottTree {
     ArrayList<JottTree> children = new ArrayList<>();
+    Type type;
 
-    public Expr(ArrayList<Token> tokens) throws ConstructionFailure {
+    public Expr(ArrayList<Token> tokens, String funcName) throws ConstructionFailure, SemanticFailure{
         var ex = new ConstructionFailure("Expression is Invalid", 0);
         try {
-            this.children.add(new NExpr(tokens));
+            NExpr n = new NExpr(tokens, funcName);
+            this.type = n.type;
+            this.children.add(n);
             return;
         } catch (ConstructionFailure e) {
             ex.line = e.line;
             ex.message = e.message;
         }
+
         try {
-            this.children.add(new SExpr(tokens));
+            SExpr s = new SExpr(tokens, funcName);
+            this.type = s.type;
+            this.children.add(s);
             return;
         } catch (ConstructionFailure e) {
             ex.line = e.line;
             ex.message = e.message;
         }
+
         try {
-            this.children.add(new BExpr(tokens));
+            BExpr b = new BExpr(tokens, funcName);
+            this.type = b.type;
+            this.children.add(b);
             return;
         } catch (ConstructionFailure e) {
             ex.line = e.line;

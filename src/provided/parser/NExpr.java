@@ -8,11 +8,14 @@ import provided.TokenType;
 
 public class NExpr implements JottTree {
     ArrayList<JottTree> children = new ArrayList<>();
+    public Type type;
 
-    public NExpr(ArrayList<Token> tokens) throws ConstructionFailure {
+    public NExpr(ArrayList<Token> tokens, String funcName) throws ConstructionFailure, SemanticFailure {
         // Attempt to create a FuncCall
         try {
-            this.children.add(new FuncCall(tokens));
+            FuncCall func = new FuncCall(tokens, funcName);
+            type = func.type;
+            this.children.add(new FuncCall(tokens, funcName));
             return;
         } catch (ConstructionFailure e) {}
         // Attempt to create an Id Op NExpr
@@ -21,41 +24,82 @@ public class NExpr implements JottTree {
             if (token.getTokenType() != TokenType.ID_KEYWORD || (tokens.get(0).getTokenType() != TokenType.MATH_OP)) {
                 throw new ConstructionFailure("Unexpected error", -1);
             }
-            ID id = new ID(tokens);
-            ////////////asdfghjk54weyudrtyfiglihnokljmp;,u65editrfygbljhnk;olm',''
+
+            ID id = new ID(tokens, funcName, null);
+            if(!Program.functions.get(funcName).localSymtab.containsKey(id.toString())){
+                throw new SemanticFailure("id not found", tokens.get(0).getLineNum());
+            }
+            id.type = Program.functions.get(funcName).localSymtab.get(id.toString()).varType;
+            type = id.type;
+
             tokens.remove(0);
             this.children.add(id);
             this.children.add(new Op(tokens));
-            this.children.add(new NExpr(tokens));
+
+            int lineNo = tokens.get(0).getLineNum();
+            NExpr n = new NExpr(tokens, funcName);
+            if(!n.type.equals(type)){
+                throw new SemanticFailure("Invalid Comparison between" + id.type + " and " + n.type, lineNo);
+            }
+            this.children.add(n);
             return;
         } catch (ConstructionFailure e) {
             // tokens.add(0, token);
         }
         // Attempt to create an Id
         if (tokens.get(0).getTokenType() == TokenType.ID_KEYWORD) {
-            ////////////asdfghjk54weyudrtyfiglihnokljmp;,u65editrfygbljhnk;olm',''
-            ID id = new ID(tokens);
+            ID id = new ID(tokens, funcName, null);
+            if(!Program.functions.get(funcName).localSymtab.containsKey(id.toString())){
+                throw new SemanticFailure("id not found", tokens.get(0).getLineNum());
+            }
+            id.type = Program.functions.get(funcName).localSymtab.get(id.toString()).varType;
+            type = id.type;
+            // if(Program.functions.get(funcName))
             tokens.remove(0);
             this.children.add(id);
             return;
         }
         // Attempt to create a Num
         try {
-            this.children.add(new Num(tokens));
+            // Token tok = tokens.get(0);
+            Num num = new Num(tokens);
+            this.children.add(num);
+            this.type = num.type;
+            // tokens.add(tok);//since num removes it but we need to create a type with it.
+            // this.type = new Type(tokens);
             return;
         } catch (ConstructionFailure e) {}
         // Attempt to create a FuncCall Op NExpr
         try {
-            this.children.add(new FuncCall(tokens));
+            FuncCall fc = new FuncCall(tokens, funcName);
+            this.children.add(fc);
+
             this.children.add(new Op(tokens));
-            this.children.add(new NExpr(tokens));
+
+            int ln = tokens.get(0).getLineNum();
+            NExpr n = new NExpr(tokens, funcName);
+            this.children.add(n);
+
+            if(!fc.type.equals(n.type)){
+                throw new SemanticFailure("Invalid comparison between " + fc.type + " and " + n.type, ln);
+            }
             return;
         } catch (ConstructionFailure e) {}
+
         // Attempt to create a Num Op NExpr
         try {
-            this.children.add(new Num(tokens));
+            Num num = new Num(tokens);
+            this.children.add(num);
+            
             this.children.add(new Op(tokens));
-            this.children.add(new NExpr(tokens));
+
+            int ln = tokens.get(0).getLineNum();
+            NExpr n = new NExpr(tokens, funcName);
+            this.children.add(n);
+
+            if(!num.type.equals(n.type)){
+                throw new SemanticFailure("Invalid comparison between " + num.type + " and " + n.type, ln);
+            }
             return;
         } catch (ConstructionFailure e) {}
         throw new ConstructionFailure("Number Expression is Invalid", tokens.get(0).getLineNum());

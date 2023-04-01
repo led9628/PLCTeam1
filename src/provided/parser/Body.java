@@ -22,7 +22,7 @@ public class Body implements JottTree{
                 children.add(new BodyStmt(tokens, funcName));
                 children.add(new Body(tokens, funcName));
             }else if(token.getToken().equals("return")){ 
-                children.add(new ReturnStmt(tokens));
+                children.add(new ReturnStmt(tokens, funcName));
             }else{
                 throw new ConstructionFailure("Body is Invalid", token.getLineNum());
             }
