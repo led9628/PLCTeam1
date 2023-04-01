@@ -3,15 +3,13 @@ package provided.parser;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import provided.JottTree;
-
 public class FunctionInfo {
-    public HashMap<String, JottTree> localSymtab;
+    public HashMap<String, Variable> localSymtab;
     public Type returnType;
     public ArrayList<Type> paramTypes;
 
     public FunctionInfo(){
-        localSymtab = new HashMap<String, JottTree>();
+        localSymtab = new HashMap<String, Variable>();
         returnType = null;
         this.paramTypes = new ArrayList<Type>();
     }

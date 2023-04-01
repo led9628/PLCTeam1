@@ -20,7 +20,7 @@ public class FunctionParam implements JottTree{
     private void parse(ArrayList<Token> tokens) throws ConstructionFailure{
         if(tokens.get(0).getTokenType() == TokenType.ID_KEYWORD){
             // add param id
-            Literal paramID = new Literal(tokens.get(0).getToken());
+            ID paramID = new ID(tokens);
             children.add(paramID);
             tokens.remove(0);
             // Program.functions.get(funcName).paramTypes.add(this);
@@ -33,8 +33,11 @@ public class FunctionParam implements JottTree{
                 
                 //add param types to functioninfo.
                 Program.functions.get(funcName).paramTypes.add((Type)(children.get(children.size() - 1)));
+                
+                Variable vari = new Variable((Type)(children.get(children.size()-1)), null);
+                
                 //add this parameter as local var.
-                Program.functions.get(funcName).localSymtab.put(paramID.toString(), this);
+                Program.functions.get(funcName).localSymtab.put(paramID.toString(), vari);
             }else{
                 //throw missing :
                 throw new ConstructionFailure("Missing colon (:)", tokens.get(0).getLineNum());

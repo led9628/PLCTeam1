@@ -8,7 +8,7 @@ import provided.TokenType;
 
 public class FunctionDef implements JottTree{
     ArrayList<JottTree> children = new ArrayList<>();
-    Literal funcName;
+    String funcName;
 
     public FunctionDef(ArrayList<Token> tokens) throws ConstructionFailure, SemanticFailure{
         parse(tokens);
@@ -19,13 +19,13 @@ public class FunctionDef implements JottTree{
             children.add(new Literal("def"));
 
             if(tokens.get(0).getTokenType() == TokenType.ID_KEYWORD){
-                funcName = new Literal(tokens.get(0).getToken());
+                funcName = tokens.get(0).getToken();
 
                 //Sem: Duplicate function check.
-                if(Program.functions.get(funcName.toString()) == null){
-                    children.add(funcName); //add ID literal
+                if(Program.functions.get(funcName) == null){
+                    children.add(new ID(tokens)); //add ID literal
                     tokens.remove(0);
-                    Program.functions.put(funcName.toString(), new FunctionInfo()); //create local symbol table
+                    Program.functions.put(funcName, new FunctionInfo()); //create local symbol table
                 }else{
                     throw new SemanticFailure("Duplicate function: "+funcName+" already exists.", tokens.get(0).getLineNum());
                 }
@@ -39,13 +39,13 @@ public class FunctionDef implements JottTree{
 
                 //function def params check:
                 if(tokens.get(0).getTokenType() == TokenType.ID_KEYWORD){
-                    children.add(new FunctionParam(tokens, funcName.toString()));
+                    children.add(new FunctionParam(tokens, funcName));
 
                     //check for 2nd+ params
                     while(tokens.get(0).getToken().equals(",")){
                         tokens.remove(0); //remove ,
                 
-                        children.add(new FunctionParam(tokens, funcName.toString()));
+                        children.add(new FunctionParam(tokens, funcName));
                     }
                 }
 
