@@ -10,13 +10,19 @@ public class FuncCall implements JottTree {
     ArrayList<JottTree> children = new ArrayList<>();
 
     public FuncCall(ArrayList<Token> tokens) throws ConstructionFailure{
-        Token token1 = tokens.remove(0);
+        Token token1 = tokens.get(0);
+
+        // System.out.println("FUNCTOKENS: ");
+        // for(var i : tokens){
+        //     System.out.println(i.getToken() + "   " + i.getTokenType());
+        // }
 
         if(token1.getTokenType() != TokenType.ID_KEYWORD){
-            tokens.add(0, token1);
+            // tokens.add(0, token1);
             throw new ConstructionFailure("Unexpected symbol or id", token1.getLineNum());
         }
         this.children.add(new ID(tokens));
+        tokens.remove(0);
 
         Token token2 = tokens.remove(0);
         if(token2.getTokenType() != TokenType.L_BRACKET){

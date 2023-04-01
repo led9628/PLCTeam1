@@ -10,7 +10,7 @@ public class Asmt implements JottTree {
 
     ArrayList<JottTree> children = new ArrayList<>();
 
-    public Asmt(ArrayList<Token> tokens, String funcName) throws ConstructionFailure{
+    public Asmt(ArrayList<Token> tokens, String funcName) throws ConstructionFailure, SemanticFailure{
         //attempt to create type id = expr end_stmt
         Token a = null, b = null;
         try {
@@ -49,13 +49,15 @@ public class Asmt implements JottTree {
             this.children.add(new Literal(tokens.get(1).getToken()));//=
             Token equalsToken = tokens.get(1);
 
+            if(!Program.functions.get(funcName).localSymtab.containsKey(id.toString())){
+                throw new SemanticFailure("Uninitialized variable", tokens.get(0).getLineNum());
+            }
+
             a = tokens.remove(0);
             b = tokens.remove(0);
             if (!equalsToken.getToken().equals("=")) {
                 throw new ConstructionFailure("Assignment Statement should have =", tokens.get(1).getLineNum());
             }
-
-            //not in program.if(Program.)
 
             this.children.add(new Expr(tokens));
             this.children.add(new EndStmt(tokens));
