@@ -6,11 +6,11 @@ import java.util.HashMap;
 public class FunctionInfo {
     public HashMap<String, Variable> localSymtab;
     public CheckType returnType;
-    public ArrayList<Type> paramTypes;
+    public ArrayList<CheckType> paramTypes;
 
     public FunctionInfo(){
         localSymtab = new HashMap<String, Variable>();
         returnType = null;
-        this.paramTypes = new ArrayList<Type>();
+        this.paramTypes = new ArrayList<CheckType>();
     }
 }

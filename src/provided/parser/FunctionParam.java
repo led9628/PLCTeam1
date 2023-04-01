@@ -33,15 +33,15 @@ public class FunctionParam implements JottTree{
             //check for param colon and type:
             if(tokens.get(0).getToken().equals(":")){
                 tokens.remove(0); // remove :
-
+                Token token = tokens.get(0);
                 children.add(new Type(tokens));
                 
                 //add param types to functioninfo.
-                Program.functions.get(funcName).paramTypes.add((Type)(children.get(children.size() - 1)));
-                
-                Variable vari = new Variable((Type)(children.get(children.size()-1)), null, paramID.toString());
-                
+                CheckType ctype = new CheckType(token.getToken());
+                Program.functions.get(funcName).paramTypes.add(ctype);
+
                 //add this parameter as local var.
+                Variable vari = new Variable(ctype, null, paramID.toString());
                 Program.functions.get(funcName).localSymtab.put(paramID.toString(), vari);
             }else{
                 //throw missing :

@@ -9,7 +9,7 @@ import provided.Token;
 public class Program implements JottTree{
     ArrayList<FunctionDef> children = new ArrayList<>(); //lsit of functions
     public static HashMap<String, FunctionInfo> functions = new HashMap<String, FunctionInfo>(); //function name to hashmap
-    public static HashMap<String, JottTree> symtab = new HashMap<String, JottTree>(); //global variable name to vairable as JottTree hashmap.
+    // public static HashMap<String, JottTree> symtab = new HashMap<String, JottTree>(); //global variable name to vairable as JottTree hashmap.
 
     public Program(ArrayList<Token> tokens) throws ConstructionFailure, SemanticFailure{
         functions.put("print ",new FunctionInfo()); 

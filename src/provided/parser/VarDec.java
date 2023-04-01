@@ -13,17 +13,19 @@ public class VarDec implements JottTree{
         Token token = tokens.remove(0);
         //Try to add a type id end  statement
         try {
+            Token typeToken = tokens.get(0);
             Type a = new Type(tokens);
             EndStmt c = new EndStmt(tokens);
 
-            ID b = new ID(tokens, funcName, a);
+            CheckType ctype = new CheckType(typeToken.getToken());
+            ID b = new ID(tokens, funcName, ctype);
             tokens.remove(0);
 
             this.children.add(a);
             this.children.add(b);
             this.children.add(c);
 
-            Variable newVar = new Variable(a, null, b.toString());
+            Variable newVar = new Variable(ctype, null, b.toString());
             Program.functions.get(funcName).localSymtab.put(b.toString(), newVar);// adding new var to symtab.
             return;
         } catch (ConstructionFailure e) {}
