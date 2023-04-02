@@ -68,11 +68,31 @@ public class Expr implements JottTree {
 
     @Override
     public boolean validateTree() throws SemanticFailure {
-        for(var child : this.children) {
-            boolean result = child.validateTree();
-            if (!result)
+        if(children.get(0) instanceof NExpr){
+            NExpr nexpr = (NExpr)children.get(0);
+            if(!nexpr.validateTree()){
                 return false;
+            }
+            this.type = nexpr.type;
+        }else if(children.get(0) instanceof SExpr){
+            SExpr sexpr = (SExpr)children.get(0);
+            if(!sexpr.validateTree()){
+                return false;
+            }
+            this.type = sexpr.type;
+        }else{
+            BExpr bexpr = (BExpr)children.get(0);
+            if(!bexpr.validateTree()){
+                return false;
+            }
+            this.type = bexpr.type;
         }
+
+        // for(var child : this.children) {
+        //     boolean result = child.validateTree();
+        //     if (!result)
+        //         return false;
+        // }
         return true;
     }
 }

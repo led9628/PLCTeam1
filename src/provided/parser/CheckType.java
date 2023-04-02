@@ -83,9 +83,10 @@ public class CheckType {
 
         if(this.type==t.type){
             return true;
-        }else if((this.type==varType.DOUBLE && t.type==varType.INTEGER) || (this.type==varType.INTEGER && t.type==varType.DOUBLE)){
-            return true;
         }
+        // else if((this.type==varType.DOUBLE && t.type==varType.INTEGER) || (this.type==varType.INTEGER && t.type==varType.DOUBLE)){
+        //     return true;
+        // }
         return false;
     }
 
