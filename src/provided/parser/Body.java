@@ -7,18 +7,23 @@ import java.util.ArrayList;
 
 public class Body implements JottTree, Returnable {
     ArrayList<JottTree> children = new ArrayList<>();
+    String funcName;
+    int lineNo;
 
     public Body(ArrayList<Token> tokens, String funcName) throws ConstructionFailure, SemanticFailure { // <body_stmt><body>
                                                                                                         // |
                                                                                                         // <return_stmt>
                                                                                                         // | *Nothing*
+        this.funcName = funcName;
+        lineNo = tokens.get(0).getLineNum();
+        
         if (tokens.size() != 0) {
             var token = tokens.get(0);
             if (token.getToken() == "}") {
-                if (Program.functions.get(funcName).returnType != null) {
-                    throw new SemanticFailure("Function needs to return " + Program.functions.get(funcName).returnType,
-                            token.getLineNum());
-                }
+                // if (Program.functions.get(funcName).returnType != null) {
+                //     throw new SemanticFailure("Function needs to return " + Program.functions.get(funcName).returnType,
+                //             token.getLineNum());
+                // }
 
                 // System.out.println("TOKENS: ");
                 // for(var i : tokens){
@@ -98,6 +103,12 @@ public class Body implements JottTree, Returnable {
             // if (result == false || result2 == false)
             //     return false;
         }
+        
+        if(checkReturn() == false && Program.functions.get(funcName).returnType != null){
+            throw new SemanticFailure("Function needs to return " + Program.functions.get(funcName).returnType,
+                    lineNo);
+        }
+
         return checkReturn();
         // return true;
     }

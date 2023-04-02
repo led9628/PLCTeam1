@@ -11,7 +11,8 @@ public class CheckType {
         INTEGER,
         DOUBLE,
         STRING,
-        BOOLEAN
+        BOOLEAN,
+        ANYDATATYPE
     }
 
     public CheckType(ArrayList<Token> tokens) throws ConstructionFailure{
@@ -56,6 +57,10 @@ public class CheckType {
             this.type = varType.STRING;
             return;
         }
+        if (token.equals("Any")){
+            this.type = varType.ANYDATATYPE;
+            return;
+        }
     }
 
     public CheckType(TokenType tt){
@@ -81,6 +86,12 @@ public class CheckType {
         CheckType t = (CheckType)o;
 
         if(this.type==t.type){
+            return true;
+        }
+        if(this.type==varType.ANYDATATYPE && (t.type==varType.STRING || t.type==varType.DOUBLE || t.type==varType.BOOLEAN || t.type==varType.INTEGER)){
+            return true;
+        }
+        if(t.type==varType.ANYDATATYPE && (this.type==varType.STRING || this.type==varType.DOUBLE || this.type==varType.BOOLEAN || this.type==varType.INTEGER)){
             return true;
         }
         // else if((this.type==varType.DOUBLE && t.type==varType.INTEGER) || (this.type==varType.INTEGER && t.type==varType.DOUBLE)){

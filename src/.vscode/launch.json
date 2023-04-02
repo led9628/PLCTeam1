@@ -18,7 +18,7 @@
             "name": "Launch Java Program",
             "request": "launch",
             "mainClass": "Main",
-            "args": "Jott parserTestCases/funcReturnInExpr.jott out.jott Jott"
+            "args": "Jott parserTestCases/whileKeyword.jott out.jott Jott"
         }
     ]
 }

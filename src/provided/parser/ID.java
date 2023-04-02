@@ -48,6 +48,13 @@ public class ID implements JottTree {
 
     @Override
     public boolean validateTree() throws SemanticFailure {
+        if(child instanceof Literal){
+            Literal l = (Literal) child;
+            String str = l.lit;
+            if(Program.kw.contains(str)){
+                throw new SemanticFailure("Invalid ID: " + l.lit, -1);
+            }
+        }
         return child.validateTree();
     }
 }

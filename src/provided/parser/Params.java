@@ -65,7 +65,7 @@ public class Params implements JottTree {
             if(!e.validateTree()){
                 return false;
             }
-            if(Program.functions.get(callFunc).paramTypes.size() == 0 && !callFunc.equals("print ")){
+            if(Program.functions.get(callFunc).paramTypes.size() == 0){
                 throw new SemanticFailure("Tried to pass in a parameter to a function without params", ln);
             }else if(Program.functions.get(callFunc).paramTypes.size() > 0 && !Program.functions.get(callFunc).paramTypes.get(paramNo).equals(e.type)){
                 throw new SemanticFailure("Incorrect parameter type: " + e.type + ". Expected " + Program.functions.get(callFunc).paramTypes.get(paramNo), ln);

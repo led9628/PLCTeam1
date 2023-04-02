@@ -1,5 +1,0 @@
-#this is hello world in Jott
-
-def foo[]:Void{
-    print["Hello World"];
-}
