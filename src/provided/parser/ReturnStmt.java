@@ -59,8 +59,7 @@ public class ReturnStmt implements JottTree, Returnable {
 
     @Override
     public boolean validateTree() {
-        // TODO Auto-generated method stub
-        return false;
+        return true;
     }
 
     @Override

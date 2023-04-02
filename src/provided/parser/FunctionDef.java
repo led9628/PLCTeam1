@@ -135,7 +135,7 @@ public class FunctionDef implements JottTree{
             }
 
         }
-        return false;
+        return true;
 
         // boolean isValid = true;
         // for (var child : children) {

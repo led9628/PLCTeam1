@@ -124,16 +124,16 @@ public class Asmt implements JottTree {
         
         if(children.get(0) instanceof Type){
             ID id = (ID)children.get(1);
-            if(id.validateTree()){
+            if(!id.validateTree()){
                 return false;
             }
             
-            if(Program.functions.get(funcName).localSymtab.containsKey(id.toString())){
+            if(!Program.functions.get(funcName).localSymtab.containsKey(id.toString())){
                 throw new SemanticFailure("Variable with name " + id.toString() + " already exists", lineNo);
             }
 
             Expr expr = (Expr)children.get(3);
-            if(expr.validateTree()){
+            if(!expr.validateTree()){
                 return false;
             }
 
@@ -142,7 +142,7 @@ public class Asmt implements JottTree {
             }
         }else{
             ID id = (ID)children.get(0);
-            if(id.validateTree()){
+            if(!id.validateTree()){
                 return false;
             }
 
@@ -152,7 +152,7 @@ public class Asmt implements JottTree {
             id.type = Program.functions.get(funcName).localSymtab.get(id.toString()).varType;
 
             Expr expr = (Expr)children.get(2);
-            if(expr.validateTree()){
+            if(!expr.validateTree()){
                 return false;
             }
 

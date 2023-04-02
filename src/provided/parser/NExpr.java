@@ -154,7 +154,7 @@ public class NExpr implements JottTree {
                 }
 
                 if(!Program.functions.get(funcName).localSymtab.containsKey(id.toString())){
-                    throw new SemanticFailure("Id not found", lineNo);
+                    throw new SemanticFailure("Id not found: " + id.toString(), lineNo);
                 }
                 id.type = Program.functions.get(funcName).localSymtab.get(id.toString()).varType;
                 this.type = id.type;
@@ -186,7 +186,7 @@ public class NExpr implements JottTree {
                 }
 
                 if(!Program.functions.get(funcName).localSymtab.containsKey(id.toString())){
-                    throw new SemanticFailure("id not found", lineNo);
+                    throw new SemanticFailure("id not found"+ id.toString(), lineNo);
                 }
                 id.type = Program.functions.get(funcName).localSymtab.get(id.toString()).varType;
                 this.type = id.type;

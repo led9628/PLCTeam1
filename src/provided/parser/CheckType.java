@@ -50,7 +50,7 @@ public class CheckType {
             return;
         }
         if (token.equals("Double")) {
-            this.type = varType.STRING;
+            this.type = varType.DOUBLE;
             return;
         }
         if (token.equals("String")) {

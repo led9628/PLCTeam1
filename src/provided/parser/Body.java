@@ -93,7 +93,7 @@ public class Body implements JottTree, Returnable {
         for (var child : this.children) {
             boolean result = child.validateTree();
             boolean result2 = checkReturn();
-            if (!result || !result2)
+            if (result == false || result2 == false)
                 return false;
         }
         return true;

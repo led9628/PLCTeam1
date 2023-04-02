@@ -15,6 +15,7 @@ public class Program implements JottTree{
         functions.put("print ",new FunctionInfo());
         parse(tokens);
         validateTree();
+        
     }
     
     private void parse(ArrayList<Token> tokens) throws ConstructionFailure, SemanticFailure{
