@@ -23,10 +23,6 @@ public class FunctionParam implements JottTree{
 
             //create and add id for parameter
             ID paramID = new ID(tokens, funcName, null);
-            // if(!Program.functions.get(funcName).localSymtab.containsKey(paramID.toString())){
-            //     throw new SemanticFailure("id not found", tokens.get(0).getLineNum());
-            // }
-            // paramID.type = Program.functions.get(funcName).localSymtab.get(paramID.toString()).varType;
             
             children.add(paramID);
             tokens.remove(0);
@@ -92,7 +88,7 @@ public class FunctionParam implements JottTree{
     }
 
     @Override
-    public boolean validateTree() {
+    public boolean validateTree() throws SemanticFailure{
         for(JottTree child : children){
             if(child.validateTree()==false){
                 return false;

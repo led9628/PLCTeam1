@@ -14,6 +14,7 @@ public class Program implements JottTree{
     public Program(ArrayList<Token> tokens) throws ConstructionFailure, SemanticFailure{
         functions.put("print ",new FunctionInfo());
         parse(tokens);
+        validateTree();
     }
     
     private void parse(ArrayList<Token> tokens) throws ConstructionFailure, SemanticFailure{
@@ -57,8 +58,13 @@ public class Program implements JottTree{
     }
 
     @Override
-    public boolean validateTree() {
-        // TODO Auto-generated method stub
-        return false;
+    public boolean validateTree() throws SemanticFailure{
+        for(var child : children){
+            if(!child.validateTree()){
+                return false;
+            }
+            System.out.println("NEXT FUNCTION...........");
+        }
+        return true;
     }
 }

@@ -56,7 +56,7 @@ public class VarDec implements JottTree{
     }
 
     @Override
-    public boolean validateTree() {
+    public boolean validateTree() throws SemanticFailure{
         for(var child : this.children) {
             boolean result = child.validateTree();
             if (!result)

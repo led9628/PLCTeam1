@@ -43,7 +43,7 @@ public class BodyStmt implements JottTree, Returnable {
     }
 
     @Override
-    public boolean validateTree() {
+    public boolean validateTree() throws SemanticFailure {
         for (var child : this.children) {
             boolean result = child.validateTree();
             if (!result)

@@ -84,7 +84,7 @@ public class FunctionDef implements JottTree{
         } else {
             throw new ConstructionFailure("Missing def for Function Definition", tokens.get(0).getLineNum());
         }
-        validateTree();
+        // validateTree();
     }
 
     @Override
@@ -128,21 +128,29 @@ public class FunctionDef implements JottTree{
     }
 
     @Override
-    public boolean validateTree() {
-        boolean isValid = true;
-        for (var child : children) {
-            if (child instanceof ArrayList<?>) {
-                isValid = isValid && child.validateTree();
-            }
-            if (!isValid) {
+    public boolean validateTree() throws SemanticFailure {
+        for(var child : children){
+            if(!child.validateTree()){
                 return false;
             }
-            if ((child instanceof FunctionReturn && !this.children.contains(new Literal("void "))) || (!(child instanceof FunctionReturn) && !this.children.contains(new Literal("void ")))) {
-                return false;
-            }
-            System.out.print(child.getClass());
+
         }
-        return true;
+        return false;
+
+        // boolean isValid = true;
+        // for (var child : children) {
+        //     if (child instanceof ArrayList<?>) {
+        //         isValid = isValid && child.validateTree();
+        //     }
+        //     if (!isValid) {
+        //         return false;
+        //     }
+        //     if ((child instanceof FunctionReturn && !this.children.contains(new Literal("void "))) || (!(child instanceof FunctionReturn) && !this.children.contains(new Literal("void ")))) {
+        //         return false;
+        //     }
+        //     System.out.print(child.getClass());
+        // }
+        // return true;
     }
 
 }

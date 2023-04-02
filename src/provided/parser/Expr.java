@@ -19,9 +19,6 @@ public class Expr implements JottTree {
         } catch (ConstructionFailure e) {
             ex.line = e.line;
             ex.message = e.message;
-        } catch (SemanticFailure e){
-            ex.line = e.line;
-            ex.message = e.message;
         }
 
         try {
@@ -32,10 +29,7 @@ public class Expr implements JottTree {
         } catch (ConstructionFailure e) {
             ex.line = e.line;
             ex.message = e.message;
-        } catch (SemanticFailure e){
-            ex.line = e.line;
-            ex.message = e.message;
-        }
+        } 
 
         try {
             BExpr b = new BExpr(tokens, funcName);
@@ -43,9 +37,6 @@ public class Expr implements JottTree {
             this.children.add(b);
             return;
         } catch (ConstructionFailure e) {
-            ex.line = e.line;
-            ex.message = e.message;
-        } catch (SemanticFailure e){
             ex.line = e.line;
             ex.message = e.message;
         }
@@ -76,7 +67,7 @@ public class Expr implements JottTree {
     }
 
     @Override
-    public boolean validateTree() {
+    public boolean validateTree() throws SemanticFailure {
         for(var child : this.children) {
             boolean result = child.validateTree();
             if (!result)

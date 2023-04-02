@@ -10,6 +10,7 @@ public class ID implements JottTree {
     JottTree child = null;
     public String funcName;
     public CheckType type;
+    public int lineNo;
 
     public ID(ArrayList<Token> tokens, String funcName, CheckType type){
         this.funcName = funcName;
@@ -46,7 +47,7 @@ public class ID implements JottTree {
     }
 
     @Override
-    public boolean validateTree() {
+    public boolean validateTree() throws SemanticFailure {
         return child.validateTree();
     }
 }

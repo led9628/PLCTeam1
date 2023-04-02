@@ -8,19 +8,18 @@ import java.util.ArrayList;
 public class Params implements JottTree {
 
     ArrayList<JottTree> children = new ArrayList<>();
+    String funcName;
+    String callFunc;
+    int ln;
 
-    public Params(ArrayList<Token> tokens, String funcName) throws ConstructionFailure, SemanticFailure{
-        int paramNo = 0;
+    public Params(ArrayList<Token> tokens, String funcName, String callFunc) throws ConstructionFailure, SemanticFailure{
+        this.funcName = funcName;
+        this.callFunc = callFunc;
+
         //attempt to create Expr Params_t
-        int ln = tokens.get(0).getLineNum();
+        ln = tokens.get(0).getLineNum();
         Expr e = new Expr(tokens, funcName);
         this.children.add(e);
-
-        //check for correct param
-        if(Program.functions.get(funcName).paramTypes.size()>0 && !Program.functions.get(funcName).paramTypes.get(0).equals(e.type)){
-            throw new SemanticFailure("Incorrect parameter type: " + e.type + ". Expected " + Program.functions.get(funcName).paramTypes.get(0), ln);
-        }
-        paramNo++;
 
         //check for 2nd+ params
         while(tokens.get(0).getToken().equals(",")){
@@ -28,11 +27,6 @@ public class Params implements JottTree {
             
             Expr e2 = new Expr(tokens, funcName);
             this.children.add(e2);
-
-            //check for correct param
-            if(!Program.functions.get(funcName).paramTypes.get(paramNo).equals(e2.type)){
-                throw new SemanticFailure("Incorrect parameter type: " + e2.type + ". Expected " + Program.functions.get(funcName).paramTypes.get(paramNo), ln);
-            }
         }
         //this.children.add(new ParamsT(tokens)); TODO: WE CAN'T HANDLE MULTI-PARAM FUNCTIONS UNLESS WE IMPLEMENT THIS CORRECTLY.
         return;
@@ -63,7 +57,19 @@ public class Params implements JottTree {
     }
 
     @Override
-    public boolean validateTree() {
+    public boolean validateTree() throws SemanticFailure{
+        //check for correct param
+        int paramNo = 0;
+        for(JottTree jt : children){
+            Expr e = (Expr)jt;
+            if(Program.functions.get(callFunc).paramTypes.size() == 0 && !callFunc.equals("print ")){
+                throw new SemanticFailure("Tried to pass in a parameter to a function without params", ln);
+            }else if(Program.functions.get(callFunc).paramTypes.size() > 0 && !Program.functions.get(callFunc).paramTypes.get(paramNo).equals(e.type)){
+                throw new SemanticFailure("Incorrect parameter type: " + e.type + ". Expected " + Program.functions.get(callFunc).paramTypes.get(paramNo), ln);
+            }
+            paramNo++;
+        }
+
         for(var child : this.children) {
             boolean result = child.validateTree();
             if (!result)

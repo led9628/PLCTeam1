@@ -23,7 +23,7 @@ public class FuncCall implements JottTree {
             throw new ConstructionFailure("Unexpected symbol or id", token1.getLineNum());
         }
         ID id = new ID(tokens, funcName, null);
-        
+
         // type = Program.functions.get(id.toString()).returnType;
         // id.type = Program.functions.get(funcName).localSymtab.get(id.toString()).varType;
         // id.type = type;
@@ -38,7 +38,7 @@ public class FuncCall implements JottTree {
         }
         this.children.add(new Literal(token2.getToken())); // l brakcet
         // da params
-        this.children.add(new Params(tokens, token1.getToken()+" "));
+        this.children.add(new Params(tokens, funcName, token1.getToken()+" "));
         
         //after the param stuff is done, i need the next token
         Token token3 = tokens.remove(0);
@@ -83,17 +83,27 @@ public class FuncCall implements JottTree {
 
     @Override
     //You need to add params stuff
-    public boolean validateTree() {
+    public boolean validateTree() throws SemanticFailure{
         //validate function exists.
         ID id = (ID)children.get(0);
-        
+        id.validateTree();
+
         if(!Program.functions.containsKey(id.toString())){
-            throw new SemanticFailure("function "+id.toString()+" not found", tokens.get(0).getLineNum());
+            throw new SemanticFailure("function "+id.toString()+" not found", id.lineNo);
         }
         
         this.type = Program.functions.get(id.toString()).returnType;
         id.type = type;
 
+        for(JottTree child : children){
+            boolean valid = child.validateTree();
+            if(valid == false){
+                return false;
+            }
+
+        }
+
+        return true;
         // for(int i = 0; i < this.children.size(); i++) {
         //     //if function does not exist
         //     if (i == 0){

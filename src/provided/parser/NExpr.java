@@ -8,14 +8,18 @@ import provided.TokenType;
 
 public class NExpr implements JottTree {
     ArrayList<JottTree> children = new ArrayList<>();
+    String funcName;
+    int lineNo;
     public CheckType type;
 
     public NExpr(ArrayList<Token> tokens, String funcName) throws ConstructionFailure, SemanticFailure {
+        this.funcName = funcName;
+        
         // Attempt to create a FuncCall
         try {
             FuncCall func = new FuncCall(tokens, funcName);
             this.type = func.type;
-            this.children.add(new FuncCall(tokens, funcName));
+            this.children.add(func);
             return;
         } catch (ConstructionFailure e) {}
         // Attempt to create an Id Op NExpr
@@ -26,28 +30,25 @@ public class NExpr implements JottTree {
             }
 
             ID id = new ID(tokens, funcName, null);
-            if (!Program.functions.get(funcName).settingParams){
-                if(!Program.functions.get(funcName).localSymtab.containsKey(id.toString())){
-                    throw new SemanticFailure("id not found", tokens.get(0).getLineNum());
-                }
-                id.type = Program.functions.get(funcName).localSymtab.get(id.toString()).varType;
+            // if (!Program.functions.get(funcName).settingParams){
+            //     if(!Program.functions.get(funcName).localSymtab.containsKey(id.toString())){
+            //         throw new SemanticFailure("id not found", tokens.get(0).getLineNum());
+            //     }
+            //     id.type = Program.functions.get(funcName).localSymtab.get(id.toString()).varType;
             
-            }
-            
-            this.type = id.type;
+            // }
+            // this.type = id.type;
             tokens.remove(0);
             this.children.add(id);
 
             this.children.add(new Op(tokens));
 
-            int lineNo = tokens.get(0).getLineNum();
+            lineNo = tokens.get(0).getLineNum();
             NExpr n = new NExpr(tokens, funcName);
-            if(!n.type.equals(id.type)){
-                throw new SemanticFailure("Invalid operation between" + id.type + " and " + n.type, lineNo);
-            }
+            
             this.children.add(n);
             return;
-        } catch (ConstructionFailure | SemanticFailure e) {
+        } catch (ConstructionFailure e) {
             // tokens.add(0, token);
         }
 
@@ -55,13 +56,13 @@ public class NExpr implements JottTree {
         if (tokens.get(0).getTokenType() == TokenType.ID_KEYWORD) {
             ID id = new ID(tokens, funcName, null);
 
-            if (!Program.functions.get(funcName).settingParams){
-                if(!Program.functions.get(funcName).localSymtab.containsKey(id.toString())){
-                    throw new SemanticFailure("id not found", tokens.get(0).getLineNum());
-                }
-                id.type = Program.functions.get(funcName).localSymtab.get(id.toString()).varType;
-            }
-            type = id.type;
+            // if (!Program.functions.get(funcName).settingParams){
+            //     if(!Program.functions.get(funcName).localSymtab.containsKey(id.toString())){
+            //         throw new SemanticFailure("id not found", tokens.get(0).getLineNum());
+            //     }
+            //     id.type = Program.functions.get(funcName).localSymtab.get(id.toString()).varType;
+            // }
+            // type = id.type;
             // if(Program.functions.get(funcName))
             tokens.remove(0);
             this.children.add(id);
@@ -86,15 +87,15 @@ public class NExpr implements JottTree {
 
             this.children.add(new Op(tokens));
 
-            int ln = tokens.get(0).getLineNum();
+            lineNo = tokens.get(0).getLineNum();
             NExpr n = new NExpr(tokens, funcName);
             this.children.add(n);
 
-            if(!fc.type.equals(n.type)){
-                throw new SemanticFailure("Invalid comparison between " + fc.type + " and " + n.type, ln);
-            }
+            // if(!fc.type.equals(n.type)){
+            //     throw new SemanticFailure("Invalid comparison between " + fc.type + " and " + n.type, ln);
+            // }
             return;
-        } catch (ConstructionFailure | SemanticFailure e) {}
+        } catch (ConstructionFailure e) {}
 
         // Attempt to create a Num Op NExpr
         try {
@@ -103,15 +104,15 @@ public class NExpr implements JottTree {
             
             this.children.add(new Op(tokens));
 
-            int ln = tokens.get(0).getLineNum();
+            lineNo = tokens.get(0).getLineNum();
             NExpr n = new NExpr(tokens, funcName);
             this.children.add(n);
 
-            if(!num.type.equals(n.type)){
-                throw new SemanticFailure("Invalid comparison between " + num.type + " and " + n.type, ln);
-            }
+            // if(!num.type.equals(n.type)){
+            //     throw new SemanticFailure("Invalid comparison between " + num.type + " and " + n.type, ln);
+            // }
             return;
-        } catch (ConstructionFailure | SemanticFailure e) {}
+        } catch (ConstructionFailure e) {}
         throw new ConstructionFailure("Number Expression is Invalid", tokens.get(0).getLineNum());
     }
 
@@ -143,12 +144,92 @@ public class NExpr implements JottTree {
     }
 
     @Override
-    public boolean validateTree() {
-        for(var child : this.children) {
-            boolean result = child.validateTree();
-            if (!result)
-                return false;
+    public boolean validateTree() throws SemanticFailure{
+        if(children.size()==1){
+            //id
+            if(children.get(0) instanceof ID){
+                ID id = (ID) children.get(0);
+                if(id.validateTree() == false){
+                    return false;
+                }
+
+                if(!Program.functions.get(funcName).localSymtab.containsKey(id.toString())){
+                    throw new SemanticFailure("Id not found", lineNo);
+                }
+                id.type = Program.functions.get(funcName).localSymtab.get(id.toString()).varType;
+                this.type = id.type;
+            }
+            
+            //num or funcCall
+            else if(children.get(0) instanceof Num){
+                Num n = (Num) children.get(0);
+                if(n.validateTree() == false){
+                    return false;
+                }
+
+                this.type = n.type;
+            }
+            else if(children.get(0) instanceof FuncCall){
+                FuncCall fc = (FuncCall)children.get(0);
+                if(fc.validateTree() == false){
+                    return false;
+                }
+
+                this.type = fc.type;
+            }
+        }else{
+            //id op nexpr
+            if(children.get(0) instanceof ID){
+                ID id = (ID)children.get(0);
+                if(id.validateTree() == false){
+                    return false;
+                }
+
+                if(!Program.functions.get(funcName).localSymtab.containsKey(id.toString())){
+                    throw new SemanticFailure("id not found", lineNo);
+                }
+                id.type = Program.functions.get(funcName).localSymtab.get(id.toString()).varType;
+                this.type = id.type;
+                
+                NExpr n = (NExpr)children.get(2);
+                if(!n.validateTree()){
+                    return false;
+                }
+                if(!n.type.equals(id.type)){
+                    throw new SemanticFailure("Invalid operation between" + id.type + " and " + n.type, lineNo);
+                }
+            }
+
+            //num op nexpr
+            else if(children.get(0) instanceof Num){
+                Num num = (Num)children.get(0);
+                NExpr n = (NExpr)children.get(2);
+                if(!num.validateTree() || !n.validateTree()){
+                    return false;
+                }
+                if(!num.type.equals(n.type)){
+                    throw new SemanticFailure("Invalid comparison between " + num.type + " and " + n.type, lineNo);
+                }
+            }
+
+            //funccall op nexpr
+            else if(children.get(0) instanceof FuncCall){
+                FuncCall fc = (FuncCall)children.get(0);
+                NExpr n = (NExpr)children.get(2);
+                if(!fc.validateTree() || !n.validateTree()){
+                    return false;
+                }
+                if(!fc.type.equals(n.type)){
+                    throw new SemanticFailure("Invalid comparison between " + fc.type + " and " + n.type, lineNo);
+                }
+            }
         }
         return true;
+        // for(var child : this.children) {
+        //     boolean result = child.validateTree();
+        //     if (!result)
+        //         return false;
+        // }
+        // return true;
     }
 }

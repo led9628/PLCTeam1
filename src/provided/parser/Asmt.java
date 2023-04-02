@@ -7,8 +7,12 @@ import java.util.ArrayList;
 
 public class Asmt implements JottTree {
     ArrayList<JottTree> children = new ArrayList<>();
+    String funcName;
+    int lineNo;
 
     public Asmt(ArrayList<Token> tokens, String funcName) throws ConstructionFailure, SemanticFailure{
+        this.funcName = funcName;
+
         //attempt to create type id = expr end_stmt
         Token a = null, b = null;
         try {
@@ -34,9 +38,9 @@ public class Asmt implements JottTree {
             }
             Expr expr = new Expr(tokens, funcName);
             //CHECK IF ID.TYPE = EXPR.TYPE.
-            if(!id.type.equals(expr.type)){
-                throw new SemanticFailure("Assignment between wrong types", tokens.get(0).getLineNum());
-            }
+            // if(!id.type.equals(expr.type)){
+            //     throw new SemanticFailure("Assignment between wrong types", tokens.get(0).getLineNum());
+            // }
             
             this.children.add(expr);
             this.children.add(new EndStmt(tokens));
@@ -54,10 +58,10 @@ public class Asmt implements JottTree {
         try {
             //create and check id exists
             ID id = new ID(tokens, funcName, null);
-            if(!Program.functions.get(funcName).localSymtab.containsKey(id.toString())){
-                throw new SemanticFailure("Uninitialized variable: " + id.toString(), tokens.get(0).getLineNum());
-            }
-            id.type = Program.functions.get(funcName).localSymtab.get(id.toString()).varType;
+            // if(!Program.functions.get(funcName).localSymtab.containsKey(id.toString())){
+            //     throw new SemanticFailure("Uninitialized variable: " + id.toString(), tokens.get(0).getLineNum());
+            // }
+            // id.type = Program.functions.get(funcName).localSymtab.get(id.toString()).varType;
             this.children.add(id);//id
             this.children.add(new Literal(tokens.get(1).getToken()));//=
             Token equalsToken = tokens.get(1);
@@ -70,9 +74,9 @@ public class Asmt implements JottTree {
             }
             //CHECK IF TYPES ARE THE SAME
             Expr expr = new Expr(tokens, funcName);
-            if(!id.type.equals(expr.type)){
-                throw new SemanticFailure("Assignment between wrong types", tokens.get(1).getLineNum());
-            }
+            // if(!id.type.equals(expr.type)){
+            //     throw new SemanticFailure("Assignment between wrong types", tokens.get(1).getLineNum());
+            // }
 
             this.children.add(expr);
             this.children.add(new EndStmt(tokens));
@@ -113,12 +117,57 @@ public class Asmt implements JottTree {
     }
 
     @Override
-    public boolean validateTree() {
-        for(var child : this.children) {
-            boolean result = child.validateTree();
-            if (!result)
+    public boolean validateTree() throws SemanticFailure{
+        // if(!id.type.equals(expr.type)){
+        //     throw new SemanticFailure("Assignment between wrong types", tokens.get(0).getLineNum());
+        // }
+        
+        if(children.get(0) instanceof Type){
+            ID id = (ID)children.get(1);
+            if(id.validateTree()){
                 return false;
+            }
+            
+            if(Program.functions.get(funcName).localSymtab.containsKey(id.toString())){
+                throw new SemanticFailure("Variable with name " + id.toString() + " already exists", lineNo);
+            }
+
+            Expr expr = (Expr)children.get(3);
+            if(expr.validateTree()){
+                return false;
+            }
+
+            if(!id.type.equals(expr.type)){
+                throw new SemanticFailure("Assignment between wrong types: " + id.type + " and " + expr.type, lineNo);
+            }
+        }else{
+            ID id = (ID)children.get(0);
+            if(id.validateTree()){
+                return false;
+            }
+
+            if(!Program.functions.get(funcName).localSymtab.containsKey(id.toString())){
+                throw new SemanticFailure("Variable with name " + id.toString() + " does not exist", lineNo);
+            }
+            id.type = Program.functions.get(funcName).localSymtab.get(id.toString()).varType;
+
+            Expr expr = (Expr)children.get(2);
+            if(expr.validateTree()){
+                return false;
+            }
+
+            if(!id.type.equals(expr.type)){
+                throw new SemanticFailure("Assignment between wrong types: " + id.type + " and " + expr.type, lineNo);
+            }
+
         }
+
+
+        // for(var child : this.children) {
+        //     boolean result = child.validateTree();
+        //     if (!result)
+        //         return false;
+        // }
         return true;
     }
 }
