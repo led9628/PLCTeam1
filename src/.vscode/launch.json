@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "JottTokenizerTester",
+            "request": "launch",
+            "mainClass": "testers.JottTokenizerTester",
+            "projectName": "src_e578c6a7"
+        },
+        {
+            "type": "java",
             "name": "JottParserTester",
             "request": "launch",
             "mainClass": "testers.JottParserTester"
@@ -11,7 +18,7 @@
             "name": "Launch Java Program",
             "request": "launch",
             "mainClass": "Main",
-            "args": "Jott parserTestCases/funcCallParamInvalid.jott out.jott Jott"
+            "args": "Jott parserTestCases/funcReturnInExpr.jott out.jott Jott"
         }
     ]
 }

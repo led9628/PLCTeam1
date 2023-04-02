@@ -142,7 +142,7 @@ public class BExpr implements JottTree {
             }
 
             if(!n1.type.equals(n2.type)){
-                throw new SemanticFailure(("Invalid attempt to compare" + n1.type + " and " + n2.type + "."), lineNo);
+                throw new SemanticFailure(("Invalid attempt to compare " + n1.type + " and " + n2.type + "."), lineNo);
             }
         }
 

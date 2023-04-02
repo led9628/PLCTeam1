@@ -24,32 +24,37 @@ public class NExpr implements JottTree {
         } catch (ConstructionFailure e) {}
         // Attempt to create an Id Op NExpr
         Token token = tokens.get(0);
-        try {
-            if (token.getTokenType() != TokenType.ID_KEYWORD || (tokens.get(0).getTokenType() != TokenType.MATH_OP)) {
-                throw new ConstructionFailure("Unexpected error", -1);
+        if(tokens.get(1).getTokenType() == TokenType.MATH_OP){
+            try {
+                if (token.getTokenType() != TokenType.ID_KEYWORD) {
+                    throw new ConstructionFailure("Unexpected error", -1);
+                }
+                // else if((tokens.get(0).getTokenType() != TokenType.MATH_OP)){
+                //     throw new ConstructionFailure("Unexpected error", -1);
+                // }
+
+                ID id = new ID(tokens, funcName, null);
+                // if (!Program.functions.get(funcName).settingParams){
+                //     if(!Program.functions.get(funcName).localSymtab.containsKey(id.toString())){
+                //         throw new SemanticFailure("id not found", tokens.get(0).getLineNum());
+                //     }
+                //     id.type = Program.functions.get(funcName).localSymtab.get(id.toString()).varType;
+                
+                // }
+                // this.type = id.type;
+                tokens.remove(0);
+                this.children.add(id);
+
+                this.children.add(new Op(tokens));
+
+                lineNo = tokens.get(0).getLineNum();
+                NExpr n = new NExpr(tokens, funcName);
+                
+                this.children.add(n);
+                return;
+            } catch (ConstructionFailure e) {
+                // tokens.add(0, token);
             }
-
-            ID id = new ID(tokens, funcName, null);
-            // if (!Program.functions.get(funcName).settingParams){
-            //     if(!Program.functions.get(funcName).localSymtab.containsKey(id.toString())){
-            //         throw new SemanticFailure("id not found", tokens.get(0).getLineNum());
-            //     }
-            //     id.type = Program.functions.get(funcName).localSymtab.get(id.toString()).varType;
-            
-            // }
-            // this.type = id.type;
-            tokens.remove(0);
-            this.children.add(id);
-
-            this.children.add(new Op(tokens));
-
-            lineNo = tokens.get(0).getLineNum();
-            NExpr n = new NExpr(tokens, funcName);
-            
-            this.children.add(n);
-            return;
-        } catch (ConstructionFailure e) {
-            // tokens.add(0, token);
         }
 
         // Attempt to create an Id
@@ -160,7 +165,7 @@ public class NExpr implements JottTree {
                 this.type = id.type;
             }
             
-            //num or funcCall
+            //num
             else if(children.get(0) instanceof Num){
                 Num n = (Num) children.get(0);
                 if(n.validateTree() == false){
@@ -169,6 +174,7 @@ public class NExpr implements JottTree {
 
                 this.type = n.type;
             }
+            //funcCall
             else if(children.get(0) instanceof FuncCall){
                 FuncCall fc = (FuncCall)children.get(0);
                 if(fc.validateTree() == false){

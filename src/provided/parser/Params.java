@@ -62,6 +62,9 @@ public class Params implements JottTree {
         int paramNo = 0;
         for(JottTree jt : children){
             Expr e = (Expr)jt;
+            if(!e.validateTree()){
+                return false;
+            }
             if(Program.functions.get(callFunc).paramTypes.size() == 0 && !callFunc.equals("print ")){
                 throw new SemanticFailure("Tried to pass in a parameter to a function without params", ln);
             }else if(Program.functions.get(callFunc).paramTypes.size() > 0 && !Program.functions.get(callFunc).paramTypes.get(paramNo).equals(e.type)){

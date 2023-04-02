@@ -33,7 +33,6 @@ public class CheckType {
                 this.type = varType.STRING;
                 return;
             }
-            tokens.add(0, token);
             throw new ConstructionFailure("is not Boolean, Integer, String, or Double.", token.getLineNum());
         }
 

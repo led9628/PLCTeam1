@@ -22,6 +22,9 @@ class Main {
             if(tokenList == null){
                 return;
             }
+            // for(Token k : tokenList){
+            //     System.out.println(k.getToken());
+            // }
             JottTree parseTree = JottParser.parse(tokenList);
             if(parseTree == null){
                 return;

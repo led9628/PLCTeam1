@@ -92,10 +92,13 @@ public class Body implements JottTree, Returnable {
     public boolean validateTree() throws SemanticFailure{
         for (var child : this.children) {
             boolean result = child.validateTree();
-            boolean result2 = checkReturn();
-            if (result == false || result2 == false)
+            if(!result){
                 return false;
+            }
+            // if (result == false || result2 == false)
+            //     return false;
         }
-        return true;
+        return checkReturn();
+        // return true;
     }
 }

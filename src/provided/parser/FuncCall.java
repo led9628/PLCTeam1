@@ -11,7 +11,7 @@ public class FuncCall implements JottTree {
     CheckType type;
 
     public FuncCall(ArrayList<Token> tokens, String funcName) throws ConstructionFailure, SemanticFailure{
-        Token token1 = tokens.get(0);
+        Token token1 = tokens.get(0);//id
 
         // System.out.println("FUNCTOKENS: ");
         // for(var i : tokens){
