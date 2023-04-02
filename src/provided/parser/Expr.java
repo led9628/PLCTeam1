@@ -8,11 +8,13 @@ import provided.Token;
 public class Expr implements JottTree {
     ArrayList<JottTree> children = new ArrayList<>();
     CheckType type;
+    int lineNo;
 
     public Expr(ArrayList<Token> tokens, String funcName) throws ConstructionFailure, SemanticFailure{
         var ex = new ConstructionFailure("Expression is Invalid", 0);
         try {
             NExpr n = new NExpr(tokens, funcName);
+            this.lineNo = n.lineNo;
             this.type = n.type;
             this.children.add(n);
             return;
@@ -23,6 +25,7 @@ public class Expr implements JottTree {
 
         try {
             SExpr s = new SExpr(tokens, funcName);
+            this.lineNo = s.lineNo;
             this.type = s.type;
             this.children.add(s);
             return;
@@ -33,6 +36,7 @@ public class Expr implements JottTree {
 
         try {
             BExpr b = new BExpr(tokens, funcName);
+            this.lineNo = b.lineNo;
             this.type = b.type;
             this.children.add(b);
             return;

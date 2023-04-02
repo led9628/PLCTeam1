@@ -14,6 +14,7 @@ public class NExpr implements JottTree {
 
     public NExpr(ArrayList<Token> tokens, String funcName) throws ConstructionFailure, SemanticFailure {
         this.funcName = funcName;
+        this.lineNo = tokens.get(0).getLineNum();
         
         // Attempt to create a FuncCall
         try {
@@ -24,6 +25,7 @@ public class NExpr implements JottTree {
         } catch (ConstructionFailure e) {}
         // Attempt to create an Id Op NExpr
         Token token = tokens.get(0);
+        lineNo = tokens.get(0).getLineNum();
         if(tokens.get(1).getTokenType() == TokenType.MATH_OP){
             try {
                 if (token.getTokenType() != TokenType.ID_KEYWORD) {
