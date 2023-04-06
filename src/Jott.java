@@ -5,7 +5,7 @@ import provided.parser.JottParser;
 import provided.JottTokenizer;
 import provided.JottTree;
 
-class Main {
+class Jott {
 
     /*
      * Arguments for main:
