@@ -49,8 +49,7 @@ public class Num implements JottTree {
 
     @Override
     public String convertToC() {
-        // TODO Auto-generated method stub
-        return null;
+        return this.children.get(0).convertToC();
     }
 
     @Override

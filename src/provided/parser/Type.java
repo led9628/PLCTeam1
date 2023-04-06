@@ -43,7 +43,13 @@ public class Type implements JottTree {
 
     @Override
     public String convertToC() {
-        return null;
+        switch (this.children.get(0).convertToC()) {
+            case "Boolean " -> { return "bool "; }
+            case "Integer " -> { return "int "; }
+            case "Double " -> { return "double "; }
+            case "String " -> { return "char* "; }
+            default -> { return "void "; }
+        }
     }
 
     @Override

@@ -37,8 +37,12 @@ public class Bool implements JottTree {
 
     @Override
     public String convertToC() {
-        // TODO Auto-generated method stub
-        return null;
+        String s = this.children.get(0).toString();
+        if (s.equals("True")) {
+            return "1";
+        } else {
+            return "0";
+        }
     }
 
     @Override

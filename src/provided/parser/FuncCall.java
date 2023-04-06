@@ -71,8 +71,17 @@ public class FuncCall implements JottTree {
 
     @Override
     public String convertToC() {
-        // TODO Auto-generated method stub
-        return null;
+        StringBuilder sb = new StringBuilder();
+        for(var child : this.children){
+            String s = child.convertToC();
+            if (s.equals("[ ")) {
+                s = "( ";
+            } else if (s.equals("] ")) {
+                s = ") ";
+            }
+            sb.append(s);
+        }
+        return sb.toString();
     }
 
     @Override

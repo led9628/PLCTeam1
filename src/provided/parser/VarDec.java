@@ -47,7 +47,10 @@ public class VarDec implements JottTree{
 
     @Override
     public String convertToC() {
-        return null;
+        String type = this.children.get(0).convertToJott();
+        String id = this.children.get(1).convertToJott();
+        String end = this.children.get(2).convertToJott();
+        return type + " " + id + end;
     }
 
     @Override

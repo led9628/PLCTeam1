@@ -117,8 +117,39 @@ public class FunctionDef implements JottTree{
 
     @Override
     public String convertToC() {
-        // TODO Auto-generated method stub
-        return null;
+        StringBuilder sb = new StringBuilder();
+        boolean firstParam = true;
+        String currString = null;
+        String type = "Void";
+        for (var child : this.children) {
+            if (currString != null && currString.equals(") ")) {
+                currString = child.convertToC();
+                type = currString;
+                continue;
+            }
+            if(child instanceof FunctionParam){
+                if(firstParam){
+                    firstParam = false;
+                }else{
+                    sb.append(",");
+                }
+            }
+
+            currString = child.convertToC();
+            if (currString.equals("[ ")) {
+                currString = "(";
+            } else if (currString.equals("] ")) {
+                currString = ") ";
+            } else if (currString.equals("{ ")) {
+                currString = "{\n";
+            } else if (currString.equals("} ")) {
+                currString = "}\n";
+            }
+            sb.append(currString);
+        }
+        String finalString = sb.toString();
+        return finalString.replace("def", type);
+
     }
 
     @Override

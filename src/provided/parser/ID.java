@@ -36,8 +36,7 @@ public class ID implements JottTree {
 
     @Override
     public String convertToC() {
-        // TODO Auto-generated method stub
-        return null;
+        return this.child.convertToC();
     }
 
     @Override

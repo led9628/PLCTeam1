@@ -44,8 +44,9 @@ public class ReturnStmt implements JottTree, Returnable {
 
     @Override
     public String convertToC() {
-        // TODO Auto-generated method stub
-        return null;
+        String s1 = this.children.get(1).convertToC();
+        String s2 = this.children.get(2).convertToC();
+        return "return " + s1 + s2;
     }
 
     @Override

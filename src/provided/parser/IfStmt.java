@@ -139,8 +139,11 @@ public class IfStmt implements JottTree, Returnable{
 
     @Override
     public String convertToC() {
-        // TODO Auto-generated method stub
-        return null;
+        StringBuilder sb = new StringBuilder();
+        for (var child : this.children) {
+            sb.append(child.convertToC());
+        }
+        return sb.toString();
     }
 
     @Override

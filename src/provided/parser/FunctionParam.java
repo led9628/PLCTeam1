@@ -77,8 +77,14 @@ public class FunctionParam implements JottTree{
 
     @Override
     public String convertToC() {
-        // TODO Auto-generated method stub
-        return null;
+        StringBuilder sb = new StringBuilder();
+        for (var child : this.children) {
+            if (child instanceof Type) {
+                sb.append(" ");
+            }
+            sb.append(child.convertToC());
+        }
+        return sb.toString();
     }
 
     @Override

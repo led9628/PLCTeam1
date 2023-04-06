@@ -33,8 +33,7 @@ public class EndStmt implements JottTree{
 
    @Override
    public String convertToC() {
-       // TODO Auto-generated method stub
-       return null;
+        return ";\n";
    }
 
    @Override

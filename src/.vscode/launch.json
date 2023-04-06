@@ -2,23 +2,15 @@
     "configurations": [
         {
             "type": "java",
-            "name": "JottTokenizerTester",
-            "request": "launch",
-            "mainClass": "testers.JottTokenizerTester",
-            "projectName": "src_e578c6a7"
-        },
-        {
-            "type": "java",
-            "name": "JottParserTester",
-            "request": "launch",
-            "mainClass": "testers.JottParserTester"
-        },
-        {
-            "type": "java",
             "name": "Launch Java Program",
             "request": "launch",
-            "mainClass": "Main",
-            "args": "Jott parserTestCases/whileKeyword.jott out.jott Jott"
+            "mainClass": "Jott",
+            "args": [
+                "Jott",
+                "parserTestCases/validLoop.jott",
+                "out.c",
+                "C"
+            ]
         }
     ]
 }

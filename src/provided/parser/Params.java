@@ -48,7 +48,11 @@ public class Params implements JottTree {
 
     @Override
     public String convertToC() {
-        return null;
+        StringBuilder sb = new StringBuilder();
+        for (var child : this.children) {
+            sb.append(child.convertToC());
+        }
+        return sb.toString();
     }
 
     @Override
