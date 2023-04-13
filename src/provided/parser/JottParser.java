@@ -25,9 +25,31 @@ public class JottParser {
             JottTree prg = new Program(tokens);
             return prg;
         }catch(ConstructionFailure e){
-            System.out.println("Syntax Error:");
-            System.out.println(e.message);
-            System.out.println(filename + ":" + e.line);
+            System.out.println("TOKENS: ");
+            for(var i : tokens){
+                System.out.println(i.getToken());
+            }
+            
+            e.printStackTrace();
+
+            System.err.println("Syntax Error:");
+            System.err.println(e.message);
+            System.err.println(filename + ":" + e.line);
+            return null;
+        }catch(SemanticFailure e){
+            for(var j : Program.functions.keySet()){
+                System.out.println(j);
+            }
+            System.out.println("TOKENS: ");
+            for(var i : tokens){
+                System.out.println(i.getToken());
+            }
+            System.out.println("END");
+            e.printStackTrace();
+            System.err.println("Semantic Error:");
+            System.err.println(e.message);
+            System.err.println(filename + ":" + e.line);
+            System.out.println("END");
             return null;
         }
     }

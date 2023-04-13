@@ -29,8 +29,7 @@ public class Literal implements JottTree{
 
    @Override
    public String convertToC() {
-       // TODO Auto-generated method stub
-       return null;
+        return this.toString();
    }
 
    @Override
@@ -41,8 +40,7 @@ public class Literal implements JottTree{
 
    @Override
    public boolean validateTree() {
-       // TODO Auto-generated method stub
-       return false;
+       return true;
    }
 
 }

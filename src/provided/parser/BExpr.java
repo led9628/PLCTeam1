@@ -8,30 +8,60 @@ import provided.TokenType;
 
 public class BExpr implements JottTree {
     ArrayList<JottTree> children = new ArrayList<>();
+    public CheckType type;
+    String funcName;
+    int lineNo;
 
-    public BExpr(ArrayList<Token> tokens) throws ConstructionFailure{
+
+    public BExpr(ArrayList<Token> tokens, String funcName) throws ConstructionFailure, SemanticFailure{
+        this.funcName = funcName;
+
         // Attempt to create an NExpr RelOp NExpr
         try {
-            this.children.add(new NExpr(tokens));
+            NExpr n1 = new NExpr(tokens, funcName);
+            this.children.add(n1);
+
             this.children.add(new RelOp(tokens));
-            this.children.add(new NExpr(tokens));
+
+            NExpr n2 = new NExpr(tokens, funcName);
+            this.children.add(n2);
+
+            // if(!n1.type.equals(n2.type)){
+            //     //LINE NUMBER MAY BE WRONG.
+            //     throw new SemanticFailure(("Invalid attempt to compare" + n1.type + " and " + n2.type + "."), tokens.get(0).getLineNum());
+            // }
             return;
-        } catch (ConstructionFailure e) {}
+        } catch (ConstructionFailure | SemanticFailure e) {}
         // If that doesn't work, keep trying to make things.
         Token token = tokens.get(0);
         if (token.getTokenType() == TokenType.ID_KEYWORD) {
             // Try to create a FuncCall.
             try {
-                this.children.add(new FuncCall(tokens));
+                FuncCall f = new FuncCall(tokens, funcName);
+                this.children.add(f);
+                // this.type = f.type;
                 return;
             } catch (ConstructionFailure e) {}
             // Try to create a Bool.
             try {
-                this.children.add(new Bool(tokens));
+                Bool b = new Bool(tokens);
+                this.children.add(b);
+                // this.type = b.type;
                 return;
             } catch (ConstructionFailure e) {}
             // Create an ID if it can't be anything else.
-            this.children.add(new Literal(tokens.remove(0).getToken()));
+
+            ID id = new ID(tokens, funcName, null);
+
+            // if (!Program.functions.get(funcName).settingParams){
+            //     if(!Program.functions.get(funcName).localSymtab.containsKey(id.toString())){
+            //         throw new SemanticFailure("id not found", tokens.get(0).getLineNum());
+            //     }
+            //     id.type = Program.functions.get(funcName).localSymtab.get(id.toString()).varType;
+            // }
+            // this.type = id.type;
+            tokens.remove(0);
+            this.children.add(id);
             return;
         }
         // If we failed to turn BExpr into anything, throw.
@@ -56,8 +86,11 @@ public class BExpr implements JottTree {
 
     @Override
     public String convertToC() {
-        // TODO Auto-generated method stub
-        return null;
+        StringBuilder sb = new StringBuilder();
+        for (var child : this.children) {
+            sb.append(child.convertToC());
+        }
+        return sb.toString();
     }
 
     @Override
@@ -67,8 +100,60 @@ public class BExpr implements JottTree {
     }
 
     @Override
-    public boolean validateTree() {
-        // TODO Auto-generated method stub
-        return false;
+    public boolean validateTree() throws SemanticFailure{
+        if(children.size()==1){
+            //id
+            if(children.get(0) instanceof ID){
+                ID id = (ID) children.get(0);
+                if(id.validateTree() == false){
+                    return false;
+                }
+
+                if(!Program.functions.get(funcName).localSymtab.containsKey(id.toString())){
+                    throw new SemanticFailure("id not found", lineNo);
+                }
+
+                id.type = Program.functions.get(funcName).localSymtab.get(id.toString()).varType;
+                this.type = id.type;
+            }
+
+            //bool
+            else if(children.get(0) instanceof Bool){
+                Bool b = (Bool) children.get(0);
+                if(!b.validateTree()){
+                    return false;
+                }
+                this.type = b.type;
+                
+            }
+
+            //funccall
+            else if(children.get(0) instanceof FuncCall){
+                FuncCall fc = (FuncCall)children.get(0);
+                if(!fc.validateTree()){
+                    return false;
+                }
+                this.type = fc.type;
+                
+            }
+        }else{
+            NExpr n1 = (NExpr) children.get(0);
+            NExpr n2 = (NExpr) children.get(2);
+
+            if(!n1.validateTree() || !n2.validateTree()){
+                return false;
+            }
+
+            if(!n1.type.equals(n2.type)){
+                throw new SemanticFailure(("Invalid attempt to compare " + n1.type + " and " + n2.type + "."), lineNo);
+            }
+        }
+
+        for(var child : this.children) {
+            boolean result = child.validateTree();
+            if (!result)
+                return false;
+        }
+        return true;
     }
 }

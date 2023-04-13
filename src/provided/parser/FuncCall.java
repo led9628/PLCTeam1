@@ -8,15 +8,27 @@ import provided.TokenType;
 
 public class FuncCall implements JottTree {
     ArrayList<JottTree> children = new ArrayList<>();
+    CheckType type;
 
-    public FuncCall(ArrayList<Token> tokens) throws ConstructionFailure{
-        Token token1 = tokens.remove(0);
+    public FuncCall(ArrayList<Token> tokens, String funcName) throws ConstructionFailure, SemanticFailure{
+        Token token1 = tokens.get(0);//id
+
+        // System.out.println("FUNCTOKENS: ");
+        // for(var i : tokens){
+        //     System.out.println(i.getToken() + "   " + i.getTokenType());
+        // }
 
         if(token1.getTokenType() != TokenType.ID_KEYWORD){
-            tokens.add(0, token1);
+            // tokens.add(0, token1);
             throw new ConstructionFailure("Unexpected symbol or id", token1.getLineNum());
         }
-        this.children.add(new Literal(token1.getToken()));
+        ID id = new ID(tokens, funcName, null);
+
+        // type = Program.functions.get(id.toString()).returnType;
+        // id.type = Program.functions.get(funcName).localSymtab.get(id.toString()).varType;
+        // id.type = type;
+        this.children.add(id);
+        tokens.remove(0);
 
         Token token2 = tokens.remove(0);
         if(token2.getTokenType() != TokenType.L_BRACKET){
@@ -24,9 +36,9 @@ public class FuncCall implements JottTree {
             tokens.add(0, token1);
             throw new ConstructionFailure("Missing left operand", token2.getLineNum());
         }
-        this.children.add(new Literal(token2.getToken()));
+        this.children.add(new Literal(token2.getToken())); // l brakcet
         // da params
-        this.children.add(new Params(tokens));
+        this.children.add(new Params(tokens, funcName, token1.getToken()+" "));
         
         //after the param stuff is done, i need the next token
         Token token3 = tokens.remove(0);
@@ -59,8 +71,17 @@ public class FuncCall implements JottTree {
 
     @Override
     public String convertToC() {
-        // TODO Auto-generated method stub
-        return null;
+        StringBuilder sb = new StringBuilder();
+        for(var child : this.children){
+            String s = child.convertToC();
+            if (s.equals("[ ")) {
+                s = "( ";
+            } else if (s.equals("] ")) {
+                s = ") ";
+            }
+            sb.append(s);
+        }
+        return sb.toString();
     }
 
     @Override
@@ -70,8 +91,45 @@ public class FuncCall implements JottTree {
     }
 
     @Override
-    public boolean validateTree() {
-        // TODO Auto-generated method stub
-        return false;
+    //You need to add params stuff
+    public boolean validateTree() throws SemanticFailure{
+        //validate function exists.
+        ID id = (ID)children.get(0);
+        id.validateTree();
+
+        if(!Program.functions.containsKey(id.toString())){
+            throw new SemanticFailure("function "+id.toString()+" not found", id.lineNo);
+        }
+        
+        this.type = Program.functions.get(id.toString()).returnType;
+        id.type = type;
+
+        for(JottTree child : children){
+            boolean valid = child.validateTree();
+            if(valid == false){
+                return false;
+            }
+
+        }
+
+        return true;
+        // for(int i = 0; i < this.children.size(); i++) {
+        //     //if function does not exist
+        //     if (i == 0){
+        //         try {
+        //             Program.functions.get(this.children.get(0).toString());
+        //         }
+        //         catch (Exception e){
+        //             return false;
+        //         }
+        //     }
+        //     //if validate tree bad
+        //     else{
+        //         boolean result = this.children.get(i).validateTree();
+        //         if (!result)
+        //             return false;
+        //     }
+        // }
+        // return true;
     }
 }

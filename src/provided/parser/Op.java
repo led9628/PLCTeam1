@@ -32,8 +32,7 @@ public class Op implements JottTree {
 
     @Override
     public String convertToC() {
-        // TODO Auto-generated method stub
-        return null;
+        return this.children.get(0).toString();
     }
 
     @Override
@@ -44,7 +43,6 @@ public class Op implements JottTree {
 
     @Override
     public boolean validateTree() {
-        // TODO Auto-generated method stub
-        return false;
+        return !this.children.isEmpty();
     }
 }

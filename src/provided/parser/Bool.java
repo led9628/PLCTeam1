@@ -8,9 +8,11 @@ import provided.TokenType;
 
 public class Bool implements JottTree {
     ArrayList<JottTree> children = new ArrayList<>();
+    public CheckType type;
 
     public Bool(ArrayList<Token> tokens) throws ConstructionFailure {
-        Token token = tokens.remove(0);
+        Token token = tokens.get(0);
+        this.type = new CheckType("Boolean");
         if (token.getTokenType() == TokenType.ID_KEYWORD) {
             if (token.getToken() == "True" || token.getToken() == "False") {
                 this.children.add(new Literal(token.getToken()));
@@ -35,8 +37,12 @@ public class Bool implements JottTree {
 
     @Override
     public String convertToC() {
-        // TODO Auto-generated method stub
-        return null;
+        String s = this.children.get(0).toString();
+        if (s.equals("True")) {
+            return "1";
+        } else {
+            return "0";
+        }
     }
 
     @Override
@@ -47,7 +53,9 @@ public class Bool implements JottTree {
 
     @Override
     public boolean validateTree() {
-        // TODO Auto-generated method stub
-        return false;
+        if (this.children.isEmpty()) {
+            return false;
+        }
+        return true;
     }
 }

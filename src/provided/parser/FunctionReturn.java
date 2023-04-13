@@ -8,11 +8,14 @@ import java.util.ArrayList;
 public class FunctionReturn implements JottTree{
     ArrayList<JottTree> children = new ArrayList<>();
 
-    public FunctionReturn(ArrayList<Token> tokens) throws ConstructionFailure{
+    public FunctionReturn(ArrayList<Token> tokens, String funcName) throws ConstructionFailure{
         //Try to add a type
         int lnm;
         try {
+            Token token = tokens.get(0);
             this.children.add(new Type(tokens));
+            CheckType ctype = new CheckType(token.getToken());
+            Program.functions.get(funcName).returnType = ctype;
             return;
         } catch (ConstructionFailure e) {
             lnm = e.line;
@@ -39,8 +42,12 @@ public class FunctionReturn implements JottTree{
 
     @Override
     public String convertToC() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'convertToC'");
+        String s = this.children.get(0).convertToC();
+        if (s.equals("Void ")) {
+            return "void ";
+        } else {
+            return s;
+        }
     }
 
     @Override
@@ -50,8 +57,12 @@ public class FunctionReturn implements JottTree{
     }
 
     @Override
-    public boolean validateTree() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'validateTree'");
+    public boolean validateTree() throws SemanticFailure{
+        for(var child : this.children) {
+            boolean result = child.validateTree();
+            if (!result)
+                return false;
+        }
+        return true;
     }
 }

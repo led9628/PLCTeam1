@@ -1,20 +1,58 @@
 package provided.parser;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 
 import provided.JottTree;
 import provided.Token;
 
 public class Program implements JottTree{
-    ArrayList<FunctionDef> children = new ArrayList<>();
+    ArrayList<FunctionDef> children = new ArrayList<>(); //lsit of functions
+    public static HashMap<String, FunctionInfo> functions = new HashMap<String, FunctionInfo>(); //function name to hashmap
+    public static HashSet<String> kw;
+    
+    // public static HashMap<String, JottTree> symtab = new HashMap<String, JottTree>(); //global variable name to vairable as JottTree hashmap.
 
-    public Program(ArrayList<Token> tokens) throws ConstructionFailure{
+    public Program(ArrayList<Token> tokens) throws ConstructionFailure, SemanticFailure{
+        functions.put("print ", new FunctionInfo());
+        functions.get("print ").paramTypes.add(new CheckType("Any"));
+
+        functions.put("concat", new FunctionInfo());
+        functions.get("concat").paramTypes.add(new CheckType("String"));
+        functions.get("concat").paramTypes.add(new CheckType("String"));
+
+        functions.put("length ", new FunctionInfo());
+        functions.get("length ").paramTypes.add(new CheckType("String"));
+
+        kw = new HashSet<String>();
+        kw.add("while");
+        kw.add("if");
+        kw.add("def");
+        kw.add("else");
+        kw.add("return");
+        kw.add("elseif");
+        kw.add("Double");
+        kw.add("Integer");
+        kw.add("String");
+        kw.add("Boolean");
+        kw.add("Void");
+        kw.add("True");
+        kw.add("False");
+
         parse(tokens);
+        if(!validateTree()){
+            System.out.println("INVALID");
+        }
+        
     }
     
-    private void parse(ArrayList<Token> tokens) throws ConstructionFailure{
+    private void parse(ArrayList<Token> tokens) throws ConstructionFailure, SemanticFailure{
         while(tokens.size()>1){
             children.add(new FunctionDef(tokens));
+        }
+        if(!functions.containsKey("main ")){
+            throw new SemanticFailure("No main function", 0);
         }
         // if(tokens.get(0).getToken() == "$$"){
         //     //THROW missing $$
@@ -39,8 +77,11 @@ public class Program implements JottTree{
 
     @Override
     public String convertToC() {
-        // TODO Auto-generated method stub
-        return null;
+        StringBuilder sb = new StringBuilder();
+        for (var child : this.children) {
+            sb.append(child.convertToC());
+        }
+        return sb.toString();
     }
 
     @Override
@@ -50,8 +91,12 @@ public class Program implements JottTree{
     }
 
     @Override
-    public boolean validateTree() {
-        // TODO Auto-generated method stub
-        return false;
+    public boolean validateTree() throws SemanticFailure{
+        for(var child : children){
+            if(!child.validateTree()){
+                return false;
+            }
+        }
+        return true;
     }
 }

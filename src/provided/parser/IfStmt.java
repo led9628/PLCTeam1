@@ -6,10 +6,10 @@ import provided.JottTree;
 import provided.Token;
 import provided.TokenType;
 
-public class IfStmt implements JottTree{
+public class IfStmt implements JottTree, Returnable{
     ArrayList<JottTree> children = new ArrayList<>();
     
-    public IfStmt(ArrayList<Token> tokens) throws ConstructionFailure{
+    public IfStmt(ArrayList<Token> tokens, String funcName) throws ConstructionFailure, SemanticFailure{
         Token token = tokens.remove(0);
 
         //check if the token is "if"
@@ -23,7 +23,7 @@ public class IfStmt implements JottTree{
             throw new ConstructionFailure("Missing left operand", token.getLineNum());
         }
         this.children.add(new Literal(token.getToken()));
-        this.children.add(new BExpr(tokens));
+        this.children.add(new BExpr(tokens, funcName));
         
         //after the bool expr stuff is done, i need the next token
         token = tokens.remove(0);
@@ -38,7 +38,7 @@ public class IfStmt implements JottTree{
             throw new ConstructionFailure("Missing left operand", token.getLineNum());
         }
         this.children.add(new Literal(token.getToken()));
-        this.children.add(new Body(tokens));
+        this.children.add(new Body(tokens, funcName));
 
         // after trying to make body, get }
         token = tokens.remove(0);
@@ -61,7 +61,7 @@ public class IfStmt implements JottTree{
                 }
 
                 this.children.add(new Literal(token.getToken()));
-                this.children.add(new BExpr(tokens));
+                this.children.add(new BExpr(tokens, funcName));
         
                 //after the bool expr stuff is done, i need the next token
                 token = tokens.remove(0);
@@ -76,7 +76,7 @@ public class IfStmt implements JottTree{
                     throw new ConstructionFailure("Missing left operand", token.getLineNum());
                 }
                 this.children.add(new Literal(token.getToken()));
-                this.children.add(new Body(tokens));
+                this.children.add(new Body(tokens, funcName));
 
                 // after trying to make body, get }
                 token = tokens.remove(0);
@@ -100,7 +100,7 @@ public class IfStmt implements JottTree{
             }
             this.children.add(new Literal(token.getToken()));
 
-            this.children.add(new Body(tokens));
+            this.children.add(new Body(tokens, funcName));
 
             // after trying to make body, get }
             token = tokens.remove(0);
@@ -139,8 +139,11 @@ public class IfStmt implements JottTree{
 
     @Override
     public String convertToC() {
-        // TODO Auto-generated method stub
-        return null;
+        StringBuilder sb = new StringBuilder();
+        for (var child : this.children) {
+            sb.append(child.convertToC());
+        }
+        return sb.toString();
     }
 
     @Override
@@ -150,8 +153,25 @@ public class IfStmt implements JottTree{
     }
 
     @Override
-    public boolean validateTree() {
-        // TODO Auto-generated method stub
-        return false;
+    public boolean validateTree() throws SemanticFailure{
+        for(var child : this.children) {
+            boolean result = child.validateTree();
+            if (!result)
+                return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean checkReturn() {
+        for(var child: this.children){
+            if(child instanceof Returnable){
+                Returnable c = (Returnable) child;
+                if(c.checkReturn() != true){
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }

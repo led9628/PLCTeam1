@@ -8,10 +8,18 @@ import java.util.ArrayList;
 
 public class Type implements JottTree {
     ArrayList<JottTree> children = new ArrayList<>();
+    TokenType type = null;
+    // boolean notBad = false;
+
+    // public Type(TokenType tokenType) throws ConstructionFailure{
+    //     this.type = tokenType;
+    //     notBad = true;
+    // }
 
     public Type(ArrayList<Token> tokens) throws ConstructionFailure{
         Token token = tokens.remove(0);
         if (token.getTokenType() == TokenType.ID_KEYWORD) {
+            type = token.getTokenType();
             if (token.getToken().equals("Boolean") || token.getToken().equals("Integer") || token.getToken().equals("String") || token.getToken().equals("Double")) {
                 this.children.add(new Literal(token.getToken()));
                 return;
@@ -35,7 +43,13 @@ public class Type implements JottTree {
 
     @Override
     public String convertToC() {
-        return null;
+        switch (this.children.get(0).convertToC()) {
+            case "Boolean " -> { return "bool "; }
+            case "Integer " -> { return "int "; }
+            case "Double " -> { return "double "; }
+            case "String " -> { return "char* "; }
+            default -> { return "void "; }
+        }
     }
 
     @Override
@@ -45,6 +59,13 @@ public class Type implements JottTree {
 
     @Override
     public boolean validateTree() {
-        return false;
+        // if (this.children.isEmpty() && !notBad){
+        //     return false;
+        // }else{
+        //     return true;
+        // }
+        return !this.children.isEmpty();
     }
+
+    
 }

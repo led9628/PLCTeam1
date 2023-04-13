@@ -8,19 +8,32 @@ import provided.Token;
 
 public class Num implements JottTree {
     ArrayList<JottTree> children = new ArrayList<>();
+    public CheckType type;
+    Boolean isDouble;
 
     public Num(ArrayList<Token> tokens) throws ConstructionFailure {
-        Token token = tokens.remove(0);
+        Token token = tokens.get(0);
+        isDouble = false;
+
         // Make sure it's actually a number.
         for (char c : token.getToken().toCharArray()) {
             if (!Character.isDigit(c) && (c != '.')) {
                 // If it's not actually a number, fail and throw an exception.
-                tokens.add(0, token);
                 throw new ConstructionFailure("Number is Invalid", token.getLineNum());
             }
+            if(c == '.'){
+                isDouble = true;
+            }
+        }
+
+        if(isDouble == true){
+            this.type = new CheckType("Double");
+        }else{
+            this.type = new CheckType("Integer");
         }
         // If it is actually a number, succeed.
         this.children.add(new Literal(token.getToken()));
+        tokens.remove(0);
     }
 
     @Override
@@ -36,8 +49,7 @@ public class Num implements JottTree {
 
     @Override
     public String convertToC() {
-        // TODO Auto-generated method stub
-        return null;
+        return this.children.get(0).convertToC();
     }
 
     @Override
@@ -48,8 +60,7 @@ public class Num implements JottTree {
 
     @Override
     public boolean validateTree() {
-        // TODO Auto-generated method stub
-        return false;
+        return !this.children.isEmpty();
     }
 
 

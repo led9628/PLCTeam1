@@ -7,25 +7,38 @@ import provided.Token;
 
 public class Expr implements JottTree {
     ArrayList<JottTree> children = new ArrayList<>();
+    CheckType type;
+    int lineNo;
 
-    public Expr(ArrayList<Token> tokens) throws ConstructionFailure {
+    public Expr(ArrayList<Token> tokens, String funcName) throws ConstructionFailure, SemanticFailure{
         var ex = new ConstructionFailure("Expression is Invalid", 0);
         try {
-            this.children.add(new NExpr(tokens));
+            NExpr n = new NExpr(tokens, funcName);
+            this.lineNo = n.lineNo;
+            this.type = n.type;
+            this.children.add(n);
             return;
         } catch (ConstructionFailure e) {
             ex.line = e.line;
             ex.message = e.message;
         }
+
         try {
-            this.children.add(new SExpr(tokens));
+            SExpr s = new SExpr(tokens, funcName);
+            this.lineNo = s.lineNo;
+            this.type = s.type;
+            this.children.add(s);
             return;
         } catch (ConstructionFailure e) {
             ex.line = e.line;
             ex.message = e.message;
-        }
+        } 
+
         try {
-            this.children.add(new BExpr(tokens));
+            BExpr b = new BExpr(tokens, funcName);
+            this.lineNo = b.lineNo;
+            this.type = b.type;
+            this.children.add(b);
             return;
         } catch (ConstructionFailure e) {
             ex.line = e.line;
@@ -47,8 +60,7 @@ public class Expr implements JottTree {
 
     @Override
     public String convertToC() {
-        // TODO Auto-generated method stub
-        return null;
+        return this.children.get(0).convertToC();
     }
 
     @Override
@@ -58,8 +70,32 @@ public class Expr implements JottTree {
     }
 
     @Override
-    public boolean validateTree() {
-        // TODO Auto-generated method stub
-        return false;
+    public boolean validateTree() throws SemanticFailure {
+        if(children.get(0) instanceof NExpr){
+            NExpr nexpr = (NExpr)children.get(0);
+            if(!nexpr.validateTree()){
+                return false;
+            }
+            this.type = nexpr.type;
+        }else if(children.get(0) instanceof SExpr){
+            SExpr sexpr = (SExpr)children.get(0);
+            if(!sexpr.validateTree()){
+                return false;
+            }
+            this.type = sexpr.type;
+        }else{
+            BExpr bexpr = (BExpr)children.get(0);
+            if(!bexpr.validateTree()){
+                return false;
+            }
+            this.type = bexpr.type;
+        }
+
+        // for(var child : this.children) {
+        //     boolean result = child.validateTree();
+        //     if (!result)
+        //         return false;
+        // }
+        return true;
     }
 }

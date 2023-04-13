@@ -7,22 +7,44 @@ import provided.Token;
 import provided.TokenType;
 
 public class FunctionParam implements JottTree{
-    ArrayList<JottTree> children = new ArrayList<>(); //will only store an id and a type
+    ArrayList<JottTree> children = new ArrayList<>(); //will only store an id, :, a type
+    String funcName;
+    // HashMap<String, JottTree> localSymTab;
 
-    public FunctionParam(ArrayList<Token> tokens) throws ConstructionFailure{
+    public FunctionParam(ArrayList<Token> tokens, String funcName) throws ConstructionFailure, SemanticFailure{
+        // this.localSymTab = localSymTab;
+        this.funcName = funcName;
         parse(tokens);
     }
 
-    private void parse(ArrayList<Token> tokens) throws ConstructionFailure{
+    private void parse(ArrayList<Token> tokens) throws ConstructionFailure, SemanticFailure{
         if(tokens.get(0).getTokenType() == TokenType.ID_KEYWORD){
             // add param id
-            children.add(new Literal(tokens.remove(0).getToken()));
 
+            //create and add id for parameter
+            ID paramID = new ID(tokens, funcName, null);
+            
+            children.add(paramID);
+            tokens.remove(0);
+            // Program.functions.get(funcName).paramTypes.add(this);
+            
             //check for param colon and type:
             if(tokens.get(0).getToken().equals(":")){
                 tokens.remove(0); // remove :
 
+                Token token = tokens.get(0);
                 children.add(new Type(tokens));
+
+                //add param types to functioninfo.
+                CheckType ctype = new CheckType(token.getToken());
+                Program.functions.get(funcName).paramTypes.add(ctype);
+
+                //set paramId type
+                paramID.type = ctype;
+                
+                //add this parameter as local var.
+                Variable vari = new Variable(ctype, null, paramID.toString());
+                Program.functions.get(funcName).localSymtab.put(paramID.toString(), vari);
             }else{
                 //throw missing :
                 throw new ConstructionFailure("Missing colon (:)", tokens.get(0).getLineNum());
@@ -55,8 +77,14 @@ public class FunctionParam implements JottTree{
 
     @Override
     public String convertToC() {
-        // TODO Auto-generated method stub
-        return null;
+        StringBuilder sb = new StringBuilder();
+        for (var child : this.children) {
+            if (child instanceof Type) {
+                sb.append(" ");
+            }
+            sb.append(child.convertToC());
+        }
+        return sb.toString();
     }
 
     @Override
@@ -66,8 +94,13 @@ public class FunctionParam implements JottTree{
     }
 
     @Override
-    public boolean validateTree() {
-        // TODO Auto-generated method stub
-        return false;
+    public boolean validateTree() throws SemanticFailure{
+        for(JottTree child : children){
+            if(child.validateTree()==false){
+                return false;
+            }
+        }
+        return true;
+        //validate paramID && param type.
     }
 }
