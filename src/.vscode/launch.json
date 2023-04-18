@@ -7,7 +7,7 @@
             "mainClass": "Jott",
             "args": [
                 "Jott",
-                "parserTestCases/validLoop.jott",
+                "parserTestCases/missingMain.jott",
                 "out.c",
                 "C"
             ]

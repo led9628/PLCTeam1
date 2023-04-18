@@ -141,7 +141,10 @@ public class IfStmt implements JottTree, Returnable{
     public String convertToC() {
         StringBuilder sb = new StringBuilder();
         for (var child : this.children) {
-            sb.append(child.convertToC());
+            String s = child.convertToC();
+            if (s.equals("[ ")) { s = "( "; }
+            if (s.equals("] ")) { s = ") "; }
+            sb.append(s);
         }
         return sb.toString();
     }
