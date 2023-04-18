@@ -9,7 +9,7 @@
                 "Jott",
                 "parserTestCases/missingMain.jott",
                 "out.c",
-                "C"
+                "CC"
             ]
         }
     ]
