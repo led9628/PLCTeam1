@@ -80,9 +80,11 @@ public class FunctionParam implements JottTree{
         StringBuilder sb = new StringBuilder();
         for (var child : this.children) {
             if (child instanceof Type) {
-                sb.append(" ");
+                sb.insert(0, child.convertToC());
+            } else {
+                sb.append(child.convertToC());
             }
-            sb.append(child.convertToC());
+            
         }
         return sb.toString();
     }

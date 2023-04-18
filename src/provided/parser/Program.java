@@ -41,9 +41,9 @@ public class Program implements JottTree{
         kw.add("False");
 
         parse(tokens);
-        if(!validateTree()){
-            System.out.println("INVALID");
-        }
+        //if(!validateTree()){
+        //   System.out.println("INVALID");
+        //}
         
     }
     
