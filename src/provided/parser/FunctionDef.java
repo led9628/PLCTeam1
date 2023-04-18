@@ -10,11 +10,11 @@ public class FunctionDef implements JottTree{
     ArrayList<JottTree> children = new ArrayList<>();
     String funcName;
 
-    public FunctionDef(ArrayList<Token> tokens) throws ConstructionFailure, SemanticFailure{
-        parse(tokens);
+    public FunctionDef(ArrayList<Token> tokens, int depth) throws ConstructionFailure, SemanticFailure{
+        parse(tokens, depth);
     }
 
-    private void parse(ArrayList<Token> tokens) throws ConstructionFailure, SemanticFailure{
+    private void parse(ArrayList<Token> tokens, int depth) throws ConstructionFailure, SemanticFailure{
         if(tokens.remove(0).getToken().equals("def")){
             children.add(new Literal("def"));
 
@@ -40,13 +40,13 @@ public class FunctionDef implements JottTree{
 
                 //function def params check:
                 if(tokens.get(0).getTokenType() == TokenType.ID_KEYWORD){
-                    children.add(new FunctionParam(tokens, funcName));
+                    children.add(new FunctionParam(tokens, funcName, depth));
 
                     //check for 2nd+ params
                     while(tokens.get(0).getToken().equals(",")){
                         tokens.remove(0); //remove ,
                 
-                        children.add(new FunctionParam(tokens, funcName));
+                        children.add(new FunctionParam(tokens, funcName, depth));
                     }
                 }
 
@@ -57,7 +57,7 @@ public class FunctionDef implements JottTree{
 
                     if(tokens.get(0).getToken().equals(":")){
                         tokens.remove(0); //remove colon
-                        children.add(new FunctionReturn(tokens, funcName)); //check return type:
+                        children.add(new FunctionReturn(tokens, funcName, depth)); //check return type:
                     }else{
                         throw new ConstructionFailure("Missing colon (:)", tokens.get(0).getLineNum()); // throw missing colon
                     }
@@ -69,7 +69,7 @@ public class FunctionDef implements JottTree{
                 //check for body curly brackets
                 if(tokens.get(0).getTokenType() == TokenType.L_BRACE){
                     children.add(new Literal(tokens.remove(0).getToken())); // add L brace
-                    children.add(new Body(tokens, funcName));
+                    children.add(new Body(tokens, funcName, depth));
                     if(tokens.get(0).getTokenType() == TokenType.R_BRACE){
                         children.add(new Literal(tokens.remove(0).getToken())); // add R brace
                     }else{

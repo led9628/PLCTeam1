@@ -12,13 +12,13 @@ public class NExpr implements JottTree {
     int lineNo;
     public CheckType type;
 
-    public NExpr(ArrayList<Token> tokens, String funcName) throws ConstructionFailure, SemanticFailure {
+    public NExpr(ArrayList<Token> tokens, String funcName, int depth) throws ConstructionFailure, SemanticFailure {
         this.funcName = funcName;
         this.lineNo = tokens.get(0).getLineNum();
         
         // Attempt to create a FuncCall
         try {
-            FuncCall func = new FuncCall(tokens, funcName);
+            FuncCall func = new FuncCall(tokens, funcName, depth);
             this.type = func.type;
             this.children.add(func);
             return;
@@ -50,7 +50,7 @@ public class NExpr implements JottTree {
                 this.children.add(new Op(tokens));
 
                 lineNo = tokens.get(0).getLineNum();
-                NExpr n = new NExpr(tokens, funcName);
+                NExpr n = new NExpr(tokens, funcName, depth);
                 
                 this.children.add(n);
                 return;
@@ -89,13 +89,13 @@ public class NExpr implements JottTree {
         
         // Attempt to create a FuncCall Op NExpr
         try {
-            FuncCall fc = new FuncCall(tokens, funcName);
+            FuncCall fc = new FuncCall(tokens, funcName, depth);
             this.children.add(fc);
 
             this.children.add(new Op(tokens));
 
             lineNo = tokens.get(0).getLineNum();
-            NExpr n = new NExpr(tokens, funcName);
+            NExpr n = new NExpr(tokens, funcName, depth);
             this.children.add(n);
 
             // if(!fc.type.equals(n.type)){
@@ -112,7 +112,7 @@ public class NExpr implements JottTree {
             this.children.add(new Op(tokens));
 
             lineNo = tokens.get(0).getLineNum();
-            NExpr n = new NExpr(tokens, funcName);
+            NExpr n = new NExpr(tokens, funcName, depth);
             this.children.add(n);
 
             // if(!num.type.equals(n.type)){

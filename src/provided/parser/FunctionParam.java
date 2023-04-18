@@ -11,13 +11,13 @@ public class FunctionParam implements JottTree{
     String funcName;
     // HashMap<String, JottTree> localSymTab;
 
-    public FunctionParam(ArrayList<Token> tokens, String funcName) throws ConstructionFailure, SemanticFailure{
+    public FunctionParam(ArrayList<Token> tokens, String funcName, int depth) throws ConstructionFailure, SemanticFailure{
         // this.localSymTab = localSymTab;
         this.funcName = funcName;
-        parse(tokens);
+        parse(tokens, depth);
     }
 
-    private void parse(ArrayList<Token> tokens) throws ConstructionFailure, SemanticFailure{
+    private void parse(ArrayList<Token> tokens, int depth) throws ConstructionFailure, SemanticFailure{
         if(tokens.get(0).getTokenType() == TokenType.ID_KEYWORD){
             // add param id
 

@@ -10,7 +10,7 @@ import provided.TokenType;
 public class EndStmt implements JottTree{
     ArrayList<JottTree> children = new ArrayList<>();
 
-    public EndStmt(ArrayList<Token> tokens) throws ConstructionFailure{
+    public EndStmt(ArrayList<Token> tokens, int depth) throws ConstructionFailure{
         //System.out.println(tokens.get(0).getToken());
         Token token = tokens.remove(0);
         if (token.getTokenType() == TokenType.SEMICOLON){

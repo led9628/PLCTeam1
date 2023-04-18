@@ -10,12 +10,13 @@ public class Body implements JottTree, Returnable {
     String funcName;
     int lineNo;
 
-    public Body(ArrayList<Token> tokens, String funcName) throws ConstructionFailure, SemanticFailure { // <body_stmt><body>
+    public Body(ArrayList<Token> tokens, String funcName, int depth) throws ConstructionFailure, SemanticFailure { // <body_stmt><body>
                                                                                                         // |
                                                                                                         // <return_stmt>
                                                                                                         // | *Nothing*
         this.funcName = funcName;
         lineNo = tokens.get(0).getLineNum();
+        depth = depth + 1;
         
         if (tokens.size() != 0) {
             var token = tokens.get(0);
@@ -34,10 +35,10 @@ public class Body implements JottTree, Returnable {
             }
 
             if (!token.getToken().equals("return")) {
-                children.add(new BodyStmt(tokens, funcName));
-                children.add(new Body(tokens, funcName));
+                children.add(new BodyStmt(tokens, funcName, depth));
+                children.add(new Body(tokens, funcName, depth));
             } else if (token.getToken().equals("return")) {
-                children.add(new ReturnStmt(tokens, funcName));
+                children.add(new ReturnStmt(tokens, funcName, depth));
             } else {
                 throw new ConstructionFailure("Body is Invalid", token.getLineNum());
             }

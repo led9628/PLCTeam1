@@ -10,7 +10,7 @@ public class ReturnStmt implements JottTree, Returnable {
     String funcName;
     int lineNo;
 
-    public ReturnStmt(ArrayList<Token> tokens, String funcName) throws ConstructionFailure, SemanticFailure { // return
+    public ReturnStmt(ArrayList<Token> tokens, String funcName, int depth) throws ConstructionFailure, SemanticFailure { // return
                                                                                                               // <expr><end_stmt>
         this.funcName = funcName;
         lineNo = tokens.get(0).getLineNum();
@@ -20,10 +20,10 @@ public class ReturnStmt implements JottTree, Returnable {
         if (token.getToken().equals("return")) {
             children.add(new Literal("return"));
 
-            Expr e = new Expr(tokens, funcName);
+            Expr e = new Expr(tokens, funcName, depth);
             children.add(e);
 
-            children.add(new EndStmt(tokens));
+            children.add(new EndStmt(tokens, depth));
         } else {
             throw new ConstructionFailure("Return statement is Invalid", token.getLineNum());
         }

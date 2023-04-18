@@ -11,7 +11,7 @@ public class SExpr implements JottTree {
     String funcName;
     int lineNo=0;
 
-    public SExpr(ArrayList<Token> tokens, String funcName) throws ConstructionFailure, SemanticFailure{
+    public SExpr(ArrayList<Token> tokens, String funcName, int depth) throws ConstructionFailure, SemanticFailure{
         this.funcName = funcName;
 
         switch (tokens.get(0).getTokenType()) {
@@ -23,7 +23,7 @@ public class SExpr implements JottTree {
             }
             case ID_KEYWORD -> {
                 try {
-                    FuncCall fc = new FuncCall(tokens, funcName);
+                    FuncCall fc = new FuncCall(tokens, funcName, depth);
                     this.type = fc.type;
                     this.children.add(fc);
                 } catch (ConstructionFailure e) {

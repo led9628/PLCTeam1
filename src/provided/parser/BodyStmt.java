@@ -7,16 +7,16 @@ import java.util.ArrayList;
 public class BodyStmt implements JottTree, Returnable {
     ArrayList<JottTree> children = new ArrayList<>();
 
-    public BodyStmt(ArrayList<Token> tokens, String funcName) throws ConstructionFailure, SemanticFailure { // <if_stmt>
+    public BodyStmt(ArrayList<Token> tokens, String funcName, int depth) throws ConstructionFailure, SemanticFailure { // <if_stmt>
                                                                                                             // |
                                                                                                             // <while_loop>
                                                                                                             // | <stmt>
         if (tokens.get(0).getToken().equals("if"))
-            children.add(new IfStmt(tokens, funcName));
+            children.add(new IfStmt(tokens, funcName, depth));
         else if (tokens.get(0).getToken().equals("while"))
-            children.add(new WhileLoop(tokens, funcName));
+            children.add(new WhileLoop(tokens, funcName, depth));
         else
-            children.add(new Stmt(tokens, funcName));
+            children.add(new Stmt(tokens, funcName, depth));
     }
 
     @Override

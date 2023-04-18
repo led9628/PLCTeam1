@@ -13,17 +13,17 @@ public class BExpr implements JottTree {
     int lineNo;
 
 
-    public BExpr(ArrayList<Token> tokens, String funcName) throws ConstructionFailure, SemanticFailure{
+    public BExpr(ArrayList<Token> tokens, String funcName, int depth) throws ConstructionFailure, SemanticFailure{
         this.funcName = funcName;
 
         // Attempt to create an NExpr RelOp NExpr
         try {
-            NExpr n1 = new NExpr(tokens, funcName);
+            NExpr n1 = new NExpr(tokens, funcName, depth);
             this.children.add(n1);
 
             this.children.add(new RelOp(tokens));
 
-            NExpr n2 = new NExpr(tokens, funcName);
+            NExpr n2 = new NExpr(tokens, funcName, depth);
             this.children.add(n2);
 
             // if(!n1.type.equals(n2.type)){
@@ -37,7 +37,7 @@ public class BExpr implements JottTree {
         if (token.getTokenType() == TokenType.ID_KEYWORD) {
             // Try to create a FuncCall.
             try {
-                FuncCall f = new FuncCall(tokens, funcName);
+                FuncCall f = new FuncCall(tokens, funcName, depth);
                 this.children.add(f);
                 // this.type = f.type;
                 return;

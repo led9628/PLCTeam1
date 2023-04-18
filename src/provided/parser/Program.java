@@ -49,7 +49,8 @@ public class Program implements JottTree{
     
     private void parse(ArrayList<Token> tokens) throws ConstructionFailure, SemanticFailure{
         while(tokens.size()>1){
-            children.add(new FunctionDef(tokens));
+            int depth  = 0;
+            children.add(new FunctionDef(tokens, depth));
         }
         if(!functions.containsKey("main ")){
             throw new SemanticFailure("No main function", 0);

@@ -9,13 +9,13 @@ import provided.TokenType;
 public class Stmt implements JottTree{
     ArrayList<JottTree> children = new ArrayList<>();
 
-    public Stmt(ArrayList<Token> tokens, String funcName) throws ConstructionFailure, SemanticFailure{
+    public Stmt(ArrayList<Token> tokens, String funcName, int depth) throws ConstructionFailure, SemanticFailure{
         Token token1 = tokens.get(0);
         Token token2 = tokens.get(1);
 
         // if curr token is an id/key and the 2nd token after is a semicolon, var_dec
         if(token1.getTokenType()==TokenType.ID_KEYWORD && token2.getTokenType() == TokenType.SEMICOLON){
-            this.children.add(new VarDec(tokens, funcName));
+            this.children.add(new VarDec(tokens, funcName, depth));
 
         }
         // assignment
@@ -26,12 +26,12 @@ public class Stmt implements JottTree{
             ))
             
         {
-            this.children.add(new Asmt(tokens, funcName));
+            this.children.add(new Asmt(tokens, funcName, depth));
         }
         // function call
         else if(token1.getTokenType()==TokenType.ID_KEYWORD && token2.getTokenType() == TokenType.L_BRACKET){
-            this.children.add(new FuncCall(tokens, funcName));
-            this.children.add(new EndStmt(tokens));
+            this.children.add(new FuncCall(tokens, funcName, depth));
+            this.children.add(new EndStmt(tokens, depth));
         }
         else {
             throw new ConstructionFailure("Statement is Invalid", token1.getLineNum());

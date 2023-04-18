@@ -12,20 +12,20 @@ public class Params implements JottTree {
     String callFunc;
     int ln;
 
-    public Params(ArrayList<Token> tokens, String funcName, String callFunc) throws ConstructionFailure, SemanticFailure{
+    public Params(ArrayList<Token> tokens, String funcName, String callFunc, int depth) throws ConstructionFailure, SemanticFailure{
         this.funcName = funcName;
         this.callFunc = callFunc;
 
         //attempt to create Expr Params_t
         ln = tokens.get(0).getLineNum();
-        Expr e = new Expr(tokens, funcName);
+        Expr e = new Expr(tokens, funcName, depth);
         this.children.add(e);
 
         //check for 2nd+ params
         while(tokens.get(0).getToken().equals(",")){
             tokens.remove(0); //remove ,
             
-            Expr e2 = new Expr(tokens, funcName);
+            Expr e2 = new Expr(tokens, funcName, depth);
             this.children.add(e2);
         }
         //this.children.add(new ParamsT(tokens)); TODO: WE CAN'T HANDLE MULTI-PARAM FUNCTIONS UNLESS WE IMPLEMENT THIS CORRECTLY.

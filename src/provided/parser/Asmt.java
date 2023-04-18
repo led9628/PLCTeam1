@@ -10,7 +10,7 @@ public class Asmt implements JottTree {
     String funcName;
     int lineNo;
 
-    public Asmt(ArrayList<Token> tokens, String funcName) throws ConstructionFailure, SemanticFailure{
+    public Asmt(ArrayList<Token> tokens, String funcName, int depth) throws ConstructionFailure, SemanticFailure{
         this.funcName = funcName;
 
         //attempt to create type id = expr end_stmt
@@ -36,14 +36,14 @@ public class Asmt implements JottTree {
             if (!equalsToken.getToken().equals("=")) {
                 throw new ConstructionFailure("Assignment Statement should have =", tokens.get(1).getLineNum());
             }
-            Expr expr = new Expr(tokens, funcName);
+            Expr expr = new Expr(tokens, funcName, depth);
             //CHECK IF ID.TYPE = EXPR.TYPE.
             // if(!id.type.equals(expr.type)){
             //     throw new SemanticFailure("Assignment between wrong types", tokens.get(0).getLineNum());
             // }
             
             this.children.add(expr);
-            this.children.add(new EndStmt(tokens));
+            this.children.add(new EndStmt(tokens, depth));
             return;
         } catch (ConstructionFailure e) {
             if (b != null) {
@@ -73,13 +73,13 @@ public class Asmt implements JottTree {
                 throw new ConstructionFailure("Assignment Statement should have =", tokens.get(1).getLineNum());
             }
             //CHECK IF TYPES ARE THE SAME
-            Expr expr = new Expr(tokens, funcName);
+            Expr expr = new Expr(tokens, funcName, depth);
             // if(!id.type.equals(expr.type)){
             //     throw new SemanticFailure("Assignment between wrong types", tokens.get(1).getLineNum());
             // }
 
             this.children.add(expr);
-            this.children.add(new EndStmt(tokens));
+            this.children.add(new EndStmt(tokens, depth));
             return;
         } catch (ConstructionFailure e) {
             if (b != null) {

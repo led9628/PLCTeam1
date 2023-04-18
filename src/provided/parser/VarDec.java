@@ -9,13 +9,13 @@ public class VarDec implements JottTree{
 
     ArrayList<JottTree> children = new ArrayList<>();
 
-    public VarDec(ArrayList<Token> tokens, String funcName) throws ConstructionFailure{
+    public VarDec(ArrayList<Token> tokens, String funcName, int depth) throws ConstructionFailure{
         Token token = tokens.remove(0);
         //Try to add a type id end  statement
         try {
             Token typeToken = tokens.get(0);
             Type a = new Type(tokens);
-            EndStmt c = new EndStmt(tokens);
+            EndStmt c = new EndStmt(tokens, depth);
 
             CheckType ctype = new CheckType(typeToken.getToken());
             ID b = new ID(tokens, funcName, ctype);

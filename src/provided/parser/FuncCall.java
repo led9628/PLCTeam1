@@ -10,7 +10,7 @@ public class FuncCall implements JottTree {
     ArrayList<JottTree> children = new ArrayList<>();
     CheckType type;
 
-    public FuncCall(ArrayList<Token> tokens, String funcName) throws ConstructionFailure, SemanticFailure{
+    public FuncCall(ArrayList<Token> tokens, String funcName, int depth) throws ConstructionFailure, SemanticFailure{
         Token token1 = tokens.get(0);//id
 
         // System.out.println("FUNCTOKENS: ");
@@ -38,7 +38,7 @@ public class FuncCall implements JottTree {
         }
         this.children.add(new Literal(token2.getToken())); // l brakcet
         // da params
-        this.children.add(new Params(tokens, funcName, token1.getToken()+" "));
+        this.children.add(new Params(tokens, funcName, token1.getToken()+" ", depth));
         
         //after the param stuff is done, i need the next token
         Token token3 = tokens.remove(0);
