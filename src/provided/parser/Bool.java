@@ -47,8 +47,12 @@ public class Bool implements JottTree {
 
     @Override
     public String convertToPython() {
-        // TODO Auto-generated method stub
-        return null;
+        String s = this.children.get(0).toString();
+        if (s.equals("True")) {
+            return "True";
+        } else {
+            return "False";
+        }
     }
 
     @Override

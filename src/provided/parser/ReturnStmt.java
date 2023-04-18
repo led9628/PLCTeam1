@@ -51,8 +51,9 @@ public class ReturnStmt implements JottTree, Returnable {
 
     @Override
     public String convertToPython() {
-        // TODO Auto-generated method stub
-        return null;
+        String s1 = this.children.get(1).convertToPython();
+        String s2 = this.children.get(2).convertToPython();
+        return "return " + s1 + s2;
     }
 
     @Override

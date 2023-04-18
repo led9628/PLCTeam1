@@ -149,8 +149,11 @@ public class NExpr implements JottTree {
 
     @Override
     public String convertToPython() {
-        // TODO Auto-generated method stub
-        return null;
+        StringBuilder sb = new StringBuilder();
+        for (var child : this.children) {
+            sb.append(child.convertToPython());
+        }
+        return sb.toString();
     }
 
     @Override
