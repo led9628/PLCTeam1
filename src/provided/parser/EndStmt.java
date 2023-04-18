@@ -39,7 +39,7 @@ public class EndStmt implements JottTree{
    @Override
    public String convertToPython() {
        // TODO Auto-generated method stub
-       return null;
+       return "\n";
    }
 
    @Override

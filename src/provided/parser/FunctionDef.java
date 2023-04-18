@@ -154,8 +154,40 @@ public class FunctionDef implements JottTree{
 
     @Override
     public String convertToPython() {
-        // TODO Auto-generated method stub
-        return null;
+        StringBuilder sb = new StringBuilder();
+        boolean firstParam = true;
+        String currString = null;
+        for (var child : this.children) {
+            if (currString != null && currString.equals(") ")) {
+                currString = child.convertToPython();
+                continue;
+            }
+            if(child instanceof FunctionParam){
+                if(firstParam){
+                    firstParam = false;
+                }else{
+                    sb.append(",");
+                }
+            }
+
+            currString = child.convertToPython();
+            if (currString != null){
+                if (currString.equals("[ ")) {
+                    currString = "(";
+                } else if (currString.equals("] ")) {
+                    currString = ") ";
+                } else if (currString.equals("{ ")) {
+                    currString = ":\n";
+                }
+                // Node Debugging
+                //currString = "{" + child.getClass().getSimpleName().toUpperCase() + "}" + currString;
+            }
+            //if (currString != null){
+                sb.append(currString);
+            //}
+        }
+        String finalString = sb.toString();
+        return finalString;
     }
 
     @Override

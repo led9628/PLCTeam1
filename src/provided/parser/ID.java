@@ -41,8 +41,7 @@ public class ID implements JottTree {
 
     @Override
     public String convertToPython() {
-        // TODO Auto-generated method stub
-        return null;
+        return this.child.convertToPython();
     }
 
     @Override

@@ -55,7 +55,11 @@ public class VarDec implements JottTree{
 
     @Override
     public String convertToPython() {
-        return null;
+        // Python has no types
+        // String type = this.children.get(0).convertToJott();
+        String id = this.children.get(1).convertToJott();
+        String end = this.children.get(2).convertToJott();
+        return id + end;
     }
 
     @Override
