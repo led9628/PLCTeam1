@@ -111,8 +111,40 @@ public class FunctionDef implements JottTree{
 
     @Override
     public String convertToJava(String className) {
-        // TODO Auto-generated method stub
-        return null;
+        StringBuilder sb = new StringBuilder();
+        boolean firstParam = true;
+        String currString = null;
+        String type = "Void";
+        for (var child : this.children){
+            if(currString != null && currString.equals(")" ) ){
+                currString = child.convertToJava(className);
+                type = currString;
+                continue;
+            }
+            if(child instanceof FunctionParam){
+                if(firstParam){
+                    firstParam = false;
+                }
+                else{
+                    sb.append(",");
+                }
+            }
+
+            currString = child.convertToJava(className);
+            if(currString.equals("[]")){
+                currString = "(";
+            } else if(currString.equals("]")){
+                currString = ")";
+            } else if (currString.equals("{")){
+                currString = "{\n";
+            } else if (currString.equals("}")){
+                currString = "}\n";
+            }
+            sb.append(currString);
+        }
+        String finalString = sb.toString();
+        return finalString;
+        // TODO: DOUBLE CHECK THIS IS CORRECT; i did it like convertToC but maybe i was being silly and goofy idk
     }
 
     @Override
@@ -154,8 +186,41 @@ public class FunctionDef implements JottTree{
 
     @Override
     public String convertToPython() {
-        // TODO Auto-generated method stub
-        return null;
+        StringBuilder sb = new StringBuilder();
+        boolean firstParam = true;
+        String currString = null;
+        for (var child : this.children) {
+            if (currString != null && currString.equals(") ")) {
+                currString = child.convertToPython();
+                continue;
+            }
+            if(child instanceof FunctionParam){
+                if(firstParam){
+                    firstParam = false;
+                }else{
+                    sb.append(",");
+                }
+            }
+
+            currString = child.convertToPython();
+
+            if (currString.equals("[ ")) {
+                currString = "(";
+            } else if (currString.equals("] ")) {
+                currString = ")";
+            } else if (currString.equals("{ ")) {
+                currString = ":\n";
+            } else if (currString.equals("} ")) {
+                currString = "";
+            }
+
+            // Node Debugging
+            //currString = "{" + child.getClass().getSimpleName().toUpperCase() + "}" + currString;
+
+            sb.append(currString);
+        }
+        String finalString = sb.toString();
+        return finalString;
     }
 
     @Override

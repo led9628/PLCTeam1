@@ -26,8 +26,7 @@ public class BodyStmt implements JottTree, Returnable {
 
     @Override
     public String convertToJava(String className) {
-        // TODO Auto-generated method stub
-        return null;
+        return this.children.get(0).convertToJava(className);
     }
 
     @Override

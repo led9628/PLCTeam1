@@ -42,7 +42,10 @@ public class VarDec implements JottTree{
 
     @Override
     public String convertToJava(String className) {
-        return null;
+        String type = this.children.get(0).convertToJava(className);
+        String id = this.children.get(1).convertToJava(className);
+        String end = this.children.get(2).convertToJava(className);
+        return type + " " + id + end;
     }
 
     @Override
@@ -55,7 +58,11 @@ public class VarDec implements JottTree{
 
     @Override
     public String convertToPython() {
-        return null;
+        // Python has no types
+        // String type = this.children.get(0).convertToJott();
+        String id = this.children.get(1).convertToJott();
+        String end = this.children.get(2).convertToJott();
+        return id + end;
     }
 
     @Override

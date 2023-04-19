@@ -31,8 +31,13 @@ public class Bool implements JottTree {
 
     @Override
     public String convertToJava(String className) {
-        // TODO Auto-generated method stub
-        return null;
+        String s = this.children.get(0).toString();
+        if(s.equalsIgnoreCase("True")) {
+            return "True";
+        }
+        else {
+            return "False";
+        }
     }
 
     @Override

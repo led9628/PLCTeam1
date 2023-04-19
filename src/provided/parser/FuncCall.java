@@ -65,8 +65,18 @@ public class FuncCall implements JottTree {
 
     @Override
     public String convertToJava(String className) {
-        // TODO Auto-generated method stub
-        return null;
+        StringBuilder sb = new StringBuilder();
+        for(var child: this.children) {
+            String s = child.convertToJava(className);
+            if(s.equals("[")){
+                s = "(";
+            }
+            else if(s.equals("]")){
+                s = ")";
+            }
+            sb.append(s);
+        }
+        return sb.toString();
     }
 
     @Override
@@ -86,8 +96,17 @@ public class FuncCall implements JottTree {
 
     @Override
     public String convertToPython() {
-        // TODO Auto-generated method stub
-        return null;
+        StringBuilder sb = new StringBuilder();
+        for(var child : this.children){
+            String s = child.convertToC();
+            if (s.equals("[ ")) {
+                s = "( ";
+            } else if (s.equals("] ")) {
+                s = ") ";
+            }
+            sb.append(s);
+        }
+        return sb.toString();
     }
 
     @Override

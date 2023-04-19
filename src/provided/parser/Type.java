@@ -38,7 +38,13 @@ public class Type implements JottTree {
 
     @Override
     public String convertToJava(String className) {
-        return null;
+        switch(this.children.get(0).convertToJava(className)){
+            case "Boolean " -> {return "boolean "; }
+            case "Integer " -> {return "int "; }
+            case "Double " -> {return "double "; }
+            case "String " -> {return "String "; }
+            default -> {return "void ";}
+        }
     }
 
     @Override
@@ -54,7 +60,7 @@ public class Type implements JottTree {
 
     @Override
     public String convertToPython() {
-        return null;
+        return "";
     }
 
     @Override

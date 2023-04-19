@@ -36,8 +36,12 @@ public class FunctionReturn implements JottTree{
 
     @Override
     public String convertToJava(String className) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'convertToJava'");
+        String s = this.children.get(0).convertToJava(className);
+        if(s.equals("Void ")){
+            return "void ";
+        } else {
+            return s;
+        }
     }
 
     @Override
@@ -53,7 +57,9 @@ public class FunctionReturn implements JottTree{
     @Override
     public String convertToPython() {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'convertToPython'");
+        //throw new UnsupportedOperationException("Unimplemented method 'convertToPython'");
+
+        return "";
     }
 
     @Override
