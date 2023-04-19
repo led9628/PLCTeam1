@@ -81,7 +81,10 @@ public class WhileLoop implements JottTree, Returnable {
     public String convertToPython() {
         StringBuilder sb = new StringBuilder();
         for (var child : this.children) {
-            sb.append(child.convertToPython());
+            if (child.convertToPython().equals("{ ")){
+                sb.append(":\n");
+            }else if(!child.convertToPython().equals("} ") )
+                sb.append(child.convertToPython());
         }
         return sb.toString();
     }

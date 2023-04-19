@@ -171,20 +171,21 @@ public class FunctionDef implements JottTree{
             }
 
             currString = child.convertToPython();
-            if (currString != null){
-                if (currString.equals("[ ")) {
-                    currString = "(";
-                } else if (currString.equals("] ")) {
-                    currString = ") ";
-                } else if (currString.equals("{ ")) {
-                    currString = ":\n";
-                }
-                // Node Debugging
-                //currString = "{" + child.getClass().getSimpleName().toUpperCase() + "}" + currString;
+
+            if (currString.equals("[ ")) {
+                currString = "(";
+            } else if (currString.equals("] ")) {
+                currString = ")";
+            } else if (currString.equals("{ ")) {
+                currString = ":\n";
+            } else if (currString.equals("} ")) {
+                currString = "";
             }
-            //if (currString != null){
-                sb.append(currString);
-            //}
+
+            // Node Debugging
+            //currString = "{" + child.getClass().getSimpleName().toUpperCase() + "}" + currString;
+
+            sb.append(currString);
         }
         String finalString = sb.toString();
         return finalString;

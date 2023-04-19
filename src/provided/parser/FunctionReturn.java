@@ -55,7 +55,7 @@ public class FunctionReturn implements JottTree{
         // TODO Auto-generated method stub
         //throw new UnsupportedOperationException("Unimplemented method 'convertToPython'");
 
-        return null;
+        return "";
     }
 
     @Override
