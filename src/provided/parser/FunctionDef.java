@@ -144,7 +144,7 @@ public class FunctionDef implements JottTree{
         }
         String finalString = sb.toString();
         return finalString;
-        // TODO: DOUBLE CHECK THIS IS CORRECT
+        // TODO: DOUBLE CHECK THIS IS CORRECT; i did it like convertToC but maybe i was being silly and goofy idk
     }
 
     @Override
