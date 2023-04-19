@@ -23,8 +23,8 @@ public class Literal implements JottTree{
 
    @Override
    public String convertToJava(String className) {
-       // TODO Auto-generated method stub
-       return null;
+       return this.toString();
+    
    }
 
    @Override

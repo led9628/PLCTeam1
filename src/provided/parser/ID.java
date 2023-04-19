@@ -30,8 +30,7 @@ public class ID implements JottTree {
 
     @Override
     public String convertToJava(String className) {
-        // TODO Auto-generated method stub
-        return null;
+        return this.child.convertToJava(className);
     }
 
     @Override

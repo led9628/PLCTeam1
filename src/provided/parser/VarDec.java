@@ -42,7 +42,10 @@ public class VarDec implements JottTree{
 
     @Override
     public String convertToJava(String className) {
-        return null;
+        String type = this.children.get(0).convertToJava(className);
+        String id = this.children.get(1).convertToJava(className);
+        String end = this.children.get(2).convertToJava(className);
+        return type + " " + id + end;
     }
 
     @Override

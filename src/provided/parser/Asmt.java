@@ -103,7 +103,11 @@ public class Asmt implements JottTree {
 
     @Override
     public String convertToJava(String className) {
-        return null;
+        StringBuilder sb = new StringBuilder();
+        for (var child : this.children ) {
+            sb.append(child.convertToJava(className));
+        }
+        return sb.toString();
     }
 
     @Override

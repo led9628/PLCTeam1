@@ -61,8 +61,14 @@ public class WhileLoop implements JottTree, Returnable {
 
     @Override
     public String convertToJava(String className) {
-        // TODO Auto-generated method stub
-        return null;
+        StringBuilder sb = new StringBuilder();
+        for(var child : this.children) {
+            String s = child.convertToJava(className);
+            if(s.equals("[")){ s="("; }
+            if(s.equals("]")){ s=")"; }
+            sb.append(s);
+        }
+        return sb.toString();
     }
 
     @Override

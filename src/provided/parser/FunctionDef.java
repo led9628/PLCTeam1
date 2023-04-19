@@ -111,8 +111,40 @@ public class FunctionDef implements JottTree{
 
     @Override
     public String convertToJava(String className) {
-        // TODO Auto-generated method stub
-        return null;
+        StringBuilder sb = new StringBuilder();
+        boolean firstParam = true;
+        String currString = null;
+        String type = "Void";
+        for (var child : this.children){
+            if(currString != null && currString.equals(")" ) ){
+                currString = child.convertToJava(className);
+                type = currString;
+                continue;
+            }
+            if(child instanceof FunctionParam){
+                if(firstParam){
+                    firstParam = false;
+                }
+                else{
+                    sb.append(",");
+                }
+            }
+
+            currString = child.convertToJava(className);
+            if(currString.equals("[]")){
+                currString = "(";
+            } else if(currString.equals("]")){
+                currString = ")";
+            } else if (currString.equals("{")){
+                currString = "{\n";
+            } else if (currString.equals("}")){
+                currString = "}\n";
+            }
+            sb.append(currString);
+        }
+        String finalString = sb.toString();
+        return finalString;
+        // TODO: DOUBLE CHECK THIS IS CORRECT
     }
 
     @Override
