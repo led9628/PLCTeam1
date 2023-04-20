@@ -55,7 +55,10 @@ public class Params implements JottTree {
         StringBuilder sb = new StringBuilder();
         for (var child : this.children) {
             sb.append(child.convertToC());
+            sb.append(", ");
         }
+        sb.deleteCharAt(sb.length() - 1);
+        sb.deleteCharAt(sb.length() - 1);
         return sb.toString();
     }
 

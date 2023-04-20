@@ -1,3 +1,6 @@
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 import provided.Token;
@@ -14,7 +17,7 @@ class Jott {
      * 2: output=> fileOut.jott
      * 3: output language(Jott, Java, C, Python)
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException, UnsupportedEncodingException {
         if (args.length != 4) {
             System.out.println("Invalid number of arguments.");
         } else {
@@ -36,7 +39,10 @@ class Jott {
                 case "C" -> parseTree.convertToC();
                 default -> "Last command line argument is an invalid language.  Should be Jott, Java, Python, or C.";
             };
-            System.out.println(result);
+
+            PrintWriter writer = new PrintWriter(args[2], "UTF-8");
+            writer.println(result);
+            writer.close();
         }
     }
 }

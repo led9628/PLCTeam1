@@ -7,9 +7,9 @@
             "mainClass": "Jott",
             "args": [
                 "Jott",
-                "parserTestCases/missingMain.jott",
+                "parserTestCases/helloWorld.jott",
                 "out.c",
-                "CC"
+                "C"
             ]
         }
     ]

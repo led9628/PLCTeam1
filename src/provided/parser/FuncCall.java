@@ -82,12 +82,24 @@ public class FuncCall implements JottTree {
     @Override
     public String convertToC() {
         StringBuilder sb = new StringBuilder();
-        for(var child : this.children){
-            String s = child.convertToC();
+        for(int i = 0; i < this.children.size(); ++i){
+            String s = this.children.get(i).convertToC();
             if (s.equals("[ ")) {
                 s = "( ";
             } else if (s.equals("] ")) {
                 s = ") ";
+            }
+            if (s.equals("print ")) {
+                JottTree q = ((Expr)((Params)this.children.get(i+2)).children.get(0)).children.get(0);
+                if (q instanceof SExpr) {
+                    s = "print_s";
+                } else if (q instanceof BExpr) {
+                    s = "print_i";
+                } else if (q instanceof NExpr) {
+                    s = "print_i";
+                } else {
+                    s = "print_f";
+                }
             }
             sb.append(s);
         }
