@@ -25,16 +25,16 @@ class Jott {
             if(tokenList == null){
                 return;
             }
-            for(Token k : tokenList){
-                System.out.println(k.getToken());
-            }
+            //for(Token k : tokenList){
+            //    System.out.println(k.getToken());
+            //}
             JottTree parseTree = JottParser.parse(tokenList);
             if(parseTree == null){
                 return;
             }
             String result = switch (args[3]) {
                 case "Jott" -> parseTree.convertToJott();
-                case "Java" -> parseTree.convertToJava(args[3].substring(0, args[3].length()-5));
+                case "Java" -> parseTree.convertToJava(args[2].substring(0, args[2].length()-5));
                 case "Python" -> parseTree.convertToPython();
                 case "C" -> parseTree.convertToC();
                 default -> "Last command line argument is an invalid language.  Should be Jott, Java, Python, or C.";

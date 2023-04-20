@@ -8,8 +8,8 @@
             "args": [
                 "Jott",
                 "parserTestCases/helloWorld.jott",
-                "out.c",
-                "C"
+                "out.java",
+                "Java"
             ]
         }
     ]

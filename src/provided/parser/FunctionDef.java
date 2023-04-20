@@ -131,13 +131,13 @@ public class FunctionDef implements JottTree{
             }
 
             currString = child.convertToJava(className);
-            if(currString.equals("[]")){
+            if(currString.equals("[ ")){
                 currString = "(";
-            } else if(currString.equals("]")){
+            } else if(currString.equals("] ")){
                 currString = ")";
-            } else if (currString.equals("{")){
+            } else if (currString.equals("{ ")){
                 currString = "{\n";
-            } else if (currString.equals("}")){
+            } else if (currString.equals("} ")){
                 currString = "}\n";
             }
             sb.append(currString);
