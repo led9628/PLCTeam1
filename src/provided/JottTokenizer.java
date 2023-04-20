@@ -79,6 +79,7 @@ public class JottTokenizer {
                         tokens.add(new Token((char)j+"=", filename, line, TokenType.REL_OP));
                     } else {
                         tokens.add(new Token((char)j+"", filename, line, TokenType.REL_OP));
+                        continue;
                     }
                 } else if (i == '+' || i == '-' || i == '*' || i == '/') {
                     tokens.add(new Token(((char)i)+"", filename, line, TokenType.MATH_OP));

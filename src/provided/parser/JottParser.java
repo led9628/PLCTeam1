@@ -25,10 +25,10 @@ public class JottParser {
             JottTree prg = new Program(tokens);
             return prg;
         }catch(ConstructionFailure e){
-            System.out.println("TOKENS: ");
-            for(var i : tokens){
-                System.out.println(i.getToken());
-            }
+            //System.out.println("TOKENS: ");
+            //for(var i : tokens){
+            //    System.out.println(i.getToken());
+            //}
             
             e.printStackTrace();
 
