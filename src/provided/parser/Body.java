@@ -9,6 +9,7 @@ public class Body implements JottTree, Returnable {
     ArrayList<JottTree> children = new ArrayList<>();
     String funcName;
     int lineNo;
+    int depth_num;
 
     public Body(ArrayList<Token> tokens, String funcName, int depth) throws ConstructionFailure, SemanticFailure { // <body_stmt><body>
                                                                                                         // |
@@ -17,6 +18,7 @@ public class Body implements JottTree, Returnable {
         this.funcName = funcName;
         lineNo = tokens.get(0).getLineNum();
         depth = depth + 1;
+        depth_num = depth;
         
         if (tokens.size() != 0) {
             var token = tokens.get(0);
@@ -36,7 +38,7 @@ public class Body implements JottTree, Returnable {
 
             if (!token.getToken().equals("return")) {
                 children.add(new BodyStmt(tokens, funcName, depth));
-                children.add(new Body(tokens, funcName, depth));
+                children.add(new Body(tokens, funcName, depth - 1));
             } else if (token.getToken().equals("return")) {
                 children.add(new ReturnStmt(tokens, funcName, depth));
             } else {
@@ -97,6 +99,8 @@ public class Body implements JottTree, Returnable {
     @Override
     public String convertToPython() {
         StringBuilder sb = new StringBuilder();
+        sb.append("    ".repeat(depth_num));
+        //sb.append(depth_num);
         for (var child : this.children) {
             sb.append(child.convertToPython());
         }
