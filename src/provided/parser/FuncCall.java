@@ -68,11 +68,12 @@ public class FuncCall implements JottTree {
         StringBuilder sb = new StringBuilder();
         for(var child: this.children) {
             String s = child.convertToJava(className);
+          
             if(s.equals("[ ")){
-                s = "(";
+                s = "( ";
             }
             else if(s.equals("] ")){
-                s = ")";
+                s = ") ";
             }
             sb.append(s);
         }
