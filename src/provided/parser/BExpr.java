@@ -15,17 +15,13 @@ public class BExpr implements JottTree {
 
     public BExpr(ArrayList<Token> tokens, String funcName, int depth) throws ConstructionFailure, SemanticFailure{
         this.funcName = funcName;
-
         // Attempt to create an NExpr RelOp NExpr
         try {
             NExpr n1 = new NExpr(tokens, funcName, depth);
             this.children.add(n1);
-
             this.children.add(new RelOp(tokens));
-
             NExpr n2 = new NExpr(tokens, funcName, depth);
             this.children.add(n2);
-
             // if(!n1.type.equals(n2.type)){
             //     //LINE NUMBER MAY BE WRONG.
             //     throw new SemanticFailure(("Invalid attempt to compare" + n1.type + " and " + n2.type + "."), tokens.get(0).getLineNum());

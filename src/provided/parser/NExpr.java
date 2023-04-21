@@ -15,6 +15,36 @@ public class NExpr implements JottTree {
     public NExpr(ArrayList<Token> tokens, String funcName, int depth) throws ConstructionFailure, SemanticFailure {
         this.funcName = funcName;
         this.lineNo = tokens.get(0).getLineNum();
+        // Attempt to create a Num without an Op afterwards.
+       
+        if ((!tokens.get(1).getTokenType().equals(TokenType.REL_OP))
+            &&
+            (!tokens.get(1).getTokenType().equals(TokenType.MATH_OP))
+        ) {
+            try {
+                Num num = new Num(tokens);
+                this.children.add(num);
+                this.type = num.type;
+                return;
+            } catch (ConstructionFailure e) {}
+        }
+        
+        // Attempt to create a Num Op NExpr
+        try {
+            Num num = new Num(tokens);
+            this.children.add(num);
+            
+            this.children.add(new Op(tokens));
+
+            lineNo = tokens.get(0).getLineNum();
+            NExpr n = new NExpr(tokens, funcName, depth);
+            this.children.add(n);
+
+            // if(!num.type.equals(n.type)){
+            //     throw new SemanticFailure("Invalid comparison between " + num.type + " and " + n.type, ln);
+            // }
+            return;
+        } catch (ConstructionFailure e) {}
         
         // Attempt to create a FuncCall
         try {
@@ -23,6 +53,7 @@ public class NExpr implements JottTree {
             this.children.add(func);
             return;
         } catch (ConstructionFailure e) {}
+        
         // Attempt to create an Id Op NExpr
         Token token = tokens.get(0);
         lineNo = tokens.get(0).getLineNum();
@@ -58,7 +89,7 @@ public class NExpr implements JottTree {
                 // tokens.add(0, token);
             }
         }
-
+        
         // Attempt to create an Id
         if (tokens.get(0).getTokenType() == TokenType.ID_KEYWORD) {
             ID id = new ID(tokens, funcName, null);
@@ -100,23 +131,6 @@ public class NExpr implements JottTree {
 
             // if(!fc.type.equals(n.type)){
             //     throw new SemanticFailure("Invalid comparison between " + fc.type + " and " + n.type, ln);
-            // }
-            return;
-        } catch (ConstructionFailure e) {}
-
-        // Attempt to create a Num Op NExpr
-        try {
-            Num num = new Num(tokens);
-            this.children.add(num);
-            
-            this.children.add(new Op(tokens));
-
-            lineNo = tokens.get(0).getLineNum();
-            NExpr n = new NExpr(tokens, funcName, depth);
-            this.children.add(n);
-
-            // if(!num.type.equals(n.type)){
-            //     throw new SemanticFailure("Invalid comparison between " + num.type + " and " + n.type, ln);
             // }
             return;
         } catch (ConstructionFailure e) {}

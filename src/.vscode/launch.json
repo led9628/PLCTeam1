@@ -7,9 +7,9 @@
             "mainClass": "Jott",
             "args": [
                 "Jott",
-                "parserTestCases/helloWorld.jott",
-                "out.java",
-                "Java"
+                "reallyLong.jott",
+                "out.c",
+                "C"
             ]
         }
     ]

@@ -2,6 +2,7 @@ package provided.parser;
 
 import provided.JottTree;
 import provided.Token;
+import provided.TokenType;
 
 import java.util.ArrayList;
 
@@ -15,6 +16,10 @@ public class Params implements JottTree {
     public Params(ArrayList<Token> tokens, String funcName, String callFunc, int depth) throws ConstructionFailure, SemanticFailure{
         this.funcName = funcName;
         this.callFunc = callFunc;
+
+        if (tokens.get(0).getTokenType().equals(TokenType.R_BRACKET)) {
+            return;
+        }
 
         //attempt to create Expr Params_t
         ln = tokens.get(0).getLineNum();
@@ -57,8 +62,11 @@ public class Params implements JottTree {
             sb.append(child.convertToC());
             sb.append(", ");
         }
-        sb.deleteCharAt(sb.length() - 1);
-        sb.deleteCharAt(sb.length() - 1);
+        if (sb.length() >= 2) {
+            sb.deleteCharAt(sb.length() - 1);
+            sb.deleteCharAt(sb.length() - 1);
+        }
+        
         return sb.toString();
     }
 
