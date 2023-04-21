@@ -112,39 +112,33 @@ public class FunctionDef implements JottTree{
     @Override
     public String convertToJava(String className) {
         StringBuilder sb = new StringBuilder();
-        boolean firstParam = true;
-        String currString = null;
+        sb.append("public ");
+        String s = null;
         String type = "Void";
         for (var child : this.children){
-            if(currString != null && currString.equals(")" ) ){
-                currString = child.convertToJava(className);
-                type = currString;
-                continue;
-            }
-            if(child instanceof FunctionParam){
-                if(firstParam){
-                    firstParam = false;
-                }
-                else{
-                    sb.append(",");
-                }
+            if(child instanceof Type){
+                type = child.convertToJava(className);
             }
 
-            currString = child.convertToJava(className);
-            if(currString.equals("[ ")){
-                currString = "(";
-            } else if(currString.equals("] ")){
-                currString = ")";
-            } else if (currString.equals("{ ")){
-                currString = "{\n";
-            } else if (currString.equals("} ")){
-                currString = "}\n";
+            else{
+                s = child.convertToJava(className);
+                        
+                if(s.equals("[ ")){
+                    s = "(";
+                } else if(s.equals("] ")){
+                    s = ")";
+                } else if (s.equals("{ ")){
+                    s = "{\n";
+                } else if (s.equals("} ")){
+                    s = "}\n";
+                }
             }
-            sb.append(currString);
+            sb.append(s);
         }
-        String finalString = sb.toString();
-        return finalString;
-        // TODO: DOUBLE CHECK THIS IS CORRECT; i did it like convertToC but maybe i was being silly and goofy idk
+        sb.insert(0, type+" ");
+        sb.insert(0, "public ");
+        return sb.toString();
+    
     }
 
     @Override

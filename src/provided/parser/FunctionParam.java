@@ -73,16 +73,14 @@ public class FunctionParam implements JottTree{
     public String convertToJava(String className) {
         StringBuilder sb = new StringBuilder();
         for (var child : this.children ) {
-            //if(child instanceof Type){
-               // sb.insert(0, child.convertToJava(className));
-          //  }
-           // else{
+            if(child instanceof Type){
+                sb.insert(0, child.convertToJava(className));
+            }
+            else{
                 sb.append(child.convertToJava(className));
-           // }
+            }
         }
         return sb.toString();
-
-        //TODO: do i need to do something about the Types? like whats going on with ConvertToC? or should it stay commented out?
     }
 
     @Override
