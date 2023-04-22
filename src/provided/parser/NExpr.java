@@ -15,6 +15,26 @@ public class NExpr implements JottTree {
     public NExpr(ArrayList<Token> tokens, String funcName, int depth) throws ConstructionFailure, SemanticFailure {
         this.funcName = funcName;
         this.lineNo = tokens.get(0).getLineNum();
+
+        if (tokens.get(0).getTokenType().equals(TokenType.ID_KEYWORD) &&
+            tokens.get(1).getTokenType().equals(TokenType.L_BRACKET) &&
+            tokens.get(2).getTokenType().equals(TokenType.ID_KEYWORD) &&
+            tokens.get(3).getTokenType().equals(TokenType.R_BRACKET) &&
+            tokens.get(4).getTokenType().equals(TokenType.MATH_OP) &&
+            tokens.get(5).getTokenType().equals(TokenType.NUMBER)
+        ) {
+            try {
+                var a = new FuncCall(tokens, funcName, depth);
+                Literal op = new Literal(tokens.remove(0).getToken());
+                var b = new Num(tokens);
+                this.children.add(a);
+                this.children.add(op);
+                this.children.add(b);
+                return;
+            } catch (ConstructionFailure e) {}
+        }
+        
+
         // Attempt to create a Num without an Op afterwards.
        
         if ((!tokens.get(1).getTokenType().equals(TokenType.REL_OP))

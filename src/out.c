@@ -24,7 +24,7 @@ while ( x > 0 ) { print_i( x ) ;
 x = x - 1 ;
 } }
 char*  testConcatLoop (char* y ) {
-int x = length ( y ) x = 1 ;
+int x = length ( y ) - 1 ;
 char* output = y ;
 while ( x > 0 ) { output = concat ( output , y ) ;
 x = x - 1 ;

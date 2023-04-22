@@ -12,7 +12,21 @@ public class Asmt implements JottTree {
 
     public Asmt(ArrayList<Token> tokens, String funcName, int depth) throws ConstructionFailure, SemanticFailure{
         this.funcName = funcName;
-
+        // if (tokens.get(0).getToken().equals("Integer")) {
+        //     System.out.println("-----------------------------");
+        //     System.out.print(tokens.get(0).getToken() + " ");
+        //     System.out.print(tokens.get(1).getToken() + " ");
+        //     System.out.print(tokens.get(2).getToken() + " ");
+        //     System.out.print(tokens.get(3).getToken() + " ");
+        //     System.out.print(tokens.get(4).getToken() + " ");
+        //     System.out.print(tokens.get(5).getToken() + " ");
+        //     System.out.print(tokens.get(6).getToken() + " ");
+        //     System.out.print(tokens.get(7).getToken() + " ");
+        //     System.out.print(tokens.get(8).getToken() + " ");
+        //     System.out.println(tokens.get(9).getToken());
+        //     System.out.println("-----------------------------");
+        // }
+        
         //attempt to create type id = expr end_stmt
         Token a = null, b = null;
         try {
@@ -36,6 +50,7 @@ public class Asmt implements JottTree {
             if (!equalsToken.getToken().equals("=")) {
                 throw new ConstructionFailure("Assignment Statement should have =", tokens.get(1).getLineNum());
             }
+            
             Expr expr = new Expr(tokens, funcName, depth);
             //CHECK IF ID.TYPE = EXPR.TYPE.
             // if(!id.type.equals(expr.type)){
@@ -43,6 +58,7 @@ public class Asmt implements JottTree {
             // }
             
             this.children.add(expr);
+            
             this.children.add(new EndStmt(tokens, depth));
             return;
         } catch (ConstructionFailure e) {

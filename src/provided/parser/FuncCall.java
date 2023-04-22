@@ -100,7 +100,7 @@ public class FuncCall implements JottTree {
                 } else if (q instanceof BExpr) {
                     s = "print_i";
                 } else if (q instanceof NExpr) {
-                    System.out.println(((NExpr)q).children.get(0).getClass());
+                    
                     if (((NExpr)q).children.get(0) instanceof FuncCall) {
                         s = "print_s";
                     } else {
