@@ -143,7 +143,6 @@ public class FuncCall implements JottTree {
             } else if (s.equals("] ")) {
                 s = ") ";
             }
-            System.out.println("S: " + s);
             sb.append(s);
         }
         return sb.toString();
