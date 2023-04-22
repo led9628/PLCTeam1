@@ -6,7 +6,7 @@ def testPrintLoop (x ):
     x = len( y ) - 1 
     output = y 
     while ( x > 0 ) :
-        output = join([ output y ] 
+        output = (output  +  y ) 
         x = x - 1 
             return output 
 def testIf (d ,x ):
@@ -37,8 +37,9 @@ def foo ():
     testPrintLoop ( 5 ) 
     str = "a1" 
     print ( testConcatLoop ( str ) ) 
-    testIf ( 1.1 3 ) 
-    intI = testIfLoop ( 3 ) 
+    testIf ( 1.1 , 3 ) 
+    intI 
+intI = testIfLoop ( 3 ) 
     print ( intI ) 
     testFuncCallLoop ( 5 ) 
     
