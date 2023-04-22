@@ -37,10 +37,10 @@ if ( d > 5.1 ) { print_s( "Hi" ) ;
 } }
 int  testIfLoop (int x ) {
 int output = 1 ;
-bool switch = True ;
-while ( x > 0 ) { if ( switch ) { output = output * 2 ;
-switch = False ;
-} else { switch = True ;
+bool _switch= true;
+while ( x > 0 ) { if ( _switch) { output = output * 2 ;
+_switch= false;
+} else { _switch= true;
 } x = x - 1 ;
 } return output ;
 }
@@ -56,7 +56,7 @@ testPrintLoop ( 5 ) ;
 char* str = "a1" ;
 print_i( testConcatLoop ( str ) ) ;
 testIf ( 1.1 , 3 ) ;
-Integer  intI ;
+int intI ;
 intI = testIfLoop ( 3 ) ;
 print_i( intI ) ;
 testFuncCallLoop ( 5 ) ;

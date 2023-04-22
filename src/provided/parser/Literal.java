@@ -29,6 +29,15 @@ public class Literal implements JottTree{
 
    @Override
    public String convertToC() {
+        if (this.lit.equals("True")) {
+            return "true";
+        }
+        if (this.lit.equals("False")) {
+            return "false";
+        }
+        if (this.lit.equals("switch")) {
+            return "_switch";
+        }
         return this.toString();
    }
 

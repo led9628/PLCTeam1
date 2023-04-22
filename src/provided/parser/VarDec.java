@@ -54,18 +54,18 @@ public class VarDec implements JottTree{
 
     @Override
     public String convertToC() {
-        String type = this.children.get(0).convertToJott();
-        String id = this.children.get(1).convertToJott();
-        String end = this.children.get(2).convertToJott();
-        return type + " " + id + end;
+        String type = this.children.get(0).convertToC();
+        String id = this.children.get(1).convertToC();
+        String end = this.children.get(2).convertToC();
+        return type + id + end;
     }
 
     @Override
     public String convertToPython() {
         // Python has no types
         // String type = this.children.get(0).convertToJott();
-        String id = this.children.get(1).convertToJott();
-        String end = this.children.get(2).convertToJott();
+        String id = this.children.get(1).convertToPython();
+        String end = this.children.get(2).convertToPython();
         return id + end;
     }
 
