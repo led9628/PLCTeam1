@@ -54,7 +54,7 @@ x = x - 2 ;
 void  main () {
 testPrintLoop ( 5 ) ;
 char* str = "a1" ;
-print_i( testConcatLoop ( str ) ) ;
+print_s( testConcatLoop ( str ) ) ;
 testIf ( 1.1 , 3 ) ;
 int intI ;
 intI = testIfLoop ( 3 ) ;

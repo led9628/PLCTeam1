@@ -116,6 +116,7 @@ public class Asmt implements JottTree {
         for (var child : this.children) {
             sb.append(child.convertToC());
         }
+        //System.out.println(sb.toString());
         return sb.toString();
     }
 

@@ -8,7 +8,7 @@ import provided.TokenType;
 
 public class FuncCall implements JottTree {
     ArrayList<JottTree> children = new ArrayList<>();
-    CheckType type;
+    public CheckType type;
 
     public FuncCall(ArrayList<Token> tokens, String funcName, int depth) throws ConstructionFailure, SemanticFailure{
         Token token1 = tokens.get(0);//id
@@ -94,12 +94,19 @@ public class FuncCall implements JottTree {
             }
             if (s.equals("print ")) {
                 JottTree q = ((Expr)((Params)this.children.get(i+2)).children.get(0)).children.get(0);
+                
                 if (q instanceof SExpr) {
                     s = "print_s";
                 } else if (q instanceof BExpr) {
                     s = "print_i";
                 } else if (q instanceof NExpr) {
-                    s = "print_i";
+                    System.out.println(((NExpr)q).children.get(0).getClass());
+                    if (((NExpr)q).children.get(0) instanceof FuncCall) {
+                        s = "print_s";
+                    } else {
+                        s = "print_i";
+                    }
+                    
                 } else {
                     s = "print_f";
                 }
