@@ -23,6 +23,9 @@ public class Literal implements JottTree{
 
    @Override
    public String convertToJava(String className) {
+        if (this.lit.equals("switch")) {
+            return "_switch";
+        }
        return this.toString();
     
    }
@@ -43,6 +46,9 @@ public class Literal implements JottTree{
 
    @Override
    public String convertToPython() {
+        if (this.lit.equals("switch")) {
+            return "_switch";
+        }
         return this.toString();
    }
 
