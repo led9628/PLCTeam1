@@ -124,15 +124,20 @@ public class FuncCall implements JottTree {
 
     @Override
     public String convertToPython() {
+        System.out.println("STIRNG");
+        for(var child: this.children){
+            System.out.println(child);
+        }
+
         StringBuilder sb = new StringBuilder();
         boolean isCon = false;
         for(var child : this.children){
-            String s = child.convertToC();
+            String s = child.convertToPython();
             // fixinng the length and concat problems
-            if(s.equals("length")){
+            if(s.equals("length ")){
                 s = "len";
             }
-            else if(s.equals("concat")){
+            else if(s.equals("concat ")){
                 s = "join(";
                 isCon=true;
             }
@@ -146,6 +151,7 @@ public class FuncCall implements JottTree {
                     isCon=true;
                 }                
             }
+            System.out.println("S: " + s);
             sb.append(s);
         }
         return sb.toString();
