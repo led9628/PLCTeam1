@@ -73,6 +73,13 @@ public class Program implements JottTree{
     @Override
     public String convertToJava(String className) {
         StringBuilder sb = new StringBuilder();
+        sb.append("""
+class Lib {
+    public static String concat(String a, String b) { return a.concat(b); }
+    public static int length(String s) { return s.length(); }
+}
+""");
+        
         sb.append("public class "+className+"{ ");
         for (var child : this.children ) {
             sb.append(child.convertToJava(className));

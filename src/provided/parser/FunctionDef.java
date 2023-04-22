@@ -111,33 +111,40 @@ public class FunctionDef implements JottTree{
 
     @Override
     public String convertToJava(String className) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("public ");
-        String s = null;
+        StringBuilder sb = new StringBuilder("public static ");
+        boolean firstParam = true;
+        String currString = null;
         String type = "Void";
-        for (var child : this.children){
-            if(child instanceof Type){
-                type = child.convertToJava(className);
+        for (var child : this.children) {
+            if (currString != null && currString.equals(") ")) {
+                currString = child.convertToJava(className);
+                type = currString;
+                continue;
             }
-
-            else{
-                s = child.convertToJava(className);
-                        
-                if(s.equals("[ ")){
-                    s = "(";
-                } else if(s.equals("] ")){
-                    s = ")";
-                } else if (s.equals("{ ")){
-                    s = "{\n";
-                } else if (s.equals("} ")){
-                    s = "}\n";
+            if(child instanceof FunctionParam){
+                if(firstParam){
+                    firstParam = false;
+                }else{
+                    sb.append(",");
                 }
             }
-            sb.append(s);
+
+            currString = child.convertToJava(className);
+            if (currString.equals("[ ")) {
+                currString = "(";
+            } else if (currString.equals("] ")) {
+                currString = ") ";
+            } else if (currString.equals("{ ")) {
+                currString = "{\n";
+            } else if (currString.equals("} ")) {
+                currString = "}\n";
+            }
+            sb.append(currString);
         }
-        sb.insert(0, type+" ");
-        sb.insert(0, "public ");
-        return sb.toString();
+        String finalString = sb.toString();
+        finalString = finalString.replace("def", type);
+        finalString = finalString.replace("main ()", "main(String[] args)");
+        return finalString;
     
     }
 

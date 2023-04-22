@@ -139,7 +139,6 @@ public class IfStmt implements JottTree, Returnable{
             String s = child.convertToJava(className);
             if(s.equals("[")){ s="("; }
             if(s.equals("]")){ s=")"; }
-            if (s.equals("elseif ")) { s = "else if "; }
             sb.append(s);
         }
         return sb.toString();

@@ -77,6 +77,12 @@ public class FuncCall implements JottTree {
             else if(s.equals("print ")){
                 s = "System.out.println";
             }
+            else if(s.equals("concat ")){
+                s = "Lib.concat";
+            }
+            else if(s.equals("length ")){
+                s = "Lib.length";
+            }
             sb.append(s);
         }
         return sb.toString();

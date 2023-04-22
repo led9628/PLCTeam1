@@ -23,6 +23,12 @@ public class Literal implements JottTree{
 
    @Override
    public String convertToJava(String className) {
+        if (this.lit.equals("True")) {
+            return "true";
+        }
+        if (this.lit.equals("False")) {
+            return "false";
+        }
         if (this.lit.equals("switch")) {
             return "_switch";
         }
