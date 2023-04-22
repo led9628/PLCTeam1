@@ -27,7 +27,7 @@ public class EndStmt implements JottTree{
 
    @Override
    public String convertToJava(String className) {
-       return "\n";
+       return ";\n";
    }
 
    @Override
