@@ -15,3 +15,12 @@ To see a list of tokens from a given file, compile Main.java with `javac Main.ja
 
 ## Phase 2:
 Run the testcases by launching `main` from `JottParserTester.java`.
+
+## Phase 3:
+Compile and run main as previously explained.
+
+## Phase 4:
+Run with:
+- `java Jott reallyLong.jott out.c C`
+- `java Jott reallyLong.jott out.java Java`
+- `java Jott reallyLong.jott out.py Python`
