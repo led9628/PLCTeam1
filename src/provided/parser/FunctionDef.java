@@ -190,7 +190,9 @@ public class FunctionDef implements JottTree{
         StringBuilder sb = new StringBuilder();
         boolean firstParam = true;
         String currString = null;
+        System.out.println();
         for (var child : this.children) {
+            System.out.println(child);
             if (currString != null && currString.equals(") ")) {
                 currString = child.convertToPython();
                 continue;
@@ -210,9 +212,11 @@ public class FunctionDef implements JottTree{
             } else if (currString.equals("] ")) {
                 currString = ")";
             } else if (currString.equals("{ ")) {
+                Program.dep ++;
                 currString = ":\n";
             } else if (currString.equals("} ")) {
-                currString = "";
+                Program.dep --;
+                currString = "\n";
             }
 
             // Node Debugging

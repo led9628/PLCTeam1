@@ -86,15 +86,18 @@ public class WhileLoop implements JottTree, Returnable {
     @Override
     public String convertToPython() {
         StringBuilder sb = new StringBuilder();
+        sb.append("    ".repeat(Program.dep));
         for (var child : this.children) {
             String s = child.convertToPython();
             if (s.equals("[ ")) { s = "( "; }
             if (s.equals("] ")) { s = ") "; }
             
             if (s.equals("{ ")){
+                Program.dep ++;
                 s=":\n";
             }
             if (s.equals("} ")){
+                Program.dep --;
                 s ="";
             }
             sb.append(s);

@@ -11,10 +11,12 @@ public class Program implements JottTree{
     ArrayList<FunctionDef> children = new ArrayList<>(); //lsit of functions
     public static HashMap<String, FunctionInfo> functions = new HashMap<String, FunctionInfo>(); //function name to hashmap
     public static HashSet<String> kw;
+    public static int dep;
     
     // public static HashMap<String, JottTree> symtab = new HashMap<String, JottTree>(); //global variable name to vairable as JottTree hashmap.
 
     public Program(ArrayList<Token> tokens) throws ConstructionFailure, SemanticFailure{
+        dep = 0;
         functions.put("print ", new FunctionInfo());
         functions.get("print ").paramTypes.add(new CheckType("Any"));
 
@@ -123,6 +125,7 @@ void print_f(float d) {
 
     @Override
     public String convertToPython() {
+        dep = 0;
         StringBuilder sb = new StringBuilder();
         for (var child : this.children) {
             sb.append(child.convertToPython());

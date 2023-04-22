@@ -99,9 +99,11 @@ public class Body implements JottTree, Returnable {
     @Override
     public String convertToPython() {
         StringBuilder sb = new StringBuilder();
-        sb.append("    ".repeat(depth_num));
         //sb.append(depth_num);
         for (var child : this.children) {
+            if(child instanceof ReturnStmt){
+                sb.append("    ".repeat(Program.dep));
+            }
             sb.append(child.convertToPython());
         }
         return sb.toString();

@@ -80,6 +80,7 @@ public class Stmt implements JottTree{
     @Override
     public String convertToPython() {
         StringBuilder sb = new StringBuilder();
+        sb.append("    ".repeat(Program.dep));
         for (var child : this.children) {
             sb.append(child.convertToPython());
         }

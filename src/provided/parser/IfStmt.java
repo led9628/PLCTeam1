@@ -161,15 +161,19 @@ public class IfStmt implements JottTree, Returnable{
     @Override
     public String convertToPython() {
         StringBuilder sb = new StringBuilder();
+        sb.append("    ".repeat(Program.dep));
         for (var child : this.children) {
+            if(child.toString().equals("else ") || child.toString().equals("elseif ")){sb.append("    ".repeat(Program.dep));}
             String s = child.convertToPython();
             if (s.equals("[ ")) { s = "( "; }
             if (s.equals("] ")) { s = ") "; }
             if (s.equals("elseif ")) { s = "elif "; }
             if (s.equals("{ ")){
+                Program.dep++;
                 s =":\n";
             }
             if (s.equals("} ")){
+                Program.dep--;
                 s ="";
             }
             sb.append(s);
