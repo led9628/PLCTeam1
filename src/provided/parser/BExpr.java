@@ -15,6 +15,16 @@ public class BExpr implements JottTree {
 
     public BExpr(ArrayList<Token> tokens, String funcName, int depth) throws ConstructionFailure, SemanticFailure{
         this.funcName = funcName;
+        // See if we can make a [boolean_variable]
+        //System.out.println(tokens.get(0).getTokenType());
+        //System.out.println(tokens.get(1).getTokenType());
+        if (tokens.get(0).getTokenType().equals(TokenType.ID_KEYWORD) &&
+            tokens.get(1).getTokenType().equals(TokenType.R_BRACKET)
+        ) {
+            Token t = tokens.remove(0);
+            this.children.add(new Literal(t.getToken()));
+            return;
+        }
         // Attempt to create an NExpr RelOp NExpr
         try {
             NExpr n1 = new NExpr(tokens, funcName, depth);

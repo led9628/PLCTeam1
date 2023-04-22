@@ -30,6 +30,20 @@ while ( x > 0 ) { output = concat ( output , y ) ;
 x = x - 1 ;
 } return output ;
 }
+void  testIf (double d ,int x ) {
+if ( d > 5.1 ) { print_s( "Hi" ) ;
+} else if ( d > 0.1 ) { print_i( x ) ;
+} else { print_i( 3.2 * 4.0 ) ;
+} }
+int  testIfLoop (int x ) {
+int output = 1 ;
+bool switch = True ;
+while ( x > 0 ) { if ( switch ) { output = output * 2 ;
+switch = False ;
+} else { switch = True ;
+} x = x - 1 ;
+} return output ;
+}
 void  foo () {
 print_s( "ran foo" ) ;
 }
