@@ -42,6 +42,7 @@ testPrintLoop ( 5 ) ;
 char* str = "a1" ;
 print_i( testConcatLoop ( str ) ) ;
 testIf ( 1.1 , 3 ) ;
+Integer  intI ;
 intI = testIfLoop ( 3 ) ;
 print_i( intI ) ;
 testFuncCallLoop ( 5 ) ;

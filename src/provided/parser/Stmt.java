@@ -12,7 +12,17 @@ public class Stmt implements JottTree{
     public Stmt(ArrayList<Token> tokens, String funcName, int depth) throws ConstructionFailure, SemanticFailure{
         Token token1 = tokens.get(0);
         Token token2 = tokens.get(1);
+        Token token3 = tokens.get(2);
 
+        // actual vardec
+        if(token1.getTokenType()==TokenType.ID_KEYWORD &&
+        token2.getTokenType() == TokenType.ID_KEYWORD &&
+        token3.getTokenType() == TokenType.SEMICOLON ) {
+            this.children.add(new VarDec(tokens, funcName, depth));
+
+        }
+
+        // POSSIBLE BROKEN LEGACY CODE, REMOVE IF NECESSARY -Benson
         // if curr token is an id/key and the 2nd token after is a semicolon, var_dec
         if(token1.getTokenType()==TokenType.ID_KEYWORD && token2.getTokenType() == TokenType.SEMICOLON){
             this.children.add(new VarDec(tokens, funcName, depth));
