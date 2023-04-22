@@ -124,32 +124,24 @@ public class FuncCall implements JottTree {
 
     @Override
     public String convertToPython() {
-        System.out.println("STIRNG");
-        for(var child: this.children){
-            System.out.println(child);
-        }
 
         StringBuilder sb = new StringBuilder();
-        boolean isCon = false;
-        for(var child : this.children){
-            String s = child.convertToPython();
-            // fixinng the length and concat problems
+        for (int i = 0; i < this.children.size(); ++i) {
+            String child = this.children.get(i).convertToPython();
+            String s = child;
+            // fixing the length and concat problems
             if(s.equals("length ")){
                 s = "len";
             }
             else if(s.equals("concat ")){
-                s = "join(";
-                isCon=true;
+                i += 2;
+                String[] a = this.children.get(i).convertToPython().split(",");
+                s = "(" + a[0] + " + " + a[1];
             }
             if (s.equals("[ ")) {
-                if(!isCon){
-                    s = "( ";
-                }
+                s = "( ";
             } else if (s.equals("] ")) {
-                if(!isCon){
-                    s = ") ";
-                    isCon=true;
-                }                
+                s = ") ";
             }
             System.out.println("S: " + s);
             sb.append(s);
