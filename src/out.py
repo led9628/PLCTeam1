@@ -38,8 +38,9 @@ def foo ():
     _str= "a1" 
     print ( testConcatLoop ( _str) ) 
     testIf ( 1.1 , 3 ) 
-    intI 
-intI = testIfLoop ( 3 ) 
+    intI = testIfLoop ( 3 ) 
     print ( intI ) 
     testFuncCallLoop ( 5 ) 
-    
+    if (__name__ == "__main__"):
+    main()
+

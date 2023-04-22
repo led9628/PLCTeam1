@@ -127,6 +127,10 @@ void print_f(float d) {
         for (var child : this.children) {
             sb.append(child.convertToPython());
         }
+        sb.append("""
+if (__name__ == \"__main__\"):
+    main()
+""");
         return sb.toString();
     }
 
