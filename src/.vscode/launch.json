@@ -8,8 +8,8 @@
             "args": [
                 "Jott",
                 "reallyLong.jott",
-                "out.c",
-                "C"
+                "out.cccc",
+                "Java"
             ]
         }
     ]
