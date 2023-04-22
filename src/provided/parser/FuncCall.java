@@ -128,6 +128,7 @@ public class FuncCall implements JottTree {
         boolean isCon = false;
         for(var child : this.children){
             String s = child.convertToC();
+            // fixinng the length and concat problems
             if(s.equals("length")){
                 s = "len";
             }
