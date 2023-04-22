@@ -11,17 +11,21 @@ public class Body implements JottTree, Returnable {
     int lineNo;
     int depth_num;
 
+    public static int global_depth = 0;
+
     public Body(ArrayList<Token> tokens, String funcName, int depth) throws ConstructionFailure, SemanticFailure { // <body_stmt><body>
                                                                                                         // |
                                                                                                         // <return_stmt>
                                                                                                         // | *Nothing*
         this.funcName = funcName;
+        if (depth < 0) {depth = 0;}
         lineNo = tokens.get(0).getLineNum();
-        depth = depth + 1;
+        //depth = depth + 1;
         depth_num = depth;
         
         if (tokens.size() != 0) {
             var token = tokens.get(0);
+            
             if (token.getToken() == "}") {
                 // if (Program.functions.get(funcName).returnType != null) {
                 //     throw new SemanticFailure("Function needs to return " + Program.functions.get(funcName).returnType,
@@ -33,12 +37,13 @@ public class Body implements JottTree, Returnable {
                 // System.out.println(i.getToken());
                 // }
                 // System.out.println("END");
+                //this.children.add(new Literal("\n"));
                 return;
             }
 
             if (!token.getToken().equals("return")) {
                 children.add(new BodyStmt(tokens, funcName, depth));
-                children.add(new Body(tokens, funcName, depth - 1));
+                children.add(new Body(tokens, funcName, depth));
             } else if (token.getToken().equals("return")) {
                 children.add(new ReturnStmt(tokens, funcName, depth));
             } else {

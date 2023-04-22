@@ -92,10 +92,12 @@ public class WhileLoop implements JottTree, Returnable {
             if (s.equals("] ")) { s = ") "; }
             
             if (s.equals("{ ")){
+                Body.global_depth += 1;
                 s=":\n";
             }
             if (s.equals("} ")){
-                s ="";
+                Body.global_depth -= 1;
+                s ="\n";
             }
             sb.append(s);
 

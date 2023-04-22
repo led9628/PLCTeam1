@@ -165,12 +165,15 @@ public class IfStmt implements JottTree, Returnable{
             String s = child.convertToPython();
             if (s.equals("[ ")) { s = "( "; }
             if (s.equals("] ")) { s = ") "; }
-            if (s.equals("elseif ")) { s = "elif "; }
+            if (s.equals("elseif ")) { s = "    ".repeat(Body.global_depth) + "elif ";  }
+            if (s.equals("else ")) { s = "    ".repeat(Body.global_depth) + "else ";  }
             if (s.equals("{ ")){
+                Body.global_depth += 1;
                 s =":\n";
             }
             if (s.equals("} ")){
-                s ="";
+                Body.global_depth -= 1;
+                s ="\n";
             }
             sb.append(s);
         }

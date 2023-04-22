@@ -15,6 +15,7 @@ public class FunctionDef implements JottTree{
     }
 
     private void parse(ArrayList<Token> tokens, int depth) throws ConstructionFailure, SemanticFailure{
+        depth = 1;
         if(tokens.remove(0).getToken().equals("def")){
             children.add(new Literal("def"));
 
@@ -210,9 +211,11 @@ public class FunctionDef implements JottTree{
             } else if (currString.equals("] ")) {
                 currString = ")";
             } else if (currString.equals("{ ")) {
+                Body.global_depth += 1;
                 currString = ":\n";
             } else if (currString.equals("} ")) {
-                currString = "";
+                Body.global_depth -= 1;
+                currString = "\n";
             }
 
             // Node Debugging

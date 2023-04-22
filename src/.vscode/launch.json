@@ -8,8 +8,8 @@
             "args": [
                 "Jott",
                 "reallyLong.jott",
-                "out.cccc",
-                "Java"
+                "out.py",
+                "Python"
             ]
         }
     ]

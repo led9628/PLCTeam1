@@ -12,9 +12,9 @@ public class BodyStmt implements JottTree, Returnable {
                                                                                                             // <while_loop>
                                                                                                             // | <stmt>
         if (tokens.get(0).getToken().equals("if"))
-            children.add(new IfStmt(tokens, funcName, depth));
+            children.add(new IfStmt(tokens, funcName, depth+1));
         else if (tokens.get(0).getToken().equals("while"))
-            children.add(new WhileLoop(tokens, funcName, depth));
+            children.add(new WhileLoop(tokens, funcName, depth+1));
         else
             children.add(new Stmt(tokens, funcName, depth));
     }
@@ -36,7 +36,9 @@ public class BodyStmt implements JottTree, Returnable {
 
     @Override
     public String convertToPython() {
-        return this.children.get(0).convertToPython();
+        StringBuilder sb = new StringBuilder();
+        sb.append(this.children.get(0).convertToPython());
+        return sb.toString();
     }
 
     @Override
