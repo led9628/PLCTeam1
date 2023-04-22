@@ -55,6 +55,9 @@ public class Literal implements JottTree{
         if (this.lit.equals("switch")) {
             return "_switch";
         }
+        if (this.lit.equals("str")) {
+            return "_str";
+        }
         return this.toString();
    }
 

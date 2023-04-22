@@ -35,8 +35,8 @@ def foo ():
         x = x - 2 
             def main ():
     testPrintLoop ( 5 ) 
-    str = "a1" 
-    print ( testConcatLoop ( str ) ) 
+    _str= "a1" 
+    print ( testConcatLoop ( _str) ) 
     testIf ( 1.1 , 3 ) 
     intI 
 intI = testIfLoop ( 3 ) 
