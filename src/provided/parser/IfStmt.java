@@ -168,6 +168,9 @@ public class IfStmt implements JottTree, Returnable{
             if (s.equals("{ ")){
                 s =":\n";
             }
+            if (s.equals("} ")){
+                s ="";
+            }
             sb.append(s);
         }
         return sb.toString();
